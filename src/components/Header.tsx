@@ -58,55 +58,54 @@ export function Header() {
           <a
             href="#home"
             onClick={closeUseCasesNow}
-            className="inline-flex items-center gap-2 text-slate-950 transition-opacity hover:opacity-80"
+            className="inline-flex items-center text-slate-950 transition-opacity hover:opacity-80"
             aria-label="Go to home"
           >
             <AppLogoIcon className="h-7 w-7" />
-            <span className="text-lg font-medium tracking-tight">Squigit</span>
           </a>
 
           <nav className="flex flex-wrap items-center gap-2">
-          <a
-            href="#products"
-            onClick={closeUseCasesNow}
-            className="rounded-full px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-100 hover:text-slate-950"
-          >
-            Products
-          </a>
-          <button
-            type="button"
-            onMouseEnter={openUseCases}
-            onFocus={openUseCases}
-            onBlur={closeUseCasesWithDelay}
-            aria-expanded={useCasesOpen}
-            aria-controls="header-use-cases-dropdown"
-            className={cn(
-              "inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-100 hover:text-slate-950",
-              useCasesOpen && "bg-slate-100 text-slate-950",
-            )}
-          >
-            Use Cases
-            <ChevronDownIcon
+            <a
+              href="#products"
+              onClick={closeUseCasesNow}
+              className="rounded-full px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-100 hover:text-slate-950"
+            >
+              Products
+            </a>
+            <button
+              type="button"
+              onMouseEnter={openUseCases}
+              onFocus={openUseCases}
+              onBlur={closeUseCasesWithDelay}
+              aria-expanded={useCasesOpen}
+              aria-controls="header-use-cases-dropdown"
               className={cn(
-                "h-4 w-4 transition-transform duration-200 ease-out",
-                useCasesOpen && "rotate-180",
+                "inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-100 hover:text-slate-950",
+                useCasesOpen && "bg-slate-100 text-slate-950",
               )}
-            />
-          </button>
-          <a
-            href="#repository"
-            onClick={closeUseCasesNow}
-            className="rounded-full px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-100 hover:text-slate-950"
-          >
-            Repository
-          </a>
-          <a
-            href="#resources"
-            onClick={closeUseCasesNow}
-            className="rounded-full px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-100 hover:text-slate-950"
-          >
-            Resources
-          </a>
+            >
+              Use Cases
+              <ChevronDownIcon
+                className={cn(
+                  "h-4 w-4 transition-transform duration-200 ease-out",
+                  useCasesOpen && "rotate-180",
+                )}
+              />
+            </button>
+            <a
+              href="#repository"
+              onClick={closeUseCasesNow}
+              className="rounded-full px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-100 hover:text-slate-950"
+            >
+              Repository
+            </a>
+            <a
+              href="#resources"
+              onClick={closeUseCasesNow}
+              className="rounded-full px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-100 hover:text-slate-950"
+            >
+              Resources
+            </a>
           </nav>
         </div>
 
