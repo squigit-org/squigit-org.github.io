@@ -1,12 +1,12 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "motion/react";
 import { Button } from "@/src/components/ui/button";
-import {
-  DownloadIcon,
-  GithubIcon,
-  SparklesIcon,
-  ChevronDownIcon,
-} from "@/src/components/icons";
+import { DownloadIcon } from "@/src/components/icons";
+import { ScribbleWord } from "@/src/components/ScribbleWord";
+import squigitIcon from "@/src/assets/squigit-icon.png";
+
+const subtitle =
+  "Squiggle anything you see on your screen and get instant AI understanding.";
 
 export function Hero() {
   const targetRef = useRef<HTMLDivElement | null>(null);
@@ -24,77 +24,38 @@ export function Hero() {
     >
       <motion.div
         style={{ y, scale }}
-        className="relative z-10 mx-auto max-w-5xl text-center"
+        className="relative z-10 mx-auto max-w-6xl text-center"
       >
-        <motion.div
-          initial={{ opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
-          className="mb-6 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/90 px-4 py-2 text-sm text-slate-700 shadow-sm"
-        >
-          <SparklesIcon className="h-4 w-4" />
-          Open-source AI vision for desktop
-        </motion.div>
+        <div className="mb-8 inline-flex items-center gap-3 rounded-full border border-slate-200 bg-white/90 px-4 py-2 text-sm text-slate-700 shadow-sm">
+          <img src={squigitIcon} alt="Squigit" className="h-6 w-6 rounded-md" />
+          <span className="font-medium tracking-tight">Squigit</span>
+        </div>
 
-        <motion.h1
-          initial={{ opacity: 0, y: 28 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.85, delay: 0.08 }}
-          className="text-6xl font-semibold tracking-[-0.08em] text-slate-950 md:text-8xl lg:text-[9rem]"
-        >
-          Squigit
-        </motion.h1>
+        <ScribbleWord
+          text={subtitle}
+          className="mx-auto max-w-5xl text-5xl font-light leading-[1.03] tracking-[-0.05em] text-slate-950 sm:text-6xl md:text-7xl lg:text-[5.5rem]"
+        />
 
-        <motion.p
-          initial={{ opacity: 0, y: 22 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 0.18 }}
-          className="mx-auto mt-6 max-w-3xl text-lg leading-8 text-slate-600 md:text-2xl md:leading-10"
-        >
-          Squiggle anything you see on your screen and get instant AI overview,
-          OCR, and Search without switching apps.
-        </motion.p>
-
-        <motion.div
-          initial={{ opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 0.28 }}
-          className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row"
-        >
+        <div className="mt-12 flex flex-col items-center justify-center gap-4 sm:flex-row">
           <a href="#download">
             <Button
               size="lg"
               className="rounded-full bg-slate-950 px-7 text-white hover:bg-slate-800"
             >
               <DownloadIcon className="mr-2 h-4 w-4" />
-              Download
+              Download for Linux
             </Button>
           </a>
-          <a
-            href="https://github.com/squigit-org/squigit"
-            target="_blank"
-            rel="noreferrer"
-          >
+          <a href="#use-cases">
             <Button
               size="lg"
               variant="outline"
               className="rounded-full border-slate-300 bg-white/90 px-7"
             >
-              <GithubIcon className="mr-2 h-4 w-4" />
-              View Repository
+              Explore use cases
             </Button>
           </a>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1.2, delay: 0.7 }}
-          className="mt-20 flex flex-col items-center text-slate-500"
-        >
-          <span className="text-sm">Scroll to see it in motion</span>
-          <ChevronDownIcon className="mt-2 h-5 w-5 animate-bounce" />
-        </motion.div>
+        </div>
       </motion.div>
     </section>
   );
