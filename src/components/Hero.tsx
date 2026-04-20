@@ -1,41 +1,101 @@
-import { motion } from "motion/react";
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "motion/react";
+import { Button } from "@/src/components/ui/button";
+import {
+  DownloadIcon,
+  GithubIcon,
+  SparklesIcon,
+  ChevronDownIcon,
+} from "@/src/components/icons";
 
 export function Hero() {
+  const targetRef = useRef<HTMLDivElement | null>(null);
+  const { scrollYProgress } = useScroll({
+    target: targetRef,
+    offset: ["start start", "end start"],
+  });
+  const y = useTransform(scrollYProgress, [0, 1], [0, 120]);
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 0.94]);
+
   return (
-    <section className="relative flex min-h-[70vh] flex-col items-center justify-center px-4 py-40 text-center overflow-hidden">
+    <section
+      ref={targetRef}
+      className="relative flex min-h-screen items-center justify-center px-6"
+    >
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-        className="max-w-4xl z-10"
+        style={{ y, scale }}
+        className="relative z-10 mx-auto max-w-5xl text-center"
       >
-        <motion.h1 
-          className="mb-8 text-[120px] font-black tracking-tighter text-slate-900 font-heading leading-[0.9]"
-          initial={{ scale: 0.95 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
+        <motion.div
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7 }}
+          className="mb-6 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/90 px-4 py-2 text-sm text-slate-700 shadow-sm"
+        >
+          <SparklesIcon className="h-4 w-4" />
+          Open-source AI vision for desktop
+        </motion.div>
+
+        <motion.h1
+          initial={{ opacity: 0, y: 28 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.85, delay: 0.08 }}
+          className="text-6xl font-semibold tracking-[-0.08em] text-slate-950 md:text-8xl lg:text-[9rem]"
         >
           Squigit
         </motion.h1>
-        <motion.p 
-          className="text-2xl leading-relaxed text-slate-600 md:text-3xl max-w-2xl mx-auto"
+
+        <motion.p
+          initial={{ opacity: 0, y: 22 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, delay: 0.18 }}
+          className="mx-auto mt-6 max-w-3xl text-lg leading-8 text-slate-600 md:text-2xl md:leading-10"
+        >
+          Squiggle anything you see on your screen and get instant AI overview,
+          OCR, and Search without switching apps.
+        </motion.p>
+
+        <motion.div
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, delay: 0.28 }}
+          className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row"
+        >
+          <a href="#download">
+            <Button
+              size="lg"
+              className="rounded-full bg-slate-950 px-7 text-white hover:bg-slate-800"
+            >
+              <DownloadIcon className="mr-2 h-4 w-4" />
+              Download
+            </Button>
+          </a>
+          <a
+            href="https://github.com/squigit-org/squigit"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <Button
+              size="lg"
+              variant="outline"
+              className="rounded-full border-slate-300 bg-white/90 px-7"
+            >
+              <GithubIcon className="mr-2 h-4 w-4" />
+              View Repository
+            </Button>
+          </a>
+        </motion.div>
+
+        <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 0.5 }}
+          transition={{ duration: 1.2, delay: 0.7 }}
+          className="mt-20 flex flex-col items-center text-slate-500"
         >
-          Squiggle anything you see on your screen and get instant <span className="text-black font-bold">AI overview</span>, OCR, and Search without switching apps.
-        </motion.p>
+          <span className="text-sm">Scroll to see it in motion</span>
+          <ChevronDownIcon className="mt-2 h-5 w-5 animate-bounce" />
+        </motion.div>
       </motion.div>
-      
-      {/* Sleek Interface Theme SVG Background */}
-      <div className="absolute inset-0 -z-10 pointer-events-none opacity-40">
-        <svg width="100%" height="100%" viewBox="0 0 1000 1000" preserveAspectRatio="none">
-          <path d="M100,200 C300,100 500,400 900,150" stroke="#CCFF00" strokeWidth="12" fill="transparent" strokeLinecap="round" strokeDasharray="20 30" />
-          <path d="M800,600 C600,700 300,500 100,650" stroke="#00FFFF" strokeWidth="8" fill="transparent" strokeLinecap="round" strokeDasharray="10 20" />
-          <circle cx="850" cy="450" r="80" stroke="#FF00FF" strokeWidth="2" fill="transparent" strokeDasharray="8 8" />
-          <path d="M450,50 Q480,80 450,110 T450,170" stroke="#CCFF00" strokeWidth="20" fill="transparent" strokeLinecap="round" className="blur-xl opacity-30" />
-        </svg>
-      </div>
     </section>
   );
 }
