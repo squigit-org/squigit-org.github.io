@@ -1,3 +1,4 @@
+import { cn } from "@/src/lib/utils";
 import {
   Card,
   CardHeader,
@@ -6,7 +7,7 @@ import {
 } from "@/src/components/ui/card";
 import { SearchIcon, ScanTextIcon, SparklesIcon } from "@/src/components/icons";
 
-export function UseCases() {
+export function UseCases({ embedded = false }: { embedded?: boolean }) {
   const items = [
     {
       icon: SearchIcon,
@@ -26,9 +27,15 @@ export function UseCases() {
   ];
 
   return (
-    <section id="use-cases" className="relative px-6 py-24">
+    <section
+      id={embedded ? undefined : "use-cases"}
+      className={cn(
+        "px-6",
+        embedded ? "h-full overflow-y-auto py-8" : "relative py-24",
+      )}
+    >
       <div className="mx-auto max-w-7xl">
-        <div className="mb-12 max-w-2xl">
+        <div className={cn("max-w-2xl", embedded ? "mb-8" : "mb-12")}>
           <p className="mb-3 text-sm font-medium uppercase tracking-[0.2em] text-slate-500">
             Use Cases
           </p>
@@ -42,7 +49,10 @@ export function UseCases() {
             return (
               <Card
                 key={item.title}
-                className="rounded-[2rem] border-slate-200 bg-white/90 shadow-sm backdrop-blur"
+                className={cn(
+                  "rounded-[2rem] border-slate-200 shadow-sm backdrop-blur",
+                  embedded ? "bg-white/70" : "bg-white/90",
+                )}
               >
                 <CardHeader>
                   <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-950 text-white">
