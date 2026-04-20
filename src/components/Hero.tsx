@@ -1,9 +1,9 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "motion/react";
 import { Button } from "@/src/components/ui/button";
 import { DownloadIcon } from "@/src/components/icons";
 import { ScribbleWord } from "@/src/components/ScribbleWord";
-import heroIcon from "@/src/assets/icon.png";
+import heroIcon from "@/src/assets/squigit-icon.png";
 
 const subtitleLines = [
   "Squiggle anything you see",
@@ -11,8 +11,13 @@ const subtitleLines = [
   "instant AI understanding.",
 ];
 
+const HERO_BLANK_DELAY_MS = 150;
+const POST_SUBTITLE_GAP_MS = 900;
+
 export function Hero() {
   const [revealedLines, setRevealedLines] = useState(0);
+  const [showSubtitle, setShowSubtitle] = useState(false);
+  const [showHeroMeta, setShowHeroMeta] = useState(false);
 
   const openUseCasesDropdown = () => {
     window.dispatchEvent(new Event("squigit:open-use-cases"));
@@ -26,6 +31,30 @@ export function Hero() {
   const y = useTransform(scrollYProgress, [0, 1], [0, 120]);
   const scale = useTransform(scrollYProgress, [0, 1], [1, 0.94]);
   const subtitleRevealed = revealedLines >= subtitleLines.length;
+
+  useEffect(() => {
+    const timeoutId = window.setTimeout(() => {
+      setShowSubtitle(true);
+    }, HERO_BLANK_DELAY_MS);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!subtitleRevealed) {
+      return;
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      setShowHeroMeta(true);
+    }, POST_SUBTITLE_GAP_MS);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
+  }, [subtitleRevealed]);
 
   const handleLineReveal = () => {
     setRevealedLines((count) => Math.min(count + 1, subtitleLines.length));
@@ -43,15 +72,15 @@ export function Hero() {
       >
         <motion.div
           initial={{ opacity: 0, y: 24 }}
-          animate={subtitleRevealed ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
-          transition={{ duration: 0.45, delay: 0.06, ease: [0.22, 1, 0.36, 1] }}
+          animate={showHeroMeta ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
+          transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
           className="mb-8 flex justify-center"
         >
-          <div className="flex items-center gap-4 text-slate-950">
+          <div className="flex items-center gap-2 text-slate-950 sm:gap-2.5">
             <img
               src={heroIcon}
               alt="Squigit"
-              className="h-14 w-14 object-contain sm:h-16 sm:w-16"
+              className="h-12 w-12 object-contain sm:h-14 sm:w-14"
             />
             <span className="text-2xl font-normal tracking-tight sm:text-3xl">
               Squigit
@@ -60,20 +89,22 @@ export function Hero() {
         </motion.div>
 
         <div className="mx-auto flex max-w-5xl flex-col items-center gap-1 sm:gap-2">
-          {subtitleLines.map((line) => (
-            <ScribbleWord
-              key={line}
-              text={line}
-              onRevealComplete={handleLineReveal}
-              className="text-4xl font-normal leading-[1.02] tracking-[-0.045em] text-slate-950 sm:text-5xl md:text-6xl lg:text-[4.8rem]"
-            />
-          ))}
+          {showSubtitle
+            ? subtitleLines.map((line) => (
+                <ScribbleWord
+                  key={line}
+                  text={line}
+                  onRevealComplete={handleLineReveal}
+                  className="text-4xl font-normal leading-[1.02] tracking-[-0.045em] text-slate-950 sm:text-5xl md:text-6xl lg:text-[4.8rem]"
+                />
+              ))
+            : null}
         </div>
 
         <motion.div
-          initial={{ opacity: 0, y: 28 }}
-          animate={subtitleRevealed ? { opacity: 1, y: 0 } : { opacity: 0, y: 28 }}
-          transition={{ duration: 0.48, delay: 0.14, ease: [0.22, 1, 0.36, 1] }}
+          initial={{ opacity: 0, y: 38 }}
+          animate={showHeroMeta ? { opacity: 1, y: 0 } : { opacity: 0, y: 38 }}
+          transition={{ duration: 0.95, ease: [0.22, 1, 0.36, 1] }}
           className="mt-12 flex flex-col items-center justify-center gap-4 sm:flex-row"
         >
           <a href="#download">
