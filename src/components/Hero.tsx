@@ -29,7 +29,6 @@ export function Hero() {
     offset: ["start start", "end start"],
   });
   const y = useTransform(scrollYProgress, [0, 1], [0, 120]);
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 0.94]);
   const subtitleRevealed = revealedLines >= subtitleLines.length;
 
   useEffect(() => {
@@ -64,38 +63,38 @@ export function Hero() {
     <section
       id="home"
       ref={targetRef}
-      className="relative flex min-h-screen items-center justify-center px-6"
+      className="relative flex min-h-screen items-center justify-center px-5"
     >
       <motion.div
-        style={{ y, scale }}
-        className="relative z-10 mx-auto max-w-6xl text-center"
+        style={{ y }}
+        className="relative z-10 mx-auto -mt-14 max-w-5xl text-center sm:-mt-16"
       >
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={showHeroMeta ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
           transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
-          className="mb-8 flex justify-center"
+          className="mb-6 flex justify-center"
         >
           <div className="flex items-center gap-2 text-slate-950 sm:gap-2.5">
             <img
               src={heroIcon}
               alt="Squigit"
-              className="h-12 w-12 object-contain sm:h-14 sm:w-14"
+              className="h-10 w-10 object-contain sm:h-11 sm:w-11"
             />
-            <span className="text-2xl font-normal tracking-tight sm:text-3xl">
+            <span className="text-xl font-normal tracking-tight sm:text-2xl">
               Squigit
             </span>
           </div>
         </motion.div>
 
-        <div className="mx-auto flex max-w-5xl flex-col items-center gap-1 sm:gap-2">
+        <div className="mx-auto flex max-w-4xl flex-col items-center gap-0.5 sm:gap-1.5">
           {showSubtitle
             ? subtitleLines.map((line) => (
                 <ScribbleWord
                   key={line}
                   text={line}
                   onRevealComplete={handleLineReveal}
-                  className="text-4xl font-normal leading-[1.02] tracking-[-0.045em] text-slate-950 sm:text-5xl md:text-6xl lg:text-[4.8rem]"
+                  className="text-3xl font-normal leading-[1.02] tracking-[-0.045em] text-slate-950 sm:text-4xl md:text-5xl lg:text-6xl"
                 />
               ))
             : null}
@@ -105,12 +104,12 @@ export function Hero() {
           initial={{ opacity: 0, y: 38 }}
           animate={showHeroMeta ? { opacity: 1, y: 0 } : { opacity: 0, y: 38 }}
           transition={{ duration: 0.95, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-12 flex flex-col items-center justify-center gap-4 sm:flex-row"
+          className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row"
         >
           <a href="#download">
             <Button
               size="lg"
-              className="rounded-full bg-slate-950 px-7 text-white hover:bg-slate-800"
+              className="rounded-full bg-slate-950 text-white hover:bg-slate-800"
             >
               <DownloadIcon className="mr-2 h-4 w-4" />
               Download for Linux
@@ -120,7 +119,7 @@ export function Hero() {
             size="lg"
             variant="outline"
             onClick={openUseCasesDropdown}
-            className="rounded-full border-slate-300 bg-white/90 px-7"
+            className="rounded-full border-slate-300 bg-white/90"
           >
             Explore use cases
           </Button>
