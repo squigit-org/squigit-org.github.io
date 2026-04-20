@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { NeonBackground } from "./components/NeonBackground";
 import { Header } from "./components/Header";
 import { Hero } from "./components/Hero";
 import { QuoteSection } from "./components/QuoteSection";
@@ -18,7 +17,6 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-white text-slate-950">
-      <NeonBackground />
       <Header />
       <main className="relative">
         <Hero />
