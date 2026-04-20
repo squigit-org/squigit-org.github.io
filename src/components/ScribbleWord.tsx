@@ -2,6 +2,22 @@ import { useEffect, useRef } from "react";
 import { motion, useInView } from "motion/react";
 import { cn } from "@/src/lib/utils";
 
+const ANIMATION_DURATION = 0.56;
+const CLUSTER_WINDOW = 0.18;
+
+function pseudoRandom(seed: number) {
+  const value = Math.sin(seed * 12.9898) * 43758.5453;
+  return value - Math.floor(value);
+}
+
+function getCharacterDelay(text: string, index: number) {
+  const wordIndex = text.slice(0, index).split(" ").length - 1;
+  const clusterDelay = pseudoRandom(wordIndex + text.length * 0.37) * CLUSTER_WINDOW;
+  const charJitter = pseudoRandom((index + 1) * 1.73 + text.length) * 0.065;
+
+  return Math.min(CLUSTER_WINDOW, clusterDelay + charJitter);
+}
+
 export function ScribbleWord({
   text,
   className = "",
@@ -15,17 +31,37 @@ export function ScribbleWord({
   const hasCompletedRef = useRef(false);
   const inView = useInView(ref, { once: true, margin: "-10% 0px -10% 0px" });
   const chars = text.split("");
+  const delays = chars.map((char, index) =>
+    char === " " ? 0 : getCharacterDelay(text, index),
+  );
+  const totalRevealTime = Math.max(...delays, 0) + ANIMATION_DURATION;
 
   useEffect(() => {
     hasCompletedRef.current = false;
   }, [text]);
+
+  useEffect(() => {
+    if (!inView || !onRevealComplete || hasCompletedRef.current) {
+      return;
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      if (!hasCompletedRef.current) {
+        hasCompletedRef.current = true;
+        onRevealComplete();
+      }
+    }, totalRevealTime * 1000);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
+  }, [inView, onRevealComplete, totalRevealTime]);
 
   return (
     <div ref={ref} className={cn("inline-block", className)}>
       <div className="flex flex-wrap justify-center gap-x-[0.03em]">
         {chars.map((char, i) => {
           const isSpace = char === " ";
-          const isLast = i === chars.length - 1;
 
           return (
             <motion.span
@@ -53,20 +89,10 @@ export function ScribbleWord({
                   : {}
               }
               transition={{
-                duration: 0.56,
-                delay: i * 0.012,
+                duration: ANIMATION_DURATION,
+                delay: delays[i],
                 ease: [0.22, 1, 0.36, 1],
               }}
-              onAnimationComplete={
-                isLast
-                  ? () => {
-                      if (!hasCompletedRef.current) {
-                        hasCompletedRef.current = true;
-                        onRevealComplete?.();
-                      }
-                    }
-                  : undefined
-              }
             >
               {isSpace ? "\u00A0" : char}
             </motion.span>
