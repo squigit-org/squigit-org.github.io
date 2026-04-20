@@ -29,35 +29,6 @@ export function QuoteSection({ quote, index }: { quote: string; index: number })
             scale: { duration: 1.8 },
           }}
         />
-        <motion.svg
-          className="absolute inset-0 h-full w-full"
-          viewBox="0 0 1200 700"
-          fill="none"
-          preserveAspectRatio="none"
-          initial={false}
-        >
-          <motion.path
-            d={
-              index % 2 === 0
-                ? "M60 350 C 240 90, 430 120, 600 350 S 980 600, 1140 340"
-                : "M80 270 C 240 520, 440 570, 620 330 S 930 60, 1130 310"
-            }
-            stroke="url(#sectionGrad)"
-            strokeWidth="2"
-            strokeLinecap="round"
-            className="opacity-40"
-            initial={{ pathLength: 0.15, pathOffset: 1 }}
-            animate={{ pathLength: [0.15, 0.35, 0.15], pathOffset: [1, 0, -1] }}
-            transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-          />
-          <defs>
-            <linearGradient id="sectionGrad" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stopColor="#4f46e5" />
-              <stop offset="50%" stopColor="#06b6d4" />
-              <stop offset="100%" stopColor="#8b5cf6" />
-            </linearGradient>
-          </defs>
-        </motion.svg>
       </div>
 
       <div className="relative z-10 mx-auto max-w-6xl text-center">
