@@ -3,7 +3,7 @@ import { motion, useScroll, useTransform } from "motion/react";
 import { Button } from "@/src/components/ui/button";
 import { DownloadIcon } from "@/src/components/icons";
 import { ScribbleWord } from "@/src/components/ScribbleWord";
-import heroIcon from "@/src/assets/squigit-icon.png";
+import heroIcon from "@/src/assets/icon.png";
 
 const subtitleLines = [
   "Squiggle anything you see",
