@@ -50,10 +50,10 @@ export function Header() {
 
   return (
     <header
-      className="sticky top-0 z-50 border-b border-slate-200/80 bg-white/80 backdrop-blur-xl"
+      className="sticky top-0 z-50 bg-white/65 backdrop-blur-2xl"
       onMouseLeave={closeUseCasesWithDelay}
     >
-      <div className="relative z-20 mx-auto flex h-14 w-full max-w-6xl items-center justify-between px-8 lg:px-12">
+      <div className="relative z-20 mx-auto flex h-12 w-full max-w-6xl items-center justify-between px-8 lg:px-12">
         <div className="flex items-center gap-4 lg:gap-5">
           <a
             href="#home"
@@ -125,13 +125,13 @@ export function Header() {
         onMouseEnter={openUseCases}
         onMouseLeave={closeUseCasesWithDelay}
         className={cn(
-          "absolute inset-x-0 top-full z-10 h-[50vh] border-b border-slate-200/80 bg-white/70 shadow-xl backdrop-blur-2xl transition-all duration-300 ease-out",
+          "absolute inset-x-0 top-full z-10 overflow-hidden bg-white backdrop-blur-2xl transition-all duration-300 ease-out",
           useCasesOpen
             ? "pointer-events-auto translate-y-0 opacity-100"
             : "pointer-events-none -translate-y-3 opacity-0",
         )}
       >
-        <UseCases embedded />
+        <UseCases embedded open={useCasesOpen} />
       </div>
     </header>
   );
