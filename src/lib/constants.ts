@@ -28,6 +28,69 @@ export const DOWNLOADS = [
   },
 ];
 
+export type UseCaseIconKey = "search" | "scanText" | "sparkles";
+
+export const HERO_TEXT = [
+  "Get instant understanding of",
+  "anything you squiggle.",
+];
+
+export const USE_CASES: Array<{
+  icon: UseCaseIconKey;
+  shortLabel: string;
+  title: string;
+  desc: string;
+}> = [
+  {
+    icon: "sparkles",
+    shortLabel: "Quick Review",
+    title: "Instant overview",
+    desc: "Circle any UI, screen bug, design, object, or snippet and get an immediate AI explanation in place.",
+  },
+  {
+    icon: "scanText",
+    shortLabel: "Text Context",
+    title: "OCR that keeps context",
+    desc: "Pull text from your screen, then keep chatting with the captured context instead of losing your flow.",
+  },
+  {
+    icon: "search",
+    shortLabel: "Visual Search",
+    title: "Visual search without app switching",
+    desc: "From one hotkey to capture, inspect, and search. No screenshot folder juggling, no tab chaos.",
+  },
+];
+
+export const USE_CASES_HERO_LINES = [
+  "built for the moments",
+  "where pointing is easier",
+  "than explaining.",
+];
+
+export const RESOURCES_HERO_LINES = [
+  "Evreything you",
+  "need to stay up-to-",
+  "date and get help",
+];
+
+export const RESOURCE_LINKS: Array<{
+  label: string;
+  href: string;
+}> = [
+  {
+    label: "Documentation",
+    href: "https://github.com/squigit-org/squigit/tree/main/docs",
+  },
+  {
+    label: "Changelog",
+    href: "https://github.com/squigit-org/squigit/blob/main/CHANGELOG.md",
+  },
+  {
+    label: "Releases",
+    href: "https://github.com/squigit-org/squigit/releases",
+  },
+];
+
 export const PRODUCT_INSTALL = {
   mac: [
     "brew tap squigit-org/tap",
@@ -46,26 +109,6 @@ export const PRODUCT_INSTALL = {
     "sudo curl -fsSL https://squigit-org.github.io/squigit-packages/rpm/squigit.repo -o /etc/yum.repos.d/squigit.repo",
     "sudo dnf makecache --refresh",
     "sudo dnf install -y squigit-ocr squigit-stt",
-  ],
-  winNow: [
-    '$OcrTag = "ocr-v0.1.0"',
-    '$SttTag = "stt-v0.1.0"',
-    '$InstallRoot = Join-Path $env:LOCALAPPDATA "Programs\\\\Squigit"',
-    '$OcrDir = Join-Path $InstallRoot "OCR"',
-    '$SttDir = Join-Path $InstallRoot "STT"',
-    "New-Item -ItemType Directory -Force -Path $OcrDir, $SttDir | Out-Null",
-    '$OcrZip = Join-Path $env:TEMP "squigit-ocr-win-x64.zip"',
-    '$SttZip = Join-Path $env:TEMP "squigit-stt-win-x64.zip"',
-    'Invoke-WebRequest "https://github.com/squigit-org/squigit/releases/download/$OcrTag/squigit-ocr-win-x64.zip" -OutFile $OcrZip',
-    'Invoke-WebRequest "https://github.com/squigit-org/squigit/releases/download/$SttTag/squigit-stt-win-x64.zip" -OutFile $SttZip',
-    "Expand-Archive -LiteralPath $OcrZip -DestinationPath $OcrDir -Force",
-    "Expand-Archive -LiteralPath $SttZip -DestinationPath $SttDir -Force",
-    '$UserPath = [Environment]::GetEnvironmentVariable("Path", "User")',
-    "foreach ($Entry in @($OcrDir, $SttDir)) { if (-not (($UserPath -split ';') -contains $Entry)) { if ([string]::IsNullOrWhiteSpace($UserPath)) { $UserPath = $Entry } else { $UserPath = \"$UserPath;$Entry\" } } }",
-    '[Environment]::SetEnvironmentVariable("Path", $UserPath, "User")',
-    '$env:Path = "$UserPath;$env:Path"',
-    "squigit-ocr --version",
-    "squigit-stt --version",
   ],
   winget: [
     "winget install --id SquigitOrg.SquigitOCR --exact --source winget --scope user --silent --disable-interactivity --accept-source-agreements --accept-package-agreements",
@@ -86,13 +129,37 @@ function runStaticChecks() {
     },
     {
       name: "product install sections exist",
-      pass: ["mac", "apt", "dnf", "winNow", "winget"].every(
+      pass: ["mac", "apt", "dnf", "winget"].every(
         (key) => key in PRODUCT_INSTALL,
+      ),
+    },
+    {
+      name: "use case fields are non-empty",
+      pass: USE_CASES.every(
+        (item) =>
+          item.shortLabel.trim().length > 0 &&
+          item.title.trim().length > 0 &&
+          item.desc.trim().length > 0,
       ),
     },
     {
       name: "each quote is non-empty",
       pass: QUOTES.every((quote) => quote.trim().length > 0),
+    },
+    {
+      name: "resource links are non-empty",
+      pass: RESOURCE_LINKS.every(
+        (item) =>
+          item.label.trim().length > 0 && item.href.startsWith("https://"),
+      ),
+    },
+    {
+      name: "use case hero lines are non-empty",
+      pass: USE_CASES_HERO_LINES.every((line) => line.trim().length > 0),
+    },
+    {
+      name: "resources hero lines are non-empty",
+      pass: RESOURCES_HERO_LINES.every((line) => line.trim().length > 0),
     },
   ];
 

@@ -1,63 +1,109 @@
 import { useEffect, useRef, useState } from "react";
-import { motion, useScroll, useTransform } from "motion/react";
+import { motion, useInView, useScroll, useTransform } from "motion/react";
+import { TextEffectTwo } from "react-text-animate";
 import { Button } from "@/src/components/ui/button";
-import { DownloadIcon } from "@/src/components/icons";
-import { ScribbleWord } from "@/src/components/ScribbleWord";
-import heroIcon from "@/src/assets/icon.png";
+import {
+  DownloadIcon,
+  LinuxIcon,
+  MacIcon,
+  WindowsIcon,
+} from "@/src/components/icons";
+import { HERO_TEXT } from "@/src/lib/constants";
+import { squigitIconUrl } from "@/src/assets";
 
-const subtitleLines = [
-  "Squiggle anything you see",
-  "on your screen and get",
-  "instant AI understanding.",
-];
+type HeroPlatform = "macos" | "windows" | "linux" | "unknown";
 
-const HERO_BLANK_DELAY_MS = 150;
-const POST_SUBTITLE_GAP_MS = 900;
+const HERO_TEXT_EFFECT = {
+  animationDuration: 0.5,
+  staggerDuration: 0.13,
+  initialDelay: 0,
+  filter: true,
+} as const;
+
+const HERO_PLATFORM_META = {
+  macos: { label: "Download for macOS", icon: MacIcon },
+  windows: { label: "Download for Windows", icon: WindowsIcon },
+  linux: { label: "Download for Linux", icon: LinuxIcon },
+  unknown: { label: "Download", icon: DownloadIcon },
+} satisfies Record<
+  HeroPlatform,
+  { label: string; icon: typeof DownloadIcon }
+>;
+
+function detectHeroPlatform(): HeroPlatform {
+  if (typeof navigator === "undefined") {
+    return "unknown";
+  }
+
+  const navigatorWithUAData = navigator as Navigator & {
+    userAgentData?: { platform?: string };
+  };
+  const fingerprint = [
+    navigator.platform,
+    navigator.userAgent,
+    navigatorWithUAData.userAgentData?.platform,
+  ]
+    .filter(Boolean)
+    .join(" ")
+    .toLowerCase();
+
+  if (fingerprint.includes("mac")) {
+    return "macos";
+  }
+  if (fingerprint.includes("win")) {
+    return "windows";
+  }
+  if (fingerprint.includes("linux") || fingerprint.includes("x11")) {
+    return "linux";
+  }
+
+  return "unknown";
+}
 
 export function Hero() {
-  const [revealedLines, setRevealedLines] = useState(0);
-  const [showSubtitle, setShowSubtitle] = useState(false);
   const [showHeroMeta, setShowHeroMeta] = useState(false);
+  const [userPlatform, setUserPlatform] = useState<HeroPlatform>("unknown");
 
   const openUseCasesDropdown = () => {
     window.dispatchEvent(new Event("squigit:open-use-cases"));
   };
 
   const targetRef = useRef<HTMLDivElement | null>(null);
+  const textRef = useRef<HTMLDivElement | null>(null);
   const { scrollYProgress } = useScroll({
     target: targetRef,
     offset: ["start start", "end start"],
   });
+  const heroTextInView = useInView(textRef, { once: true, amount: 0.5 });
   const y = useTransform(scrollYProgress, [0, 1], [0, 120]);
-  const subtitleRevealed = revealedLines >= subtitleLines.length;
+  const heroSentence = HERO_TEXT.join(" ");
 
   useEffect(() => {
-    const timeoutId = window.setTimeout(() => {
-      setShowSubtitle(true);
-    }, HERO_BLANK_DELAY_MS);
-
-    return () => {
-      window.clearTimeout(timeoutId);
-    };
+    setUserPlatform(detectHeroPlatform());
   }, []);
 
   useEffect(() => {
-    if (!subtitleRevealed) {
+    if (!heroTextInView) {
       return;
     }
 
+    const wordCount = heroSentence.trim().split(/\s+/).length;
+    const totalDurationMs =
+      (HERO_TEXT_EFFECT.initialDelay +
+        HERO_TEXT_EFFECT.animationDuration +
+        Math.max(wordCount - 1, 0) * HERO_TEXT_EFFECT.staggerDuration) *
+      1000;
     const timeoutId = window.setTimeout(() => {
       setShowHeroMeta(true);
-    }, POST_SUBTITLE_GAP_MS);
+    }, totalDurationMs);
 
     return () => {
       window.clearTimeout(timeoutId);
     };
-  }, [subtitleRevealed]);
+  }, [heroSentence, heroTextInView]);
 
-  const handleLineReveal = () => {
-    setRevealedLines((count) => Math.min(count + 1, subtitleLines.length));
-  };
+  const platformMeta = HERO_PLATFORM_META[userPlatform];
+  const PlatformIcon = platformMeta.icon;
 
   return (
     <section
@@ -72,54 +118,56 @@ export function Hero() {
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={showHeroMeta ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
-          transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.98, ease: [0.22, 1, 0.36, 1] }}
           className="mb-6 flex justify-center"
         >
-          <div className="flex items-center gap-2 text-slate-950 sm:gap-2.5">
+          <div className="flex items-center text-slate-950">
             <img
-              src={heroIcon}
+              src={squigitIconUrl}
               alt="Squigit"
-              className="h-10 w-10 object-contain sm:h-11 sm:w-11"
+              className="h-12 w-12 object-contain sm:h-13 sm:w-13"
             />
-            <span className="text-xl font-normal tracking-tight sm:text-2xl">
+            <span className="font-product-sans text-xl font-[450] tracking-tight sm:text-2xl">
               Squigit
             </span>
           </div>
         </motion.div>
 
-        <div className="mx-auto flex max-w-4xl flex-col items-center gap-0.5 sm:gap-1.5">
-          {showSubtitle
-            ? subtitleLines.map((line) => (
-                <ScribbleWord
-                  key={line}
-                  text={line}
-                  onRevealComplete={handleLineReveal}
-                  className="text-3xl font-normal leading-[1.02] tracking-[-0.045em] text-slate-950 sm:text-4xl md:text-5xl lg:text-6xl"
-                />
-              ))
-            : null}
+        <div
+          ref={textRef}
+          className="mx-auto flex max-w-4xl flex-col items-center gap-0.5 sm:gap-1.5"
+        >
+          <TextEffectTwo
+            animateOnce
+            key={heroSentence}
+            className="text-center text-3xl font-normal leading-[1.02] tracking-[-0.045em] text-slate-950 sm:text-5xl md:text-6xl lg:text-7xl"
+            text={heroSentence}
+            animationDuration={HERO_TEXT_EFFECT.animationDuration}
+            staggerDuration={HERO_TEXT_EFFECT.staggerDuration}
+            initialDelay={HERO_TEXT_EFFECT.initialDelay}
+            filter={HERO_TEXT_EFFECT.filter}
+          />
         </div>
 
         <motion.div
           initial={{ opacity: 0, y: 38 }}
           animate={showHeroMeta ? { opacity: 1, y: 0 } : { opacity: 0, y: 38 }}
-          transition={{ duration: 0.95, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row"
+          transition={{ duration: 1.08, ease: [0.22, 1, 0.36, 1] }}
+          className="mt-18 flex flex-col items-center justify-center gap-3 sm:flex-row"
         >
           <a href="#download">
             <Button
               size="lg"
-              className="rounded-full bg-slate-950 text-white hover:bg-slate-800"
+              className="h-12 rounded-full bg-slate-950 px-7 text-[1.03rem] text-white hover:bg-slate-800 cursor-pointer"
             >
-              <DownloadIcon className="mr-2 h-4 w-4" />
-              Download for Linux
+              <PlatformIcon size={22} className="shrink-0" />
+              {platformMeta.label}
             </Button>
           </a>
           <Button
             size="lg"
-            variant="outline"
             onClick={openUseCasesDropdown}
-            className="rounded-full border-slate-300 bg-white/90"
+            className="h-12 rounded-full bg-transparent px-5 text-[1.03rem] text-black cursor-pointer"
           >
             Explore use cases
           </Button>

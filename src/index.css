@@ -132,3 +132,9 @@
     @apply font-sans;
     }
 }
+
+@layer utilities {
+  .font-product-sans {
+    font-family: "Product Sans", "Google Sans", "Google Sans Text", "Inter", sans-serif;
+  }
+}
