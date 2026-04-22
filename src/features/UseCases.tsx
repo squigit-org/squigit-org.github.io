@@ -74,7 +74,7 @@ export function UseCases({
               }}
               className="w-fit rounded-full border-slate-300 bg-white/90 px-4 text-slate-900"
             >
-              see overview
+              See overview
             </Button>
           </div>
 

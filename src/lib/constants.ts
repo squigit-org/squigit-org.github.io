@@ -111,8 +111,8 @@ export const PRODUCT_INSTALL = {
     "sudo dnf install -y squigit-ocr squigit-stt",
   ],
   winget: [
-    "winget install --id SquigitOrg.SquigitOCR --exact --source winget --scope user --silent --disable-interactivity --accept-source-agreements --accept-package-agreements",
-    "winget install --id SquigitOrg.SquigitSTT --exact --source winget --scope user --silent --disable-interactivity --accept-source-agreements --accept-package-agreements",
+    "winget install SquigitOrg.SquigitOCR",
+    "winget install SquigitOrg.SquigitSTT",
   ],
 };
 
