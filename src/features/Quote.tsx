@@ -1,9 +1,9 @@
 import { useRef } from "react";
 import { motion, useInView } from "motion/react";
 import { SparklesIcon } from "@/src/components/icons";
-import { ScribbleWord } from "@/src/components/ScribbleWord";
+import { ScribbleWord } from "@/src/components/ui/ScribbleWord";
 
-export function QuoteSection({ quote, index }: { quote: string; index: number }) {
+export function Quote({ quote, index }: { quote: string; index: number }) {
   const ref = useRef<HTMLDivElement | null>(null);
   const isInView = useInView(ref, { once: false, amount: 0.35 });
 
@@ -32,10 +32,6 @@ export function QuoteSection({ quote, index }: { quote: string; index: number })
       </div>
 
       <div className="relative z-10 mx-auto max-w-6xl text-center">
-        <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/80 px-4 py-2 text-sm text-slate-700 shadow-sm backdrop-blur">
-          <SparklesIcon className="h-4 w-4" />
-          Scroll-triggered scribble text
-        </div>
         <ScribbleWord
           text={quote}
           className="text-5xl font-semibold tracking-[-0.05em] text-slate-950 md:text-7xl lg:text-8xl"
