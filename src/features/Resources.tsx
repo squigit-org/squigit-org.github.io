@@ -2,13 +2,62 @@ import { cn } from "@/src/lib/utils";
 import { RESOURCE_LINKS, RESOURCES_HERO_LINES } from "@/src/lib/constants";
 import { ChevronDownIcon } from "@/src/components/icons";
 
+type ResourcesLayout = "desktop" | "mobile";
+
 export function Resources({
   embedded = false,
   open = false,
+  layout = "desktop",
+  onNavigate,
 }: {
   embedded?: boolean;
   open?: boolean;
+  layout?: ResourcesLayout;
+  onNavigate?: () => void;
 }) {
+  const isMobileEmbedded = embedded && layout === "mobile";
+
+  if (isMobileEmbedded) {
+    return (
+      <section className="px-1 py-3">
+        <div
+          className={cn(
+            "grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)] items-start gap-3 transition-all duration-200 ease-out",
+            open ? "translate-y-0 opacity-100" : "-translate-y-1 opacity-0",
+          )}
+        >
+          <div className="pb-1">
+            <h2 className="text-xl leading-snug font-[450] tracking-[-0.05em] text-slate-950">
+              {RESOURCES_HERO_LINES.map((line) => (
+                <span key={line} className="block">
+                  {line}
+                </span>
+              ))}
+            </h2>
+          </div>
+
+          <div className="flex flex-col gap-2">
+            {RESOURCE_LINKS.map((item) => (
+              <a
+                key={item.label}
+                href={item.href}
+                target="_blank"
+                rel="noreferrer"
+                onClick={onNavigate}
+                className="flex items-center rounded-2xl border border-slate-200/80 bg-white/80 px-3 py-2.5 text-sm font-medium text-slate-700 transition-colors hover:text-slate-950"
+              >
+                <span className="inline-flex items-center gap-1.5">
+                  <span>{item.label}</span>
+                  <ChevronDownIcon className="h-4 w-4 -rotate-90 text-current" />
+                </span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section
       id={embedded ? undefined : "resources"}

@@ -13,6 +13,10 @@ export default function App() {
   const [mounted, setMounted] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
+  const closeHeaderDropdowns = () => {
+    window.dispatchEvent(new Event("squigit:close-dropdowns"));
+  };
+
   useEffect(() => {
     if ("scrollRestoration" in window.history) {
       window.history.scrollRestoration = "manual";
@@ -41,9 +45,10 @@ export default function App() {
         <Products />
         <div
           aria-hidden="true"
+          onClick={closeHeaderDropdowns}
           className={cn(
-            "pointer-events-none absolute inset-0 z-30 bg-slate-950/10 transition-opacity duration-300 ease-out",
-            dropdownOpen ? "opacity-100" : "opacity-0",
+            "absolute inset-0 z-30 bg-slate-950/10 transition-opacity duration-300 ease-out",
+            dropdownOpen ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0",
           )}
         />
       </main>
