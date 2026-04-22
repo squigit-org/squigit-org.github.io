@@ -1,14 +1,17 @@
 import { useEffect, useState } from "react";
 import { Header } from "./components/Header";
 import { Hero } from "./components/Hero";
-import { QuoteSection } from "./components/QuoteSection";
-import { DownloadSection } from "./components/DownloadSection";
-import { ProductsSection } from "./components/ProductsSection";
+import { Quote } from "./features/Quote";
+import { Download } from "./features/Download";
+import { Pricing } from "./features/Pricing";
+import { Products } from "./features/Products";
 import { Footer } from "./components/Footer";
 import { QUOTES } from "./lib/constants";
+import { cn } from "./lib/utils";
 
 export default function App() {
   const [mounted, setMounted] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   useEffect(() => {
     if ("scrollRestoration" in window.history) {
@@ -26,15 +29,23 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-white text-slate-950">
-      <Header />
-      <main className="relative">
+      <Header onDropdownOpenChange={setDropdownOpen} />
+      <main className="relative mt-[-2.5rem]">
         <Hero />
         {mounted &&
           QUOTES.map((quote, index) => (
-            <QuoteSection key={quote} quote={quote} index={index} />
+            <Quote key={quote} quote={quote} index={index} />
           ))}
-        <DownloadSection />
-        <ProductsSection />
+        <Pricing />
+        <Download />
+        <Products />
+        <div
+          aria-hidden="true"
+          className={cn(
+            "pointer-events-none absolute inset-0 z-30 bg-slate-950/10 transition-opacity duration-300 ease-out",
+            dropdownOpen ? "opacity-100" : "opacity-0",
+          )}
+        />
       </main>
       <Footer />
     </div>
