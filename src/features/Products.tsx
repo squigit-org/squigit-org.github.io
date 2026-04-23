@@ -45,7 +45,16 @@ export function Products() {
               <CodeBlock language="bash" lines={PRODUCT_INSTALL.mac} />
             </CardContent>
           </Card>
-
+          <Card className="rounded-[2rem] border-slate-200 bg-white/90 shadow-sm">
+            <CardHeader>
+              <CardTitle className="text-2xl tracking-[-0.04em]">
+                Windows (Winget)
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <CodeBlock language="powershell" lines={PRODUCT_INSTALL.winget} />
+            </CardContent>
+          </Card>
           <div className="grid gap-8 xl:grid-cols-2">
             <Card className="rounded-[2rem] border-slate-200 bg-white/90 shadow-sm">
               <CardHeader>
@@ -68,28 +77,6 @@ export function Products() {
               </CardContent>
             </Card>
           </div>
-
-          <Card className="rounded-[2rem] border-slate-200 bg-white/90 shadow-sm">
-            <CardHeader>
-              <CardTitle className="text-2xl tracking-[-0.04em]">
-                Windows (Winget)
-              </CardTitle>
-              <CardDescription className="text-base leading-7 text-slate-600">
-                Install with these package IDs:{" "}
-                <span className="font-medium text-slate-900">
-                  SquigitOrg.SquigitOCR
-                </span>{" "}
-                and{" "}
-                <span className="font-medium text-slate-900">
-                  SquigitOrg.SquigitSTT
-                </span>
-                .
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <CodeBlock language="powershell" lines={PRODUCT_INSTALL.winget} />
-            </CardContent>
-          </Card>
         </div>
       </div>
     </section>

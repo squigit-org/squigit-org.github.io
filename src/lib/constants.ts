@@ -8,7 +8,7 @@ export const DOWNLOADS = [
   {
     name: "MacOS",
     items: [{ label: "Download for Apple Silicon", href: "#" }],
-    min: "macOS versions with Apple security update support. This is typically the current and two previous versions. Min Version 12 (Monterey), X86 is not supported",
+    min: "macOS versions with Apple security update support. This is typically the current and two previous versions. Minimum version 12 (Monterey). Apple Silicon (M1+) only.",
   },
   {
     name: "Windows",
@@ -18,7 +18,7 @@ export const DOWNLOADS = [
   {
     name: "Linux",
     items: [{ label: "Download", href: "#" }],
-    min: "glibc >= 2.28, glibcxx >= 3.4.25 (e.g. Ubuntu 20. Debian 10, Fedora 36, RHEL 8)",
+    min: "glibc >= 2.35, glibcxx >= 3.4.30 (e.g. Ubuntu 22.04, Debian 12, Fedora 38, RHEL 9)",
   },
 ];
 

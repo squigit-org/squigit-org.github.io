@@ -21,8 +21,6 @@ const DOWNLOAD_HEADING_STAGGER = 0.07;
 const DOWNLOAD_HEADING_BASE_TEXT = "Download Squigit";
 const DOWNLOAD_HEADING_HANDOFF_PADDING_MS = 40;
 const DOWNLOAD_HEADING_LINE_GAP_CLASS = "gap-2";
-const DOWNLOAD_CURSOR_CLASS =
-  "[&>span:last-child>span:last-child]:inline-block [&>span:last-child>span:last-child]:h-[0.8em] [&>span:last-child>span:last-child]:align-middle";
 
 const VISITOR_PLATFORM_LABEL: Record<VisitorPlatform, string> = {
   macos: "macOS",
@@ -147,7 +145,7 @@ export function Download({ onNavigate }: { onNavigate?: () => void }) {
                       ? { type: "hidden" }
                       : { marginLeft: "2px" }
                   }
-                  className={`block whitespace-nowrap ${DOWNLOAD_CURSOR_CLASS}`}
+                  className="block whitespace-nowrap"
                 />
                 {showSecondLine ? (
                   <TextEffectFour
@@ -157,7 +155,7 @@ export function Download({ onNavigate }: { onNavigate?: () => void }) {
                     elementVisibilityAmount={0.55}
                     staggerDuration={DOWNLOAD_HEADING_STAGGER}
                     cursorConfig={{ marginLeft: "2px" }}
-                    className={`block whitespace-nowrap ${DOWNLOAD_CURSOR_CLASS}`}
+                    className="block whitespace-nowrap"
                   />
                 ) : (
                   <span aria-hidden className="block">
@@ -212,11 +210,11 @@ export function Download({ onNavigate }: { onNavigate?: () => void }) {
                       </a>
                     ))}
                   </div>
-                  <div className="rounded-2xl bg-slate-50 p-4">
-                    <p className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+                  <div className="rounded-2xl p-4">
+                    <p className="mb-2 text-xxs font-[500] font-product-sans tracking-[0.18em] text-[#000]/95">
                       Minimum Requirements
                     </p>
-                    <p className="text-sm leading-7 text-slate-600">
+                    <p className="text-sm leading-7 text-[#000]/80">
                       {platform.min}
                     </p>
                   </div>
