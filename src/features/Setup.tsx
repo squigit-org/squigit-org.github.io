@@ -165,7 +165,7 @@ export function Setup({ platform }: { platform: SetupPlatform }) {
     const config = DESKTOP_SETUP_CONFIG[desktopPlatform];
 
     return (
-      <article className="flex min-h-[34rem] flex-col items-center gap-6 text-center">
+      <article className="flex w-full flex-col items-center gap-6 text-center">
         <div className="w-full max-w-3xl space-y-8 text-left">
           <section className="space-y-3">
             <p className="text-base leading-7 text-slate-700">
@@ -199,7 +199,7 @@ export function Setup({ platform }: { platform: SetupPlatform }) {
   }
 
   return (
-    <article className="flex min-h-[34rem] flex-col items-center gap-6 text-center">
+    <article className="flex w-full flex-col items-center gap-6 text-center">
       <div className="w-full max-w-3xl space-y-10 text-left">
         {LINUX_SETUP_SECTIONS.map((section) => (
           <section key={section.title} className="space-y-5">

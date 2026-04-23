@@ -69,7 +69,7 @@ export function WidgetCard({
         aria-modal="true"
         aria-label={title}
         className={cn(
-          "relative z-10 w-full max-w-4xl overflow-hidden rounded-[0.95rem] border border-[#000]/20 bg-white shadow-[0_20px_70px_rgba(15,23,42,0.35)] motion-safe:animate-[widget-rise_320ms_cubic-bezier(0.16,1,0.3,1)]",
+          "relative z-10 flex min-h-[66.666dvh] w-full max-w-4xl flex-col overflow-hidden rounded-[0.95rem] border border-[#000]/20 bg-white shadow-[0_20px_70px_rgba(15,23,42,0.35)] motion-safe:animate-[widget-rise_320ms_cubic-bezier(0.16,1,0.3,1)]",
           className,
         )}
       >
@@ -84,7 +84,7 @@ export function WidgetCard({
             <CloseIcon className="h-5 w-5" />
           </button>
         </header>
-        <div className="max-h-[min(78vh,46rem)] overflow-y-auto px-5 py-6 sm:px-6 sm:py-7">
+        <div className="max-h-[min(78vh,46rem)] flex-1 overflow-y-auto px-5 py-6 sm:px-6 sm:py-7">
           {children}
         </div>
       </section>
