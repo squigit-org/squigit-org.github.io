@@ -1,9 +1,13 @@
+import { useEffect, useRef, useState } from "react";
+import { useInView } from "motion/react";
+import { TextEffectFour } from "react-text-animate";
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
 } from "@/src/components/ui/card";
+import { Button } from "@/src/components/ui/button";
 import {
   DownloadIcon,
   MacIcon,
@@ -11,6 +15,48 @@ import {
   LinuxIcon,
 } from "@/src/components/icons";
 import { DOWNLOADS } from "@/src/lib/constants";
+
+type VisitorPlatform = "macos" | "windows" | "linux" | "unknown";
+const DOWNLOAD_HEADING_STAGGER = 0.07;
+const DOWNLOAD_HEADING_BASE_TEXT = "Download Squigit";
+const DOWNLOAD_HEADING_HANDOFF_PADDING_MS = 40;
+
+const VISITOR_PLATFORM_LABEL: Record<VisitorPlatform, string> = {
+  macos: "macOS",
+  windows: "Windows",
+  linux: "Linux",
+  unknown: "Free",
+};
+
+function detectVisitorPlatform(): VisitorPlatform {
+  if (typeof navigator === "undefined") {
+    return "unknown";
+  }
+
+  const navigatorWithUAData = navigator as Navigator & {
+    userAgentData?: { platform?: string };
+  };
+  const fingerprint = [
+    navigator.platform,
+    navigator.userAgent,
+    navigatorWithUAData.userAgentData?.platform,
+  ]
+    .filter(Boolean)
+    .join(" ")
+    .toLowerCase();
+
+  if (fingerprint.includes("mac")) {
+    return "macos";
+  }
+  if (fingerprint.includes("win")) {
+    return "windows";
+  }
+  if (fingerprint.includes("linux") || fingerprint.includes("x11")) {
+    return "linux";
+  }
+
+  return "unknown";
+}
 
 function getPlatformIcon(name: string) {
   if (name === "MacOS") {
@@ -25,23 +71,113 @@ function getPlatformIcon(name: string) {
   return DownloadIcon;
 }
 
-export function Download() {
+function getTextEffectFourStepCount(text: string) {
+  const words = text.split(" ");
+  return words.reduce((count, word, index) => {
+    const graphemeCount = Array.from(word).length;
+    const hasTrailingSpaceToken = index < words.length - 1;
+    return count + graphemeCount + (hasTrailingSpaceToken ? 1 : 0);
+  }, 0);
+}
+
+export function Download({ onNavigate }: { onNavigate?: () => void }) {
+  const [visitorPlatform, setVisitorPlatform] = useState<VisitorPlatform>(
+    "unknown",
+  );
+  const [showSecondLine, setShowSecondLine] = useState(false);
+  const [animationRunId, setAnimationRunId] = useState(0);
+  const headingRef = useRef<HTMLHeadingElement | null>(null);
+  const headingInView = useInView(headingRef, { amount: 0.55 });
+  const headingSuffix = `for ${VISITOR_PLATFORM_LABEL[visitorPlatform]}`;
+  const lineOneDurationMs =
+    Math.max(getTextEffectFourStepCount(DOWNLOAD_HEADING_BASE_TEXT) - 1, 0) *
+      DOWNLOAD_HEADING_STAGGER *
+      1000 +
+    DOWNLOAD_HEADING_HANDOFF_PADDING_MS;
+
+  useEffect(() => {
+    setVisitorPlatform(detectVisitorPlatform());
+  }, []);
+
+  useEffect(() => {
+    if (!headingInView) {
+      setShowSecondLine(false);
+      return;
+    }
+
+    setAnimationRunId((current) => current + 1);
+    setShowSecondLine(false);
+    const timeoutId = window.setTimeout(() => {
+      setShowSecondLine(true);
+    }, lineOneDurationMs);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
+  }, [headingInView, headingSuffix, lineOneDurationMs]);
+
   return (
-    <section id="download" className="relative px-6 py-24">
-      <div className="mx-auto max-w-7xl">
+    <section id="download" className="relative py-24">
+      <div className="mx-auto w-full max-w-6xl px-5 sm:px-6 lg:px-10">
         <div className="mb-12 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div className="max-w-2xl">
-            <p className="mb-3 text-sm font-medium uppercase tracking-[0.2em] text-slate-500">
-              Select download
-            </p>
-            <h2 className="text-4xl font-semibold tracking-[-0.05em] text-slate-950 md:text-5xl">
-              Get Squigit on your platform.
+            <h2
+              ref={headingRef}
+              className="relative text-4xl font-product-sans font-[450] tracking-[-0.05em] text-slate-950 md:text-5xl"
+            >
+              <span aria-hidden className="invisible block">
+                <span className="block">{DOWNLOAD_HEADING_BASE_TEXT}</span>
+                <span className="block">{headingSuffix}</span>
+              </span>
+              <span className="absolute inset-0 block">
+                <TextEffectFour
+                  key={`download-line-1-${animationRunId}`}
+                  wrapperElement="span"
+                  text={DOWNLOAD_HEADING_BASE_TEXT}
+                  animateOnce={false}
+                  elementVisibilityAmount={0.55}
+                  staggerDuration={DOWNLOAD_HEADING_STAGGER}
+                  cursorConfig={
+                    showSecondLine
+                      ? { type: "hidden" }
+                      : { marginLeft: "2px" }
+                  }
+                  className="block whitespace-nowrap"
+                />
+                {showSecondLine ? (
+                  <TextEffectFour
+                    key={`download-line-2-${animationRunId}`}
+                    wrapperElement="span"
+                    text={`${headingSuffix} `}
+                    animateOnce={false}
+                    elementVisibilityAmount={0.55}
+                    staggerDuration={DOWNLOAD_HEADING_STAGGER}
+                    cursorConfig={{ marginLeft: "2px" }}
+                    className="block whitespace-nowrap"
+                  />
+                ) : (
+                  <span aria-hidden className="block">
+                    &nbsp;
+                  </span>
+                )}
+              </span>
             </h2>
           </div>
-          <p className="max-w-xl text-slate-600">
-            Pick your OS, download the right build, and start circling anything
-            on your screen.
-          </p>
+          <Button
+            size="lg"
+            variant="outline"
+            onClick={() => {
+              onNavigate?.();
+              window.open(
+                "https://github.com/squigit-org/squigit/releases",
+                "_blank",
+                "noopener,noreferrer",
+              );
+            }}
+            className="w-fit rounded-full border-slate-300 bg-white/90 px-4 text-slate-900"
+          >
+            View previous releases
+          </Button>
         </div>
 
         <div className="grid gap-6 lg:grid-cols-3">
@@ -65,10 +201,10 @@ export function Download() {
                       <a
                         key={item.label}
                         href={item.href}
-                        className="flex items-center justify-between rounded-2xl border border-slate-200 px-4 py-4 text-sm font-medium transition hover:border-slate-300 hover:bg-slate-50"
+                        className="flex items-center justify-start gap-2 rounded-2xl border-0 px-4 py-4 text-sm font-medium transition hover:bg-slate-50"
                       >
-                        <span>{item.label}</span>
                         <DownloadIcon className="h-4 w-4" />
+                        <span>{item.label}</span>
                       </a>
                     ))}
                   </div>

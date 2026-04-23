@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Space+Grotesk:wght@300..700&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+@import "@fontsource-variable/geist";
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
@@ -135,6 +136,6 @@
 
 @layer utilities {
   .font-product-sans {
-    font-family: "Product Sans", "Google Sans", "Google Sans Text", "Inter", sans-serif;
+    font-family: "Product Sans", "Google Sans", "Google Sans Text", "Geist Variable", "Inter", sans-serif;
   }
 }

@@ -4,11 +4,11 @@ export function Footer() {
   return (
     <footer
       id="resources"
-      className="relative border-t border-slate-200 px-6 py-10"
+      className="relative border-t border-slate-200 py-10"
     >
-      <div className="mx-auto flex max-w-7xl flex-col gap-4 md:flex-row md:items-center md:justify-between">
+      <div className="mx-auto flex w-full max-w-6xl flex-col gap-4 px-5 sm:px-6 md:flex-row md:items-center md:justify-between lg:px-10">
         <div>
-          <p className="text-lg font-semibold tracking-[-0.04em] text-slate-950">
+          <p className="text-lg font-product-sans font-[480] tracking-[-0.04em] text-slate-950">
             Squigit
           </p>
           <p className="text-sm text-slate-600">

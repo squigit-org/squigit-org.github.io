@@ -2,13 +2,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/src/components/ui/ca
 
 export function Pricing() {
   return (
-    <section id="pricing" className="relative px-6 py-24">
-      <div className="mx-auto max-w-7xl">
+    <section id="pricing" className="relative py-24">
+      <div className="mx-auto w-full max-w-6xl px-5 sm:px-6 lg:px-10">
         <div className="mb-12 max-w-3xl">
           <p className="mb-3 text-sm font-medium uppercase tracking-[0.2em] text-slate-500">
             Pricing
           </p>
-          <h2 className="text-4xl font-semibold tracking-[-0.05em] text-slate-950 md:text-5xl">
+          <h2 className="text-4xl font-product-sans font-[450] tracking-[-0.05em] text-slate-950 md:text-5xl">
             BYOK pricing. Pay-as-you-go with your chosen providers.
           </h2>
           <p className="mt-4 text-lg leading-8 text-slate-600">
@@ -21,7 +21,7 @@ export function Pricing() {
         <div className="grid gap-6 md:grid-cols-2">
           <Card className="rounded-[2rem] border-slate-200 bg-white/90 shadow-sm">
             <CardHeader>
-              <CardTitle className="text-2xl tracking-[-0.04em]">
+              <CardTitle className="text-2xl font-product-sans font-[450] tracking-[-0.04em]">
                 How billing works
               </CardTitle>
             </CardHeader>
@@ -40,7 +40,7 @@ export function Pricing() {
 
           <Card className="rounded-[2rem] border-slate-200 bg-white/90 shadow-sm">
             <CardHeader>
-              <CardTitle className="text-2xl tracking-[-0.04em]">
+              <CardTitle className="text-2xl font-product-sans font-[450] tracking-[-0.04em]">
                 Current providers
               </CardTitle>
             </CardHeader>

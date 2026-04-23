@@ -7,18 +7,12 @@ export const QUOTES = [
 export const DOWNLOADS = [
   {
     name: "MacOS",
-    items: [
-      { label: "Download for Apple Silicon", href: "#" },
-      { label: "Download for Intel", href: "#" },
-    ],
+    items: [{ label: "Download for Apple Silicon", href: "#" }],
     min: "macOS versions with Apple security update support. This is typically the current and two previous versions. Min Version 12 (Monterey), X86 is not supported",
   },
   {
     name: "Windows",
-    items: [
-      { label: "Download for x64", href: "#" },
-      { label: "Download for ARM64", href: "#" },
-    ],
+    items: [{ label: "Download for x64", href: "#" }],
     min: "Windows 10 (64 bit)",
   },
   {
