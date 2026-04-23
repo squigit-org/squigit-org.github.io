@@ -25,7 +25,7 @@ const footerSections: FooterSection[] = [
     title: "Product",
     links: [
       { label: "Use Cases", href: openUseCasesDropdown },
-      { label: "Download app", href: "#download" },
+      { label: "Download App", href: "#download" },
       { label: "Pricing", href: "#pricing" },
       { label: "Packages", href: "#products" },
     ],
