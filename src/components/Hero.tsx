@@ -136,7 +136,7 @@ export function Hero() {
           <TextEffectTwo
             animateOnce
             key={heroSentence}
-            className="text-center text-3xl font-normal leading-[1.02] tracking-[-0.045em] text-slate-950 sm:text-5xl md:text-6xl lg:text-7xl"
+            className="text-center text-3xl font-semibold leading-[1.02] tracking-[-0.045em] text-slate-950 sm:text-5xl md:text-6xl lg:text-7xl"
             text={heroSentence}
             animationDuration={HERO_TEXT_EFFECT.animationDuration}
             staggerDuration={HERO_TEXT_EFFECT.staggerDuration}
