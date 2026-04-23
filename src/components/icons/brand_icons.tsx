@@ -2,10 +2,55 @@ import { getIconSizeStyle, IconBase, type IconProps } from "./shared";
 
 export function GithubIcon({ className, size }: IconProps) {
   return (
-    <IconBase className={className} size={size} viewBox="0 0 24 24">
-      <path d="M9 19c-4.3 1.4-4.3-2.5-6-3" />
-      <path d="M15 22v-3.9a3.4 3.4 0 0 0-.9-2.6c3  -.3 6.2-1.5 6.2-6.7A5.2 5.2 0 0 0 19 5.2 4.8 4.8 0 0 0 18.9 2S17.7 1.7 15 3.5a13.4 13.4 0 0 0-6 0C6.3 1.7 5.1 2 5.1 2A4.8 4.8 0 0 0 5 5.2 5.2 5.2 0 0 0 3.7 8.8c0 5.2 3.2 6.4 6.2 6.7A3.4 3.4 0 0 0 9 18.1V22" />
-    </IconBase>
+    <svg
+      aria-hidden="true"
+      style={getIconSizeStyle(size)}
+      viewBox="0 0 16 16"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+    >
+      <path
+        fill="currentColor"
+        d="M8 1.3a6.665 6.665 0 0 1 6.667 6.667 6.68 6.68 0 0 1-4.542 6.325c-.333.067-.458-.142-.458-.316 0-.226.008-.942.008-1.834 0-.625-.208-1.025-.45-1.233 1.483-.167 3.042-.734 3.042-3.292a2.58 2.58 0 0 0-.684-1.792c.067-.166.3-.85-.066-1.766 0 0-.559-.184-1.834.683a6.2 6.2 0 0 0-1.666-.225c-.567 0-1.134.075-1.667.225-1.275-.858-1.833-.683-1.833-.683-.367.916-.134 1.6-.067 1.766a2.6 2.6 0 0 0-.683 1.792c0 2.55 1.55 3.125 3.033 3.292-.192.166-.367.458-.425.891-.383.175-1.342.459-1.942-.55-.125-.2-.5-.691-1.025-.683-.558.008-.225.317.009.442.283.158.608.75.683.941.133.376.567 1.092 2.242.784 0 .558.008 1.083.008 1.242 0 .174-.125.374-.458.316a6.66 6.66 0 0 1-4.559-6.325A6.665 6.665 0 0 1 8 1.3"
+      />
+    </svg>
+  );
+}
+
+export function LinkedInIcon({ className, size }: IconProps) {
+  return (
+    <svg
+      aria-hidden="true"
+      style={getIconSizeStyle(size)}
+      viewBox="0 0 16 16"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+    >
+      <path
+        fill="currentColor"
+        d="M13.1 2H2.9a.9.9 0 0 0-.9.9v10.2a.9.9 0 0 0 .9.9h10.2a.9.9 0 0 0 .9-.9V2.9a.9.9 0 0 0-.9-.9M5.6 12.2H3.8V6.8h1.8zm-.9-6.45A1.05 1.05 0 1 1 5.78 4.7 1.07 1.07 0 0 1 4.7 5.75m7.5 6.45h-1.8V9.356c0-.852-.36-1.158-.828-1.158A1.044 1.044 0 0 0 8.6 9.314a.4.4 0 0 0 0 .084V12.2H6.8V6.8h1.74v.78a1.87 1.87 0 0 1 1.62-.84c.93 0 2.016.516 2.016 2.196z"
+      />
+    </svg>
+  );
+}
+
+export function XIcon({ className, size }: IconProps) {
+  return (
+    <svg
+      aria-hidden="true"
+      style={getIconSizeStyle(size)}
+      viewBox="0 0 16 16"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+    >
+      <path
+        fill="currentColor"
+        d="M11.819 2h2.035L9.407 7.083 14.639 14h-4.097L7.334 9.805 3.662 14H1.625l4.757-5.437L1.363 2h4.2l2.901 3.834zm-.715 10.782h1.128L4.951 3.153h-1.21z"
+      />
+    </svg>
   );
 }
 
