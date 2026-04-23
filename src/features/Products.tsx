@@ -1,13 +1,3 @@
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-} from "@/src/components/ui/card";
-import { CodeBlock } from "@/src/components/ui/CodeBlock";
-import { PRODUCT_INSTALL } from "@/src/lib/constants";
-
 export function Products() {
   return (
     <section id="products" className="relative py-24">
@@ -17,12 +7,20 @@ export function Products() {
             Products
           </p>
           <h2 className="text-4xl font-product-sans font-[450] tracking-[-0.05em] text-slate-950 md:text-5xl">
-            Squigit OCR and Squigit STT installation.
+            Squigit OCR and Squigit STT sidecars.
           </h2>
           <p className="mt-4 text-lg leading-8 text-slate-600">
-            This guide installs both sidecars:{" "}
+            These sidecars run locally and power text extraction and voice input:{" "}
             <span className="font-medium text-slate-900">squigit-ocr</span> and{" "}
             <span className="font-medium text-slate-900">squigit-stt</span>.
+          </p>
+          <p className="mt-4 text-base leading-7 text-slate-600">
+            <span className="font-medium text-slate-900">squigit-ocr</span> uses
+            the PaddleOCR framework to detect text regions and extract text with
+            bounding boxes from captured images.{" "}
+            <span className="font-medium text-slate-900">squigit-stt</span> uses
+            the whisper.cpp framework to transcribe microphone audio into live
+            voice-to-text chat input.
           </p>
           <div className="mt-6 rounded-2xl border border-slate-200 bg-white/80 p-5 text-sm leading-7 text-slate-600">
             <p>As of April 22, 2026:</p>
@@ -32,51 +30,10 @@ export function Products() {
               <li>Windows is available via Winget.</li>
             </ul>
           </div>
-        </div>
-
-        <div className="grid gap-8">
-          <Card className="rounded-[2rem] border-slate-200 bg-white/90 shadow-sm">
-            <CardHeader>
-              <CardTitle className="text-2xl font-product-sans font-[450] tracking-[-0.04em]">
-                macOS (Apple Silicon / arm64)
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <CodeBlock language="bash" lines={PRODUCT_INSTALL.mac} />
-            </CardContent>
-          </Card>
-          <Card className="rounded-[2rem] border-slate-200 bg-white/90 shadow-sm">
-            <CardHeader>
-              <CardTitle className="text-2xl tracking-[-0.04em]">
-                Windows (Winget)
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <CodeBlock language="powershell" lines={PRODUCT_INSTALL.winget} />
-            </CardContent>
-          </Card>
-          <div className="grid gap-8 xl:grid-cols-2">
-            <Card className="rounded-[2rem] border-slate-200 bg-white/90 shadow-sm">
-              <CardHeader>
-                <CardTitle className="text-2xl tracking-[-0.04em]">
-                  Debian/Ubuntu (APT)
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CodeBlock language="bash" lines={PRODUCT_INSTALL.apt} />
-              </CardContent>
-            </Card>
-            <Card className="rounded-[2rem] border-slate-200 bg-white/90 shadow-sm">
-              <CardHeader>
-                <CardTitle className="text-2xl tracking-[-0.04em]">
-                  Fedora/RHEL (DNF)
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CodeBlock language="bash" lines={PRODUCT_INSTALL.dnf} />
-              </CardContent>
-            </Card>
-          </div>
+          <p className="mt-6 text-base leading-7 text-slate-600">
+            Commands and platform setup are now shown in the{" "}
+            <span className="font-medium text-slate-900">Setup</span> flow.
+          </p>
         </div>
       </div>
     </section>

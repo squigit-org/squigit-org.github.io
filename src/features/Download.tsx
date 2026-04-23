@@ -230,7 +230,7 @@ export function Download({ onNavigate }: { onNavigate?: () => void }) {
                         key={item.label}
                         type="button"
                         onClick={() => openSetup(platform.name)}
-                        className="flex items-center justify-start gap-2 rounded-2xl border-0 px-4 py-4 text-sm font-medium transition hover:bg-slate-50"
+                        className="flex w-full items-center justify-start gap-2 rounded-2xl border-0 px-4 py-4 text-sm font-medium transition hover:bg-slate-50"
                       >
                         <DownloadIcon className="h-4 w-4" />
                         <span>{item.label}</span>
