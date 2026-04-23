@@ -8,6 +8,7 @@ import {
   CardTitle,
 } from "@/src/components/ui/card";
 import { Button } from "@/src/components/ui/button";
+import { WidgetCard } from "@/src/components/ui/widget-card";
 import {
   DownloadIcon,
   MacIcon,
@@ -15,6 +16,7 @@ import {
   LinuxIcon,
 } from "@/src/components/icons";
 import { DOWNLOADS } from "@/src/lib/constants";
+import { Setup, type SetupPlatform } from "@/src/features/Setup";
 
 type VisitorPlatform = "macos" | "windows" | "linux" | "unknown";
 const DOWNLOAD_HEADING_STAGGER = 0.07;
@@ -81,11 +83,22 @@ function getTextEffectFourStepCount(text: string) {
   }, 0);
 }
 
+function isSetupPlatform(platformName: string): platformName is SetupPlatform {
+  return (
+    platformName === "MacOS" ||
+    platformName === "Windows" ||
+    platformName === "Linux"
+  );
+}
+
 export function Download({ onNavigate }: { onNavigate?: () => void }) {
   const [visitorPlatform, setVisitorPlatform] = useState<VisitorPlatform>(
     "unknown",
   );
   const [showSecondLine, setShowSecondLine] = useState(false);
+  const [setupPlatform, setSetupPlatform] = useState<SetupPlatform | null>(
+    null,
+  );
   const headingRef = useRef<HTMLHeadingElement | null>(null);
   const hasTriggeredHeadingAnimationRef = useRef(false);
   const headingInView = useInView(headingRef, { amount: 0.55, once: true });
@@ -114,6 +127,19 @@ export function Download({ onNavigate }: { onNavigate?: () => void }) {
       window.clearTimeout(timeoutId);
     };
   }, [headingInView, lineOneDurationMs]);
+
+  const openSetup = (platformName: string) => {
+    if (!isSetupPlatform(platformName)) {
+      return;
+    }
+
+    onNavigate?.();
+    setSetupPlatform(platformName);
+  };
+
+  const closeSetup = () => {
+    setSetupPlatform(null);
+  };
 
   return (
     <section id="download" className="relative py-24">
@@ -200,14 +226,15 @@ export function Download({ onNavigate }: { onNavigate?: () => void }) {
                 <CardContent className="space-y-6">
                   <div className="space-y-3">
                     {platform.items.map((item) => (
-                      <a
+                      <button
                         key={item.label}
-                        href={item.href}
+                        type="button"
+                        onClick={() => openSetup(platform.name)}
                         className="flex items-center justify-start gap-2 rounded-2xl border-0 px-4 py-4 text-sm font-medium transition hover:bg-slate-50"
                       >
                         <DownloadIcon className="h-4 w-4" />
                         <span>{item.label}</span>
-                      </a>
+                      </button>
                     ))}
                   </div>
                   <div className="rounded-2xl p-4">
@@ -224,6 +251,13 @@ export function Download({ onNavigate }: { onNavigate?: () => void }) {
           })}
         </div>
       </div>
+      <WidgetCard
+        open={setupPlatform !== null}
+        onClose={closeSetup}
+        title={setupPlatform ? `${setupPlatform} setup` : "Setup"}
+      >
+        {setupPlatform ? <Setup platform={setupPlatform} /> : null}
+      </WidgetCard>
     </section>
   );
 }

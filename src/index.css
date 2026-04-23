@@ -148,6 +148,18 @@
   }
 }
 
+@keyframes widget-rise {
+  0% {
+    opacity: 0;
+    transform: translateY(24px) scale(0.985);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
 html {
   scrollbar-width: thin;
   scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);

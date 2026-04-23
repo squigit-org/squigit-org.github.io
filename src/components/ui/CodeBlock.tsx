@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { CheckIcon, CopyIcon } from "lucide-react";
+import { CheckIcon } from "lucide-react";
+import { CopyIcon } from "@/src/components/icons";
 import Prism from "prismjs";
 import "prismjs/themes/prism.css";
 import "prismjs/components/prism-bash";

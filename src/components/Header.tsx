@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, type FocusEvent } from "react";
 import { Button } from "@/src/components/ui/button";
 import {
-  AppLogoIcon,
+  AppIcon,
   DownloadIcon,
   ChevronDownIcon,
   MenuIcon,
@@ -214,7 +214,7 @@ export function Header({
             className="inline-flex items-center text-slate-950 transition-opacity hover:opacity-80"
             aria-label="Go to home"
           >
-            <AppLogoIcon className="h-6 w-6" />
+            <AppIcon className="h-6 w-6" />
           </a>
 
           <nav className="hidden flex-wrap items-center gap-1.5 lg:flex">

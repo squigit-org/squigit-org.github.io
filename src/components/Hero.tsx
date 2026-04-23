@@ -3,13 +3,13 @@ import { motion, useInView, useScroll, useTransform } from "motion/react";
 import { TextEffectTwo } from "react-text-animate";
 import { Button } from "@/src/components/ui/button";
 import {
+  AppBrandIcon,
   DownloadIcon,
   LinuxIcon,
   MacIcon,
   WindowsIcon,
 } from "@/src/components/icons";
 import { HERO_TEXT } from "@/src/lib/constants";
-import { squigitIconUrl } from "@/src/assets";
 
 type HeroPlatform = "macos" | "windows" | "linux" | "unknown";
 
@@ -122,12 +122,8 @@ export function Hero() {
           className="mb-6 flex justify-center"
         >
           <div className="flex items-center text-slate-950">
-            <img
-              src={squigitIconUrl}
-              alt="Squigit"
-              className="h-12 w-12 object-contain sm:h-13 sm:w-13"
-            />
-            <span className="font-product-sans text-xl font-[450] tracking-tight sm:text-2xl">
+            <AppBrandIcon className="h-10 w-10 shrink-0 sm:h-11 sm:w-11" />
+            <span className="pl-2 font-product-sans text-2xl font-[450] tracking-tight sm:text-3xl">
               Squigit
             </span>
           </div>
