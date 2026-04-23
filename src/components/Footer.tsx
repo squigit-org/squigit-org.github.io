@@ -172,10 +172,10 @@ export function Footer() {
 
           <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
             <a href="#" className="transition hover:text-white">
-              Terms
+              Privacy
             </a>
             <a href="#" className="transition hover:text-white">
-              Privacy
+              Terms
             </a>
           </div>
         </div>

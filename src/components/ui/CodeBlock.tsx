@@ -102,15 +102,15 @@ export function CodeBlock({
   };
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-      <div className="flex items-center justify-between border-b border-slate-200 px-4 py-3 text-xs">
+    <div className="overflow-hidden rounded-2xl border border-slate-300/80 bg-white shadow-sm">
+      <div className="flex items-center justify-between border-b border-slate-300/80 px-4 py-3 text-xs">
         <span className="font-medium uppercase tracking-[0.08em] text-slate-500">
           {languageLabel}
         </span>
         <button
           type="button"
           onClick={handleCopy}
-          className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white px-3 py-1 font-medium text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-900"
+          className="inline-flex items-center gap-1.5 rounded-full border border-slate-300/80  px-3 py-1 font-medium text-slate-600 transition-colors hover:text-slate-900"
           aria-label="Copy code to clipboard"
         >
           {copied ? <CheckIcon className="h-3.5 w-3.5" /> : <CopyIcon className="h-3.5 w-3.5" />}
@@ -118,10 +118,10 @@ export function CodeBlock({
         </button>
       </div>
 
-      <pre className="code-scrollbar overflow-x-auto bg-slate-50 p-4">
+      <pre className="code-scrollbar overflow-x-auto bg-white p-4 [&_code]:!bg-white">
         <code
           ref={codeRef}
-          className={`language-${prismLanguage} block text-sm leading-7`}
+          className={`language-${prismLanguage} block bg-white text-sm leading-7`}
         >
           {source}
         </code>

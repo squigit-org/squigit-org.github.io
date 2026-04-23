@@ -1,4 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/src/components/ui/card";
+import { ExternalArrowIcon } from "@/src/components/icons";
 
 export function Pricing() {
   return (
@@ -21,49 +22,51 @@ export function Pricing() {
         <div className="grid gap-6 md:grid-cols-2">
           <Card className="rounded-[2rem] border-slate-200 bg-white/90 shadow-sm">
             <CardHeader>
-              <CardTitle className="text-2xl font-product-sans font-[450] tracking-[-0.04em]">
+              <CardTitle className="text-2xl pt-4 pl-4 font-product-sans font-[450] tracking-[-0.04em]">
                 How billing works
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-2 text-sm leading-7 text-slate-600">
-              <p>You choose the providers and use your own API keys.</p>
+            <CardContent className="space-y-2 p-8 pt-4 text-sm leading-7 text-slate-600">
+              <p>Connect your preferred providers using your own API credentials.</p>
               <p>
-                Usage is billed by the provider directly, usually free at low
-                volume and pay-as-you-go beyond free limits.
+                Usage is billed directly by each provider based on their pricing and applicable free-tier allowances.
               </p>
               <p>
-                You keep full control over limits, keys, and spending in your
-                provider dashboards.
+                Maintain full control over spending, rate limits, and account management through your provider dashboards.
               </p>
             </CardContent>
           </Card>
 
           <Card className="rounded-[2rem] border-slate-200 bg-white/90 shadow-sm">
             <CardHeader>
-              <CardTitle className="text-2xl font-product-sans font-[450] tracking-[-0.04em]">
+              <CardTitle className="text-2xl pt-4 pl-4 font-product-sans font-[450] tracking-[-0.04em]">
                 Current providers
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-3 text-sm leading-7 text-slate-600">
+            <CardContent className=" p-8 pt-4 text-sm leading-7 text-slate-600">
               <p>
                 <span className="font-medium text-slate-900">Google AI Studio</span>{" "}
-                for Gemini AI usage.
+                for Gemini model access and inference usage.
               </p>
               <p>
                 <span className="font-medium text-slate-900">ImgBB</span> for image
-                hosting used in reverse-image workflows.
+                for image hosting used in reverse image workflows.
               </p>
-              <p>
-                Both currently offer generous free tiers, and we plan to support
-                more AI providers in the future.
+              <p className="pt-5">
+                Both providers currently offer generous free-tier access.
+                <br />Additional providers are planned over time.
               </p>
               <a
                 href="https://github.com/squigit-org/squigit/blob/main/docs/06-policies/BYOK.md"
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex rounded-full border border-slate-200 bg-white px-4 py-1.5 text-sm font-medium text-slate-700 transition hover:bg-slate-50 hover:text-slate-950"
+                className="inline-flex items-center gap-1 pt-2 text-sm font-medium text-slate-700 transition hover:text-slate-950 cursor-pointer"
               >
                 Read BYOK policy
+                <ExternalArrowIcon
+                  className="scale-inline-100 translate-inline-px  transform"
+                  size={9}
+                />
               </a>
             </CardContent>
           </Card>

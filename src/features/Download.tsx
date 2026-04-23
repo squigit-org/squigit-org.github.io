@@ -74,6 +74,19 @@ function getPlatformIcon(name: string) {
   return DownloadIcon;
 }
 
+function getPlatformIconClassName(name: string) {
+  if (name === "MacOS") {
+    return "h-7.5 w-7.5 pb-1 text-slate-950";
+  }
+  if (name === "Windows") {
+    return "h-7.5 w-7.5 text-slate-950";
+  }
+  if (name === "Linux") {
+    return "h-8.5 w-8.5 text-slate-950";
+  }
+  return "h-7 w-7 text-slate-950";
+}
+
 function getTextEffectFourStepCount(text: string) {
   const words = text.split(" ");
   return words.reduce((count, word, index) => {
@@ -211,15 +224,18 @@ export function Download({ onNavigate }: { onNavigate?: () => void }) {
         <div className="grid gap-6 lg:grid-cols-3">
           {DOWNLOADS.map((platform) => {
             const PlatformIcon = getPlatformIcon(platform.name);
+            const platformIconClassName = getPlatformIconClassName(
+              platform.name,
+            );
 
             return (
               <Card
                 key={platform.name}
                 className="rounded-[2rem] border-slate-200 bg-white/90 shadow-sm backdrop-blur"
               >
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-3 text-3xl tracking-[-0.04em]">
-                    <PlatformIcon className="h-7 w-7 text-slate-950" />
+              <CardHeader>
+                <CardTitle className="flex items-center gap-3 text-3xl tracking-[-0.04em]">
+                    <PlatformIcon className={platformIconClassName} />
                     <span>{platform.name}</span>
                   </CardTitle>
                 </CardHeader>

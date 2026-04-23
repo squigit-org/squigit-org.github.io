@@ -1,3 +1,82 @@
+import { ExternalArrowIcon, LinuxIcon, MacIcon, WindowsIcon } from "@/src/components/icons";
+import { Card, CardContent, CardHeader, CardTitle } from "@/src/components/ui/card";
+
+type Product = {
+  title: string;
+  sourceName: string;
+  sourceUrl: string;
+  description: string;
+  wingetUrl: string;
+};
+
+type Platform = {
+  label: string;
+  href: string;
+  Icon: typeof MacIcon;
+  iconClassName: string;
+  paddingClassName: string;
+  positionClassName: string;
+};
+
+const products: Product[] = [
+  {
+    title: "Squigit OCR",
+    sourceName: "PaddleOCR",
+    sourceUrl: "https://github.com/paddlepaddle/paddle",
+    description:
+      "to detect text in images and generate selectable text regions, allowing you to highlight, copy, and work with text directly from images.",
+    wingetUrl: "https://github.com/microsoft/winget-pkgs/pull/362423",
+  },
+  {
+    title: "Squigit STT",
+    sourceName: "whisper.cpp",
+    sourceUrl: "https://github.com/ggerganov/whisper.cpp",
+    description:
+      "for local speech recognition, enabling voice dictation for prompts, chat messages, and hands-free text input.",
+    wingetUrl: "https://github.com/microsoft/winget-pkgs/pull/362944",
+  },
+];
+
+const sharedPlatforms: Platform[] = [
+  {
+    label: "HomeBrew",
+    href: "https://github.com/squigit-org/homebrew-tap/blob/main/README.md",
+    Icon: MacIcon,
+    iconClassName: "h-6.5 w-6.5 pb-1 text-slate-950",
+    paddingClassName: "py-1 pr-2 pl-0",
+    positionClassName: "min-[430px]:justify-self-start",
+  },
+  {
+    label: "APT/DNF",
+    href: "https://github.com/squigit-org/squigit-packages/blob/main/README.md",
+    Icon: LinuxIcon,
+    iconClassName: "h-7.5 w-7.5 text-slate-950",
+    paddingClassName: "px-2 py-1",
+    positionClassName: "min-[430px]:justify-self-center",
+  },
+];
+
+const sourceLinkClassName =
+  "inline-flex items-center gap-1 font-medium text-slate-700 transition hover:text-slate-950";
+const platformLinkClassName =
+  "inline-flex items-center gap-1 whitespace-nowrap rounded-md text-sm font-medium text-slate-700 transition hover:text-slate-950";
+const externalArrowClassName = "scale-inline-100 translate-inline-px transform";
+const iconSlotClassName = "inline-flex min-h-6 min-w-6 shrink-0 items-center justify-center";
+
+function buildPlatforms(wingetUrl: string): Platform[] {
+  return [
+    ...sharedPlatforms,
+    {
+      label: "Winget",
+      href: wingetUrl,
+      Icon: WindowsIcon,
+      iconClassName: "h-6.5 w-6.5 text-slate-950",
+      paddingClassName: "px-2 py-1",
+      positionClassName: "min-[430px]:justify-self-end",
+    },
+  ];
+}
+
 export function Products() {
   return (
     <section id="products" className="relative py-24">
@@ -10,30 +89,60 @@ export function Products() {
             Squigit OCR and Squigit STT sidecars.
           </h2>
           <p className="mt-4 text-lg leading-8 text-slate-600">
-            These sidecars run locally and power text extraction and voice input:{" "}
-            <span className="font-medium text-slate-900">squigit-ocr</span> and{" "}
-            <span className="font-medium text-slate-900">squigit-stt</span>.
+            Local companion tools that add text extraction and voice input capabilities to Squigit while running on your own machine.
           </p>
-          <p className="mt-4 text-base leading-7 text-slate-600">
-            <span className="font-medium text-slate-900">squigit-ocr</span> uses
-            the PaddleOCR framework to detect text regions and extract text with
-            bounding boxes from captured images.{" "}
-            <span className="font-medium text-slate-900">squigit-stt</span> uses
-            the whisper.cpp framework to transcribe microphone audio into live
-            voice-to-text chat input.
-          </p>
-          <div className="mt-6 rounded-2xl border border-slate-200 bg-white/80 p-5 text-sm leading-7 text-slate-600">
-            <p>As of April 22, 2026:</p>
-            <ul className="mt-2 list-disc space-y-1 pl-5">
-              <li>macOS (Apple Silicon) is available via Homebrew tap.</li>
-              <li>Linux is available via signed APT and DNF repositories.</li>
-              <li>Windows is available via Winget.</li>
-            </ul>
-          </div>
-          <p className="mt-6 text-base leading-7 text-slate-600">
-            Commands and platform setup are now shown in the{" "}
-            <span className="font-medium text-slate-900">Setup</span> flow.
-          </p>
+        </div>
+
+        <div className="grid gap-6 md:grid-cols-2">
+          {products.map((product) => (
+            <Card
+              key={product.title}
+              className="h-full rounded-[2rem] border-slate-200 bg-white/90 shadow-sm"
+            >
+              <CardHeader>
+                <CardTitle className="pt-4 pl-4 text-2xl font-product-sans font-[450] tracking-[-0.04em]">
+                  {product.title}
+                </CardTitle>
+              </CardHeader>
+
+              <CardContent className="flex flex-1 flex-col p-8 pt-4 text-sm leading-7 text-slate-600">
+                <p>
+                  Uses{" "}
+                  <a
+                    href={product.sourceUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className={sourceLinkClassName}
+                  >
+                    {product.sourceName}
+                    <ExternalArrowIcon className={externalArrowClassName} size={9} />
+                  </a>{" "}
+                  {product.description}
+                </p>
+
+                <div className="mt-auto pt-4">
+                  <p className="font-medium text-slate-900">Available today on</p>
+                  <div className="mt-2 grid w-full grid-cols-1 items-center gap-2 min-[430px]:grid-cols-3">
+                    {buildPlatforms(product.wingetUrl).map((platform) => (
+                      <a
+                        key={`${product.title}-${platform.label}`}
+                        href={platform.href}
+                        target="_blank"
+                        rel="noreferrer"
+                        className={`${platformLinkClassName} ${platform.paddingClassName} justify-self-start ${platform.positionClassName}`}
+                      >
+                        <span className={iconSlotClassName}>
+                          <platform.Icon className={`${platform.iconClassName} shrink-0`} />
+                        </span>
+                        {platform.label}
+                        <ExternalArrowIcon className={externalArrowClassName} size={9} />
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
         </div>
       </div>
     </section>

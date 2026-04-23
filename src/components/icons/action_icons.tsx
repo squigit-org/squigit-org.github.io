@@ -1,4 +1,4 @@
-import { IconBase, type IconProps } from "./shared";
+import { getIconSizeStyle, IconBase, type IconProps } from "./shared";
 
 export function DownloadIcon({ className, size }: IconProps) {
   return (
@@ -50,5 +50,26 @@ export function CopyIcon({ className, size }: IconProps) {
         stroke="none"
       />
     </IconBase>
+  );
+}
+
+export function ExternalArrowIcon({ className, size }: IconProps) {
+  return (
+    <svg
+      aria-hidden="true"
+      style={getIconSizeStyle(size)}
+      viewBox="0 0 11 12"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+    >
+      <path
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="1.3"
+        d="M1.71 4.5h6.07m0 0v6.07m0-6.07-7 7"
+      />
+    </svg>
   );
 }
