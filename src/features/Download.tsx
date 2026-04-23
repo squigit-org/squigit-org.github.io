@@ -20,6 +20,9 @@ type VisitorPlatform = "macos" | "windows" | "linux" | "unknown";
 const DOWNLOAD_HEADING_STAGGER = 0.07;
 const DOWNLOAD_HEADING_BASE_TEXT = "Download Squigit";
 const DOWNLOAD_HEADING_HANDOFF_PADDING_MS = 40;
+const DOWNLOAD_HEADING_LINE_GAP_CLASS = "gap-2";
+const DOWNLOAD_CURSOR_CLASS =
+  "[&>span:last-child>span:last-child]:inline-block [&>span:last-child>span:last-child]:h-[0.8em] [&>span:last-child>span:last-child]:align-middle";
 
 const VISITOR_PLATFORM_LABEL: Record<VisitorPlatform, string> = {
   macos: "macOS",
@@ -85,9 +88,9 @@ export function Download({ onNavigate }: { onNavigate?: () => void }) {
     "unknown",
   );
   const [showSecondLine, setShowSecondLine] = useState(false);
-  const [animationRunId, setAnimationRunId] = useState(0);
   const headingRef = useRef<HTMLHeadingElement | null>(null);
-  const headingInView = useInView(headingRef, { amount: 0.55 });
+  const hasTriggeredHeadingAnimationRef = useRef(false);
+  const headingInView = useInView(headingRef, { amount: 0.55, once: true });
   const headingSuffix = `for ${VISITOR_PLATFORM_LABEL[visitorPlatform]}`;
   const lineOneDurationMs =
     Math.max(getTextEffectFourStepCount(DOWNLOAD_HEADING_BASE_TEXT) - 1, 0) *
@@ -100,13 +103,11 @@ export function Download({ onNavigate }: { onNavigate?: () => void }) {
   }, []);
 
   useEffect(() => {
-    if (!headingInView) {
-      setShowSecondLine(false);
+    if (!headingInView || hasTriggeredHeadingAnimationRef.current) {
       return;
     }
 
-    setAnimationRunId((current) => current + 1);
-    setShowSecondLine(false);
+    hasTriggeredHeadingAnimationRef.current = true;
     const timeoutId = window.setTimeout(() => {
       setShowSecondLine(true);
     }, lineOneDurationMs);
@@ -114,7 +115,7 @@ export function Download({ onNavigate }: { onNavigate?: () => void }) {
     return () => {
       window.clearTimeout(timeoutId);
     };
-  }, [headingInView, headingSuffix, lineOneDurationMs]);
+  }, [headingInView, lineOneDurationMs]);
 
   return (
     <section id="download" className="relative py-24">
@@ -125,16 +126,20 @@ export function Download({ onNavigate }: { onNavigate?: () => void }) {
               ref={headingRef}
               className="relative text-4xl font-product-sans font-[450] tracking-[-0.05em] text-slate-950 md:text-5xl"
             >
-              <span aria-hidden className="invisible block">
+              <span
+                aria-hidden
+                className={`invisible flex flex-col ${DOWNLOAD_HEADING_LINE_GAP_CLASS}`}
+              >
                 <span className="block">{DOWNLOAD_HEADING_BASE_TEXT}</span>
                 <span className="block">{headingSuffix}</span>
               </span>
-              <span className="absolute inset-0 block">
+              <span
+                className={`absolute inset-0 flex flex-col ${DOWNLOAD_HEADING_LINE_GAP_CLASS}`}
+              >
                 <TextEffectFour
-                  key={`download-line-1-${animationRunId}`}
                   wrapperElement="span"
                   text={DOWNLOAD_HEADING_BASE_TEXT}
-                  animateOnce={false}
+                  animateOnce
                   elementVisibilityAmount={0.55}
                   staggerDuration={DOWNLOAD_HEADING_STAGGER}
                   cursorConfig={
@@ -142,18 +147,17 @@ export function Download({ onNavigate }: { onNavigate?: () => void }) {
                       ? { type: "hidden" }
                       : { marginLeft: "2px" }
                   }
-                  className="block whitespace-nowrap"
+                  className={`block whitespace-nowrap ${DOWNLOAD_CURSOR_CLASS}`}
                 />
                 {showSecondLine ? (
                   <TextEffectFour
-                    key={`download-line-2-${animationRunId}`}
                     wrapperElement="span"
                     text={`${headingSuffix} `}
-                    animateOnce={false}
+                    animateOnce
                     elementVisibilityAmount={0.55}
                     staggerDuration={DOWNLOAD_HEADING_STAGGER}
                     cursorConfig={{ marginLeft: "2px" }}
-                    className="block whitespace-nowrap"
+                    className={`block whitespace-nowrap ${DOWNLOAD_CURSOR_CLASS}`}
                   />
                 ) : (
                   <span aria-hidden className="block">
