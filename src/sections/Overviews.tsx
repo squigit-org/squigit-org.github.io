@@ -411,7 +411,6 @@ const overviewCards: OverviewCardConfig[] = [
 ];
 
 const titleText = "Get AI-powered overviews";
-const SHUFFLE_START_PROGRESS = 0.7;
 const SHUFFLE_INTERVAL_MS = 900;
 const CRISP_SWAP_PROGRESS = 0.76;
 const TITLE_FRAME_SCROLL_PORTION = 0.62;
@@ -419,11 +418,31 @@ const CARD_SEQUENCE_START_PROGRESS = 0.58;
 const CARD_ANIMATION_SCROLL_PORTION = 0.42;
 const COMPACT_CARD_Y_OFFSET = "8vh";
 const ENTRY_PROGRESS_BOOST = 0.045;
+const OVERVIEW_TITLE_WHEEL_DAMPING = 0.34;
+const OVERVIEW_REVERSE_WHEEL_BOOST = 1.75;
+const OVERVIEW_MAX_TITLE_WHEEL_DELTA = 120;
+const OVERVIEW_MAX_REVERSE_WHEEL_DELTA = 280;
 const TITLE_SCALE_EASE = cubicBezier(0.22, 1, 0.36, 1);
 const TITLE_SWAP_EASE = cubicBezier(0.16, 1, 0.3, 1);
 
 function clampProgress(value: number) {
   return Math.min(Math.max(value, 0), 1);
+}
+
+function clampWheelDelta(value: number, maxDelta: number) {
+  return Math.min(Math.max(value, -maxDelta), maxDelta);
+}
+
+function normalizeWheelDelta(delta: number, deltaMode: number) {
+  if (deltaMode === 1) {
+    return delta * 16;
+  }
+
+  if (deltaMode === 2) {
+    return delta * Math.max(window.innerHeight, 1);
+  }
+
+  return delta;
 }
 
 function useCompactOverviewLayout() {
@@ -695,7 +714,6 @@ export function Overviews() {
   const lastScrollYRef = useRef(0);
   const scrollDirectionRef = useRef<"down" | "up">("down");
   const sectionZoneRef = useRef<"above" | "inside" | "below">("above");
-  const [shuffleActive, setShuffleActive] = useState(false);
   const [isCrispFrame, setIsCrispFrame] = useState(false);
   const [shuffleIndex, setShuffleIndex] = useState(0);
   const [titleAnimationKey, setTitleAnimationKey] = useState(0);
@@ -753,6 +771,63 @@ export function Overviews() {
     };
   }, []);
 
+  useEffect(() => {
+    const handleWheel = (event: WheelEvent) => {
+      if (event.defaultPrevented || event.ctrlKey || event.metaKey) {
+        return;
+      }
+
+      const sectionRect = sectionRef.current?.getBoundingClientRect();
+      if (!sectionRect || !event.cancelable) {
+        return;
+      }
+
+      const viewportHeight = Math.max(window.innerHeight, 1);
+      const isStickySceneActive =
+        sectionRect.top <= 0 && sectionRect.bottom >= viewportHeight;
+      const isMostlyVertical =
+        Math.abs(event.deltaY) >= Math.abs(event.deltaX);
+      const currentProgress = clampProgress(scrollYProgress.get());
+      const isTitleWheelPhase =
+        currentProgress < CARD_SEQUENCE_START_PROGRESS;
+
+      if (!isStickySceneActive || !isMostlyVertical || !isTitleWheelPhase) {
+        return;
+      }
+
+      const normalizedDeltaY = normalizeWheelDelta(
+        event.deltaY,
+        event.deltaMode,
+      );
+      const isScrollingBack = normalizedDeltaY < 0;
+      const dampedDeltaY = clampWheelDelta(
+        normalizedDeltaY *
+          (isScrollingBack
+            ? OVERVIEW_REVERSE_WHEEL_BOOST
+            : OVERVIEW_TITLE_WHEEL_DAMPING),
+        isScrollingBack
+          ? OVERVIEW_MAX_REVERSE_WHEEL_DELTA
+          : OVERVIEW_MAX_TITLE_WHEEL_DELTA,
+      );
+
+      if (Math.abs(dampedDeltaY) < 0.5) {
+        return;
+      }
+
+      event.preventDefault();
+      window.scrollBy({
+        top: dampedDeltaY,
+        behavior: "auto",
+      });
+    };
+
+    window.addEventListener("wheel", handleWheel, { passive: false });
+
+    return () => {
+      window.removeEventListener("wheel", handleWheel);
+    };
+  }, [scrollYProgress]);
+
   useMotionValueEvent(scrollY, "change", (currentScrollY) => {
     const scrollDelta = currentScrollY - lastScrollYRef.current;
 
@@ -790,15 +865,11 @@ export function Overviews() {
       maxTitleProgressRef.current = 0;
       maxProgressRef.current = 0;
       previousRawProgressRef.current = 0;
-      setShuffleActive(false);
       setIsCrispFrame(false);
-      setShuffleIndex(0);
       titleWasInViewRef.current = false;
       setTitleAnimationKey(0);
       titleFrameProgress.set(0);
       timelineProgress.set(0);
-    } else if (nextZone === "below") {
-      setShuffleActive(false);
     }
   });
 
@@ -842,30 +913,10 @@ export function Overviews() {
       current === shouldUseCrispFrame ? current : shouldUseCrispFrame,
     );
 
-    const shouldShuffleMessages =
-      sectionZoneRef.current === "inside" &&
-      effectiveProgress >= SHUFFLE_START_PROGRESS;
-
-    setShuffleActive((current) =>
-      current === shouldShuffleMessages ? current : shouldShuffleMessages,
-    );
-
-    if (!shouldShuffleMessages && effectiveProgress < SHUFFLE_START_PROGRESS) {
-      setShuffleIndex(0);
-    }
-
     previousRawProgressRef.current = nextProgress;
   });
 
   useEffect(() => {
-    if (!shuffleActive) {
-      return;
-    }
-
-    setShuffleIndex((currentIndex) =>
-      currentIndex === 0 ? 1 : currentIndex,
-    );
-
     const intervalId = window.setInterval(() => {
       setShuffleIndex((currentIndex) => currentIndex + 1);
     }, SHUFFLE_INTERVAL_MS);
@@ -873,7 +924,7 @@ export function Overviews() {
     return () => {
       window.clearInterval(intervalId);
     };
-  }, [shuffleActive]);
+  }, []);
 
   useEffect(() => {
     const enteredView = titleInView && !titleWasInViewRef.current;
