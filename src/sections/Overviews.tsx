@@ -1,12 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 import {
+  cubicBezier,
   motion,
+  useInView,
   useMotionValue,
   useMotionValueEvent,
   useScroll,
   useTransform,
   type MotionValue,
 } from "motion/react";
+import { TextEffectOne } from "react-text-animate";
 import { ChevronDownIcon } from "@/components/icons";
 import { cn } from "@/lib";
 
@@ -411,9 +414,13 @@ const titleText = "Get AI-powered overviews";
 const SHUFFLE_START_PROGRESS = 0.7;
 const SHUFFLE_INTERVAL_MS = 900;
 const CRISP_SWAP_PROGRESS = 0.76;
-const ANIMATION_SCROLL_PORTION = 0.64;
+const TITLE_FRAME_SCROLL_PORTION = 0.42;
+const CARD_SEQUENCE_START_PROGRESS = 0.39;
+const CARD_ANIMATION_SCROLL_PORTION = 0.42;
 const COMPACT_CARD_Y_OFFSET = "8vh";
 const ENTRY_PROGRESS_BOOST = 0.045;
+const TITLE_SCALE_EASE = cubicBezier(0.22, 1, 0.36, 1);
+const TITLE_SWAP_EASE = cubicBezier(0.16, 1, 0.3, 1);
 
 function clampProgress(value: number) {
   return Math.min(Math.max(value, 0), 1);
@@ -680,20 +687,27 @@ function OverviewCard({
 
 export function Overviews() {
   const sectionRef = useRef<HTMLElement | null>(null);
+  const titleRef = useRef<HTMLHeadingElement | null>(null);
+  const maxTitleProgressRef = useRef(0);
   const maxProgressRef = useRef(0);
   const previousRawProgressRef = useRef(0);
   const resetBufferViewportRatioRef = useRef(0.16);
   const lastScrollYRef = useRef(0);
+  const scrollDirectionRef = useRef<"down" | "up">("down");
   const sectionZoneRef = useRef<"above" | "inside" | "below">("above");
   const [shuffleActive, setShuffleActive] = useState(false);
   const [isCrispFrame, setIsCrispFrame] = useState(false);
   const [shuffleIndex, setShuffleIndex] = useState(0);
+  const [titleAnimationKey, setTitleAnimationKey] = useState(0);
+  const titleWasInViewRef = useRef(false);
   const isCompact = useCompactOverviewLayout();
+  const titleInView = useInView(titleRef, { amount: 0.45, once: false });
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start start", "end end"],
   });
   const { scrollY } = useScroll();
+  const titleFrameProgress = useMotionValue(0);
   const timelineProgress = useMotionValue(0);
 
   useEffect(() => {
@@ -740,9 +754,12 @@ export function Overviews() {
   }, []);
 
   useMotionValueEvent(scrollY, "change", (currentScrollY) => {
-    if (Math.abs(currentScrollY - lastScrollYRef.current) < 1) {
+    const scrollDelta = currentScrollY - lastScrollYRef.current;
+
+    if (Math.abs(scrollDelta) < 1) {
       return;
     }
+    scrollDirectionRef.current = scrollDelta > 0 ? "down" : "up";
     lastScrollYRef.current = currentScrollY;
 
     const sectionRect = sectionRef.current?.getBoundingClientRect();
@@ -770,26 +787,45 @@ export function Overviews() {
 
     // Re-arm animation only after the whole section is off-screen above the user.
     if (nextZone === "above") {
+      maxTitleProgressRef.current = 0;
       maxProgressRef.current = 0;
       previousRawProgressRef.current = 0;
       setShuffleActive(false);
       setIsCrispFrame(false);
       setShuffleIndex(0);
+      titleWasInViewRef.current = false;
+      setTitleAnimationKey(0);
+      titleFrameProgress.set(0);
       timelineProgress.set(0);
     }
   });
 
   useMotionValueEvent(scrollYProgress, "change", (rawProgress) => {
     const nextProgress = clampProgress(rawProgress);
-    const shouldPrimeEntry = sectionZoneRef.current === "inside";
-    const forwardAnimationProgress = clampProgress(
-      nextProgress / ANIMATION_SCROLL_PORTION +
-        (shouldPrimeEntry ? ENTRY_PROGRESS_BOOST : 0),
+    const forwardTitleProgress = clampProgress(
+      nextProgress / TITLE_FRAME_SCROLL_PORTION,
     );
+    const shouldPrimeEntry =
+      sectionZoneRef.current === "inside" &&
+      nextProgress >= CARD_SEQUENCE_START_PROGRESS;
+    const forwardAnimationProgress =
+      nextProgress < CARD_SEQUENCE_START_PROGRESS
+        ? 0
+        : clampProgress(
+            (nextProgress - CARD_SEQUENCE_START_PROGRESS) /
+              CARD_ANIMATION_SCROLL_PORTION +
+              (shouldPrimeEntry ? ENTRY_PROGRESS_BOOST : 0),
+          );
     const previousProgress = previousRawProgressRef.current;
+    let effectiveTitleProgress = maxTitleProgressRef.current;
     let effectiveProgress = maxProgressRef.current;
 
     if (nextProgress >= previousProgress) {
+      maxTitleProgressRef.current = Math.max(
+        maxTitleProgressRef.current,
+        forwardTitleProgress,
+      );
+      effectiveTitleProgress = maxTitleProgressRef.current;
       maxProgressRef.current = Math.max(
         maxProgressRef.current,
         forwardAnimationProgress,
@@ -797,6 +833,7 @@ export function Overviews() {
       effectiveProgress = maxProgressRef.current;
     }
 
+    titleFrameProgress.set(effectiveTitleProgress);
     timelineProgress.set(effectiveProgress);
     const shouldUseCrispFrame = effectiveProgress >= CRISP_SWAP_PROGRESS;
     setIsCrispFrame((current) =>
@@ -829,28 +866,47 @@ export function Overviews() {
     };
   }, [shuffleActive]);
 
+  useEffect(() => {
+    const enteredView = titleInView && !titleWasInViewRef.current;
+
+    if (enteredView && scrollDirectionRef.current === "down") {
+      setTitleAnimationKey((currentKey) => currentKey + 1);
+    }
+
+    titleWasInViewRef.current = titleInView;
+  }, [titleInView]);
+
   const titleOpacity = useTransform(
-    timelineProgress,
-    [0, 0.02, 0.08, 1],
-    [0, 0, 1, 1],
-  );
-  const titleY = useTransform(
-    timelineProgress,
-    [0, 0.08, 1],
-    [20, 0, 0],
+    titleFrameProgress,
+    [0, 0.82, 0.9, 1],
+    [1, 1, 0.92, 0],
+    { ease: TITLE_SWAP_EASE },
   );
   const titleScale = useTransform(
-    timelineProgress,
-    [0, 0.08, 1],
-    [0.96, 1, 1],
+    titleFrameProgress,
+    [0, 0.32, 0.62, 0.86, 1],
+    [1, 0.96, 0.91, 0.87, 0.85],
+    { ease: TITLE_SCALE_EASE },
   );
+  const cardsStageOpacity = useTransform(
+    titleFrameProgress,
+    [0, 0.88, 1],
+    [0, 0, 1],
+    { ease: TITLE_SWAP_EASE },
+  );
+  const hasTitleAnimationStarted = titleAnimationKey > 0;
+  const shouldColdHideTitle =
+    titleInView &&
+    !titleWasInViewRef.current &&
+    scrollDirectionRef.current === "down";
+  const shouldHideAnimatedTitle = !titleInView || shouldColdHideTitle;
 
   return (
     <section
       id="ai-overviews"
       ref={sectionRef}
       aria-labelledby="ai-overviews-title"
-      className="relative h-[150vh] bg-[#fdfdfb]"
+      className="relative h-[320vh] bg-[#fdfdfb]"
     >
       <div className="sticky top-0 flex h-[var(--squigit-viewport-height,100vh)] min-h-[38rem] overflow-hidden">
         <div
@@ -858,20 +914,47 @@ export function Overviews() {
           className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,1)_0%,rgba(253,253,251,0.78)_44%,rgba(255,255,255,1)_100%)]"
         />
         <motion.div
-          className="pointer-events-none absolute left-0 right-0 top-[clamp(1.6rem,5.6vh,5.75rem)] z-50 mx-auto w-full px-4 text-center sm:top-[clamp(4.25rem,8vh,5.75rem)] sm:px-5"
-          style={{ opacity: titleOpacity, y: titleY, scale: titleScale }}
+          className="pointer-events-none absolute inset-0 z-50 flex items-center justify-center px-5 text-center will-change-[opacity,transform]"
+          style={{ opacity: titleOpacity, scale: titleScale }}
         >
           <h2
+            ref={titleRef}
             id="ai-overviews-title"
-            className="mx-auto inline-block max-w-[22rem] rounded-[1.1rem] bg-white/86 px-3 py-2 font-product-sans text-[2rem] font-[450] leading-[0.98] text-slate-950 shadow-[0_14px_36px_-28px_rgba(15,23,42,0.62)] sm:max-w-4xl sm:rounded-none sm:bg-transparent sm:px-0 sm:py-0 sm:text-5xl sm:leading-none sm:shadow-none lg:text-5xl"
+            aria-label={titleText}
+            className="relative mx-auto w-max max-w-[calc(100vw-2.5rem)] whitespace-nowrap font-product-sans text-[1.42rem] font-[450] leading-[0.9] text-slate-950 min-[390px]:text-[1.56rem] sm:max-w-[calc(100vw-4rem)] sm:text-[4.8rem] sm:leading-[0.88] lg:text-[5.75rem]"
           >
-            {titleText}
+            <span aria-hidden="true" className="invisible block">
+              {titleText}
+            </span>
+            <span
+              aria-hidden="true"
+              className={cn(
+                "absolute inset-0 block",
+                shouldHideAnimatedTitle ? "invisible" : "visible",
+              )}
+            >
+              {hasTitleAnimationStarted ? (
+                <TextEffectOne
+                  key={`overview-title-${titleAnimationKey}`}
+                  animateOnce
+                  wrapperElement="span"
+                  text={titleText}
+                  staggerDuration={0.018}
+                  elementVisibilityAmount={0.35}
+                  lineHeight={0.9}
+                  className="block whitespace-nowrap"
+                />
+              ) : (
+                titleText
+              )}
+            </span>
           </h2>
         </motion.div>
 
-        <div
+        <motion.div
           className="relative h-full w-full"
           style={{
+            opacity: cardsStageOpacity,
             perspective: "1200px",
             perspectiveOrigin: "50% 48%",
             transformStyle: "preserve-3d",
@@ -888,7 +971,7 @@ export function Overviews() {
               timelineProgress={timelineProgress}
             />
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
