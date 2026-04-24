@@ -146,7 +146,7 @@ export function Footer() {
                               ? "noreferrer"
                               : undefined
                           }
-                          className="text-sm text-white/60 transition hover:text-white"
+                          className="text-sm text-white/60 transition hover:text-white cursor-pointer"
                         >
                           {link.label}
                         </a>
@@ -154,7 +154,7 @@ export function Footer() {
                         <button
                           type="button"
                           onClick={link.href}
-                          className="text-sm text-white/60 transition hover:text-white"
+                          className="text-sm text-white/60 transition hover:text-white cursor-pointer"
                         >
                           {link.label}
                         </button>

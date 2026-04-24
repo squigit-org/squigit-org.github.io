@@ -18,6 +18,29 @@ export default function App() {
   };
 
   useEffect(() => {
+    const syncViewportHeight = () => {
+      const viewportHeight =
+        window.visualViewport?.height ?? window.innerHeight;
+
+      document.documentElement.style.setProperty(
+        "--squigit-viewport-height",
+        `${viewportHeight}px`,
+      );
+    };
+
+    syncViewportHeight();
+    window.addEventListener("resize", syncViewportHeight);
+    window.visualViewport?.addEventListener("resize", syncViewportHeight);
+    window.visualViewport?.addEventListener("scroll", syncViewportHeight);
+
+    return () => {
+      window.removeEventListener("resize", syncViewportHeight);
+      window.visualViewport?.removeEventListener("resize", syncViewportHeight);
+      window.visualViewport?.removeEventListener("scroll", syncViewportHeight);
+    };
+  }, []);
+
+  useEffect(() => {
     if ("scrollRestoration" in window.history) {
       window.history.scrollRestoration = "manual";
     }

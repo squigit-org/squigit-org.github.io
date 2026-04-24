@@ -91,6 +91,10 @@
     --scrollbar-thumb-hover: #64748b;
     --scrollbar-size: 12px;
     --code-scrollbar-size: 10px;
+    --squigit-header-height: 3rem;
+    --squigit-anchor-gap: 1.5rem;
+    --squigit-anchor-offset: calc(var(--squigit-header-height) + var(--squigit-anchor-gap));
+    --squigit-viewport-height: 100vh;
 }
 
 .dark {
@@ -148,6 +152,16 @@
   }
 }
 
+@supports (height: 100svh) {
+  :root {
+    --squigit-viewport-height: 100svh;
+  }
+}
+
+.feature-scroll-section {
+  min-block-size: max(0px, calc(var(--squigit-viewport-height, 100vh) - var(--squigit-anchor-offset, 4.5rem)));
+}
+
 @keyframes widget-rise {
   0% {
     opacity: 0;
@@ -162,7 +176,7 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 4.5rem;
+  scroll-padding-top: var(--squigit-anchor-offset, 4.5rem);
   scrollbar-width: thin;
   scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
 }

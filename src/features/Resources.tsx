@@ -61,7 +61,9 @@ export function Resources({
   return (
     <section
       id={embedded ? undefined : "resources"}
-      className={cn(embedded ? "py-8" : "relative px-6 py-24")}
+      className={cn(
+        embedded ? "py-8" : "feature-scroll-section relative px-6 py-24",
+      )}
     >
       <div
         className={cn(

@@ -3,7 +3,7 @@ import { ExternalArrowIcon } from "@/src/components/icons";
 
 export function Pricing() {
   return (
-    <section id="pricing" className="relative py-24">
+    <section id="pricing" className="feature-scroll-section relative py-24">
       <div className="mx-auto w-full max-w-6xl px-5 sm:px-6 lg:px-10">
         <div className="mb-12 max-w-3xl">
           <p className="mb-3 text-sm font-medium uppercase tracking-[0.2em] text-slate-500">

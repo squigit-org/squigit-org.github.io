@@ -195,7 +195,7 @@ export function Download({ onNavigate }: { onNavigate?: () => void }) {
   };
 
   return (
-    <section id="download" className="relative py-24">
+    <section id="download" className="feature-scroll-section relative py-24">
       <div className="mx-auto w-full max-w-6xl px-5 sm:px-6 lg:px-10">
         <div className="mb-12 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div className="max-w-2xl">
@@ -267,7 +267,7 @@ export function Download({ onNavigate }: { onNavigate?: () => void }) {
                 "noopener,noreferrer",
               );
             }}
-            className="w-fit rounded-full border-slate-300 bg-white/90 px-4 text-slate-900"
+            className="w-fit rounded-full border-slate-300 bg-white/90 px-4 text-slate-900 cursor-pointer"
           >
             View previous releases
           </Button>
@@ -306,7 +306,7 @@ export function Download({ onNavigate }: { onNavigate?: () => void }) {
                           key={item.label}
                           type="button"
                           onClick={() => openSetup(platform.name)}
-                          className="flex w-full items-center justify-start gap-2 rounded-2xl border-0 px-4 py-4 text-sm font-medium transition hover:bg-slate-50"
+                          className="flex w-full items-center justify-start gap-2 rounded-2xl border-0 px-4 py-4 text-sm font-medium transition hover:bg-slate-50 cursor-pointer"
                         >
                           <DownloadIcon className="h-4 w-4" />
                           <span>{item.label}</span>

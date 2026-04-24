@@ -22,7 +22,7 @@ const products: Product[] = [
   {
     title: "Squigit OCR",
     sourceName: "PaddleOCR",
-    sourceUrl: "https://github.com/paddlepaddle/paddle",
+    sourceUrl: "https://github.com/paddlepaddle/PaddleOCR",
     description:
       "to detect text in images and generate selectable text regions, allowing you to highlight, copy, and work with text directly from images.",
     wingetUrl: "https://github.com/microsoft/winget-pkgs/pull/362423",
@@ -79,7 +79,7 @@ function buildPlatforms(wingetUrl: string): Platform[] {
 
 export function Products() {
   return (
-    <section id="products" className="relative py-24">
+    <section id="products" className="feature-scroll-section relative py-24">
       <div className="mx-auto w-full max-w-6xl px-5 sm:px-6 lg:px-10">
         <div className="mb-12 max-w-3xl">
           <p className="mb-3 text-sm font-medium uppercase tracking-[0.2em] text-slate-500">

@@ -51,6 +51,36 @@ export function Header({
   }, [anyDropdownOpen, onDropdownOpenChange, onUseCasesOpenChange, useCasesOpen]);
 
   useEffect(() => {
+    const header = headerRef.current;
+
+    if (!header) {
+      return;
+    }
+
+    const syncHeaderHeight = () => {
+      const headerHeight = header.getBoundingClientRect().height;
+
+      if (headerHeight > 0) {
+        document.documentElement.style.setProperty(
+          "--squigit-header-height",
+          `${headerHeight}px`,
+        );
+      }
+    };
+
+    syncHeaderHeight();
+    window.addEventListener("resize", syncHeaderHeight);
+
+    const resizeObserver = new ResizeObserver(syncHeaderHeight);
+    resizeObserver.observe(header);
+
+    return () => {
+      window.removeEventListener("resize", syncHeaderHeight);
+      resizeObserver.disconnect();
+    };
+  }, []);
+
+  useEffect(() => {
     const mediaQuery = window.matchMedia("(min-width: 1024px)");
     const syncNavigationMode = (matches: boolean) => {
       setIsDesktopNav(matches);
@@ -293,7 +323,7 @@ export function Header({
         <a href="#download" className="hidden lg:block">
           <Button
             size="lg"
-            className="h-9.5 rounded-full bg-slate-950 px-4 text-sm text-white hover:bg-slate-800"
+            className="h-9.5 rounded-full bg-slate-950 px-4 text-sm text-white hover:bg-slate-800 cursor-pointer"
           >
             Download
             <DownloadIcon className="h-4 w-4" />

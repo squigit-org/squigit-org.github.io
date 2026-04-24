@@ -140,7 +140,7 @@ export function UseCases({
     <section
       id={embedded ? undefined : "use-cases"}
       className={cn(
-        embedded ? "py-8" : "relative px-6 py-24",
+        embedded ? "py-8" : "feature-scroll-section relative px-6 py-24",
       )}
     >
       <div
