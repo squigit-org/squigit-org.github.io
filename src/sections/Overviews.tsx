@@ -797,6 +797,8 @@ export function Overviews() {
       setTitleAnimationKey(0);
       titleFrameProgress.set(0);
       timelineProgress.set(0);
+    } else if (nextZone === "below") {
+      setShuffleActive(false);
     }
   });
 
@@ -840,12 +842,15 @@ export function Overviews() {
       current === shouldUseCrispFrame ? current : shouldUseCrispFrame,
     );
 
-    if (shouldUseCrispFrame) {
-      setShuffleActive(false);
-    } else if (effectiveProgress >= SHUFFLE_START_PROGRESS) {
-      setShuffleActive(true);
-    } else {
-      setShuffleActive(false);
+    const shouldShuffleMessages =
+      sectionZoneRef.current === "inside" &&
+      effectiveProgress >= SHUFFLE_START_PROGRESS;
+
+    setShuffleActive((current) =>
+      current === shouldShuffleMessages ? current : shouldShuffleMessages,
+    );
+
+    if (!shouldShuffleMessages && effectiveProgress < SHUFFLE_START_PROGRESS) {
       setShuffleIndex(0);
     }
 
@@ -856,6 +861,10 @@ export function Overviews() {
     if (!shuffleActive) {
       return;
     }
+
+    setShuffleIndex((currentIndex) =>
+      currentIndex === 0 ? 1 : currentIndex,
+    );
 
     const intervalId = window.setInterval(() => {
       setShuffleIndex((currentIndex) => currentIndex + 1);
