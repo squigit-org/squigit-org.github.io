@@ -1,9 +1,5 @@
 import { LINKS } from "./links";
 
-export const QUOTES = [
-  "Stuck on it? Squiggle it"
-];
-
 export const DOWNLOADS = [
   {
     name: "MacOS",

@@ -5,12 +5,11 @@ import {
   Download,
   Pricing,
   Products,
-  Quote,
+  Sketch,
 } from "@/sections";
-import { cn, QUOTES } from "@/lib";
+import { cn } from "@/lib";
 
 export default function App() {
-  const [mounted, setMounted] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const closeHeaderDropdowns = () => {
@@ -45,7 +44,6 @@ export default function App() {
       window.history.scrollRestoration = "manual";
     }
     window.scrollTo({ top: 0, left: 0, behavior: "auto" });
-    setMounted(true);
 
     return () => {
       if ("scrollRestoration" in window.history) {
@@ -59,10 +57,7 @@ export default function App() {
       <Header onDropdownOpenChange={setDropdownOpen} />
       <main className="relative mt-[-2.5rem]">
         <Hero />
-        {mounted &&
-          QUOTES.map((quote, index) => (
-            <Quote key={quote} quote={quote} index={index} />
-          ))}
+        <Sketch />
         <Overviews />
         <Pricing />
         <Download />

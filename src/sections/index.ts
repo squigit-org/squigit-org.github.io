@@ -1,8 +1,8 @@
-export * from "./Overviews";
-export * from "./Download";
-export * from "./Pricing";
-export * from "./Products";
-export * from "./Quote";
-export * from "./Resources";
-export * from "./UseCases";
+export { Overviews } from "./Overviews";
+export { Download } from "./Download";
+export { Pricing } from "./Pricing";
+export { Products } from "./Products";
+export { Sketch } from "./Sketch";
+export { Resources } from "./Resources";
+export { UseCases } from "./UseCases";
 export { Setup, type SetupPlatform } from "./Setup";
