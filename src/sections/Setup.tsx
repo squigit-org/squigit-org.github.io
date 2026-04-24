@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { CodeBlock } from "@/src/components/ui/CodeBlock";
-import { PRODUCT_INSTALL } from "@/src/lib/constants";
+import { CodeBlock } from "@/components/ui";
+import { PRODUCT_INSTALL } from "@/lib";
 
 export type SetupPlatform = "MacOS" | "Windows" | "Linux";
 

@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { motion, useInView } from "motion/react";
-import { cn } from "@/src/lib/utils";
+import { cn } from "@/lib";
 
 const ANIMATION_DURATION = 0.56;
 const CLUSTER_WINDOW = 0.18;

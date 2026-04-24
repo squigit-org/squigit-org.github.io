@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import type { ReactNode } from "react";
-import { CloseIcon } from "@/src/components/icons";
-import { cn } from "@/src/lib/utils";
+import { CloseIcon } from "@/components/icons";
+import { cn } from "@/lib";
 
 type WidgetCardProps = {
   open: boolean;

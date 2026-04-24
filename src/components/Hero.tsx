@@ -1,15 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useInView, useScroll, useTransform } from "motion/react";
 import { TextEffectTwo } from "react-text-animate";
-import { Button } from "@/src/components/ui/button";
+import { Button } from "@/components/ui";
 import {
   AppBrandIcon,
   DownloadIcon,
   LinuxIcon,
   MacIcon,
   WindowsIcon,
-} from "@/src/components/icons";
-import { HERO_TEXT } from "@/src/lib/constants";
+} from "@/components/icons";
+import { HERO_TEXT } from "@/lib";
 
 type HeroPlatform = "macos" | "windows" | "linux" | "unknown";
 

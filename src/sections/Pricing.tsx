@@ -1,5 +1,6 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/src/components/ui/card";
-import { ExternalArrowIcon } from "@/src/components/icons";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui";
+import { ExternalArrowIcon } from "@/components/icons";
+import { LINKS } from "@/lib";
 
 export function Pricing() {
   return (
@@ -57,7 +58,7 @@ export function Pricing() {
                 <br />Additional providers are planned over time.
               </p>
               <a
-                href="https://github.com/squigit-org/squigit/blob/main/docs/06-policies/BYOK.md"
+                href={LINKS.squigit.byokPolicy}
                 target="_blank"
                 rel="noreferrer"
                 className="inline-flex items-center gap-1 pt-2 text-sm font-medium text-slate-700 transition hover:text-slate-950 cursor-pointer"

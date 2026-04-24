@@ -2,21 +2,21 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { motion, useInView, useMotionValueEvent, useScroll } from "motion/react";
 import { TextEffectFour } from "react-text-animate";
 import {
+  Button,
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-} from "@/src/components/ui/card";
-import { Button } from "@/src/components/ui/button";
-import { WidgetCard } from "@/src/components/ui/widget-card";
+  WidgetCard,
+} from "@/components/ui";
 import {
   DownloadIcon,
   MacIcon,
   WindowsIcon,
   LinuxIcon,
-} from "@/src/components/icons";
-import { DOWNLOADS } from "@/src/lib/constants";
-import { Setup, type SetupPlatform } from "@/src/features/Setup";
+} from "@/components/icons";
+import { DOWNLOADS, LINKS } from "@/lib";
+import { Setup, type SetupPlatform } from "./Setup";
 
 type VisitorPlatform = "macos" | "windows" | "linux" | "unknown";
 const DOWNLOAD_HEADING_STAGGER = 0.07;
@@ -262,7 +262,7 @@ export function Download({ onNavigate }: { onNavigate?: () => void }) {
             onClick={() => {
               onNavigate?.();
               window.open(
-                "https://github.com/squigit-org/squigit/releases",
+                LINKS.squigit.releases,
                 "_blank",
                 "noopener,noreferrer",
               );

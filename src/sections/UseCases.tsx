@@ -1,19 +1,18 @@
 import { useEffect, useState } from "react";
-import { cn } from "@/src/lib/utils";
-import { USE_CASES, USE_CASES_HERO_LINES } from "@/src/lib/constants";
-import { Button } from "@/src/components/ui/button";
 import {
+  Button,
   Card,
   CardHeader,
   CardTitle,
   CardDescription,
-} from "@/src/components/ui/card";
+} from "@/components/ui";
 import {
   SearchIcon,
   ScanTextIcon,
   SparklesIcon,
   ChevronDownIcon,
-} from "@/src/components/icons";
+} from "@/components/icons";
+import { cn, LINKS, USE_CASES, USE_CASES_HERO_LINES } from "@/lib";
 
 type UseCasesLayout = "desktop" | "mobile";
 
@@ -28,8 +27,7 @@ export function UseCases({
   layout?: UseCasesLayout;
   onNavigate?: () => void;
 }) {
-  const overviewUrl =
-    "https://github.com/squigit-org/squigit/blob/main/README.md";
+  const overviewUrl = LINKS.squigit.readme;
   const [activeItemIndex, setActiveItemIndex] = useState<number | null>(null);
   const isMobileEmbedded = embedded && layout === "mobile";
   const iconsByKey = {

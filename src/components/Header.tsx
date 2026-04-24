@@ -1,14 +1,13 @@
 import { useEffect, useRef, useState, type FocusEvent } from "react";
-import { Button } from "@/src/components/ui/button";
+import { Button } from "@/components/ui";
 import {
   AppIcon,
   DownloadIcon,
   ChevronDownIcon,
   MenuIcon,
-} from "@/src/components/icons";
-import { UseCases } from "@/src/features/UseCases";
-import { Resources } from "@/src/features/Resources";
-import { cn } from "@/src/lib/utils";
+} from "@/components/icons";
+import { Resources, UseCases } from "@/sections";
+import { cn, LINKS } from "@/lib";
 
 export function Header({
   onDropdownOpenChange,
@@ -239,7 +238,7 @@ export function Header({
       <div className="relative z-20 mx-auto flex h-12 w-full max-w-6xl items-center justify-between px-5 sm:px-6 lg:px-10">
         <div className="flex items-center gap-4 lg:gap-5">
           <a
-            href="#home"
+            href={LINKS.anchors.home}
             onClick={closeDropdownsNow}
             className="inline-flex items-center text-slate-950 transition-opacity hover:opacity-80"
             aria-label="Go to home"
@@ -249,7 +248,7 @@ export function Header({
 
           <nav className="hidden flex-wrap items-center gap-1.5 lg:flex">
             <a
-              href="#products"
+              href={LINKS.anchors.products}
               onClick={closeDropdownsNow}
               className="rounded-full px-3 py-1.5 text-[14px] font-medium text-slate-700 transition-colors hover:text-slate-950"
             >
@@ -279,14 +278,14 @@ export function Header({
               </span>
             </button>
             <a
-              href="#pricing"
+              href={LINKS.anchors.pricing}
               onClick={closeDropdownsNow}
               className="rounded-full px-3 py-1.5 text-[14px] font-medium text-slate-700 transition-colors hover:text-slate-950"
             >
               Pricing
             </a>
             <a
-              href="https://github.com/squigit-org/squigit"
+              href={LINKS.squigit.repository}
               target="_blank"
               rel="noreferrer"
               onClick={closeDropdownsNow}
@@ -320,7 +319,7 @@ export function Header({
           </nav>
         </div>
 
-        <a href="#download" className="hidden lg:block">
+        <a href={LINKS.anchors.download} className="hidden lg:block">
           <Button
             size="lg"
             className="h-9.5 rounded-full bg-slate-950 px-4 text-sm text-white hover:bg-slate-800 cursor-pointer"
@@ -355,7 +354,7 @@ export function Header({
           <nav className="mx-auto max-h-[calc(100vh-3rem)] w-full max-w-6xl overflow-y-auto px-5 pb-5 pt-3 sm:px-6">
             <div className="flex flex-col gap-1">
               <a
-                href="#products"
+                href={LINKS.anchors.products}
                 onClick={closeDropdownsNow}
                 className="rounded-full px-1 py-2 text-[15px] font-medium text-slate-700 transition-colors hover:text-slate-950"
               >
@@ -399,7 +398,7 @@ export function Header({
               </div>
 
               <a
-                href="#pricing"
+                href={LINKS.anchors.pricing}
                 onClick={closeDropdownsNow}
                 className="rounded-full px-1 py-2 text-[15px] font-medium text-slate-700 transition-colors hover:text-slate-950"
               >
@@ -407,7 +406,7 @@ export function Header({
               </a>
 
               <a
-                href="https://github.com/squigit-org/squigit"
+                href={LINKS.squigit.repository}
                 target="_blank"
                 rel="noreferrer"
                 onClick={closeDropdownsNow}

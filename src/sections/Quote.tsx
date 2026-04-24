@@ -1,4 +1,4 @@
-import { ScribbleWord } from "@/src/components/ui/ScribbleWord";
+import { ScribbleWord } from "@/components/ui";
 
 export function Quote({ quote }: { quote: string; index: number }) {
   return (

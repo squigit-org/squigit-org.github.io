@@ -1,6 +1,5 @@
-import { cn } from "@/src/lib/utils";
-import { RESOURCE_LINKS, RESOURCES_HERO_LINES } from "@/src/lib/constants";
-import { ChevronDownIcon } from "@/src/components/icons";
+import { ChevronDownIcon } from "@/components/icons";
+import { cn, RESOURCE_LINKS, RESOURCES_HERO_LINES } from "@/lib";
 
 type ResourcesLayout = "desktop" | "mobile";
 

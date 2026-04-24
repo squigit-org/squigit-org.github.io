@@ -3,8 +3,8 @@ import {
   LinkedInIcon,
   GithubIcon,
   XIcon,
-} from "@/src/components/icons";
-import { RESOURCE_LINKS } from "../lib/constants";
+} from "@/components/icons";
+import { LINKS, RESOURCE_LINKS } from "@/lib";
 
 type FooterLink = {
   label: string;
@@ -25,9 +25,9 @@ const footerSections: FooterSection[] = [
     title: "Product",
     links: [
       { label: "Use Cases", href: openUseCasesDropdown },
-      { label: "Download App", href: "#download" },
-      { label: "Pricing", href: "#pricing" },
-      { label: "Packages", href: "#products" },
+      { label: "Download App", href: LINKS.anchors.download },
+      { label: "Pricing", href: LINKS.anchors.pricing },
+      { label: "Packages", href: LINKS.anchors.products },
     ],
   },
   {
@@ -37,13 +37,13 @@ const footerSections: FooterSection[] = [
   {
     title: "Developer",
     links: [
-      { label: "Twitter", href: "https://x.com/a7mddra" },
+      { label: "Twitter", href: LINKS.social.x },
       {
         label: "Contact",
-        href: "mailto:a7mddra@gmail.com?subject=Inquiry&body=Hi%20there,",
+        href: LINKS.contact.email,
       },
-      { label: "LinkedIn", href: "https://www.linkedin.com/in/a7mddra/" },
-      { label: "GitHub", href: "https://github.com/squigit-org/squigit" },
+      { label: "LinkedIn", href: LINKS.social.linkedIn },
+      { label: "GitHub", href: LINKS.squigit.repository },
     ],
   },
   {
@@ -51,19 +51,19 @@ const footerSections: FooterSection[] = [
     links: [
       {
         label: "Terms of Service",
-        href: "/terms.html",
+        href: LINKS.legal.terms,
       },
       {
         label: "Privacy Policy",
-        href: "/privacy.html",
+        href: LINKS.legal.privacy,
       },
       {
         label: "Security Policy",
-        href: "https://github.com/squigit-org/squigit/blob/main/docs/06-policies/SECURITY.md",
+        href: LINKS.squigit.securityPolicy,
       },
       {
         label: "Other Policies",
-        href: "https://github.com/squigit-org/squigit/tree/main/docs/06-policies",
+        href: LINKS.squigit.policies,
       },
     ],
   },
@@ -72,17 +72,17 @@ const footerSections: FooterSection[] = [
 const socialLinks = [
   {
     label: "X",
-    href: "https://x.com/a7mddra",
+    href: LINKS.social.x,
     icon: <XIcon className="h-7 w-7" />,
   },
   {
     label: "LinkedIn",
-    href: "https://www.linkedin.com/in/a7mddra/",
+    href: LINKS.social.linkedIn,
     icon: <LinkedInIcon className="h-7 w-7" />,
   },
   {
     label: "GitHub",
-    href: "https://github.com/squigit-org/squigit",
+    href: LINKS.squigit.repository,
     icon: <GithubIcon className="h-7 w-7" />,
   },
 ];
@@ -139,10 +139,12 @@ export function Footer() {
                         <a
                           href={link.href}
                           target={
-                            link.href.startsWith("http") ? "_blank" : undefined
+                            link.href.startsWith(LINKS.externalUrlPrefix)
+                              ? "_blank"
+                              : undefined
                           }
                           rel={
-                            link.href.startsWith("http")
+                            link.href.startsWith(LINKS.externalUrlPrefix)
                               ? "noreferrer"
                               : undefined
                           }
@@ -171,10 +173,10 @@ export function Footer() {
           <p className="font-sans">&copy; 2026 Squigit. All rights reserved.</p>
 
           <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
-            <a href="/privacy.html" className="transition hover:text-white">
+            <a href={LINKS.legal.privacy} className="transition hover:text-white">
               Privacy
             </a>
-            <a href="/terms.html" className="transition hover:text-white">
+            <a href={LINKS.legal.terms} className="transition hover:text-white">
               Terms
             </a>
           </div>

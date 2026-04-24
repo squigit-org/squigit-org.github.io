@@ -1,13 +1,7 @@
 import { useEffect, useState } from "react";
-import { Header } from "./components/Header";
-import { Hero } from "./components/Hero";
-import { Quote } from "./features/Quote";
-import { Download } from "./features/Download";
-import { Pricing } from "./features/Pricing";
-import { Products } from "./features/Products";
-import { Footer } from "./components/Footer";
-import { QUOTES } from "./lib/constants";
-import { cn } from "./lib/utils";
+import { Footer, Header, Hero } from "@/components";
+import { Download, Pricing, Products, Quote } from "@/sections";
+import { cn, QUOTES } from "@/lib";
 
 export default function App() {
   const [mounted, setMounted] = useState(false);

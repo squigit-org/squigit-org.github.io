@@ -1,3 +1,5 @@
+import { LINKS } from "./links";
+
 export const QUOTES = [
   "Stuck on it? Squiggle it",
   "Feeling it? Circle it",
@@ -73,15 +75,15 @@ export const RESOURCE_LINKS: Array<{
 }> = [
   {
     label: "Documentation",
-    href: "https://github.com/squigit-org/squigit/tree/main/docs",
+    href: LINKS.squigit.docs,
   },
   {
     label: "Changelog",
-    href: "https://github.com/squigit-org/squigit/blob/main/CHANGELOG.md",
+    href: LINKS.squigit.changelog,
   },
   {
     label: "Releases",
-    href: "https://github.com/squigit-org/squigit/releases",
+    href: LINKS.squigit.releases,
   },
 ];
 
@@ -94,13 +96,13 @@ export const PRODUCT_INSTALL = {
   ],
   apt: [
     "sudo mkdir -p /etc/apt/keyrings",
-    "curl -fsSL https://squigit-org.github.io/squigit-packages/keys/squigit-packages.asc | gpg --dearmor | sudo tee /etc/apt/keyrings/squigit-packages.gpg >/dev/null",
-    'echo "deb [signed-by=/etc/apt/keyrings/squigit-packages.gpg] https://github.com/squigit-org/squigit-packages/raw/main/apt stable ocr stt" | sudo tee /etc/apt/sources.list.d/squigit-packages.list >/dev/null',
+    `curl -fsSL ${LINKS.packages.aptKey} | gpg --dearmor | sudo tee /etc/apt/keyrings/squigit-packages.gpg >/dev/null`,
+    `echo "deb [signed-by=/etc/apt/keyrings/squigit-packages.gpg] ${LINKS.packages.aptRepository} stable ocr stt" | sudo tee /etc/apt/sources.list.d/squigit-packages.list >/dev/null`,
     "sudo apt-get update",
     "sudo apt-get install -y squigit-ocr squigit-stt",
   ],
   dnf: [
-    "sudo curl -fsSL https://squigit-org.github.io/squigit-packages/rpm/squigit.repo -o /etc/yum.repos.d/squigit.repo",
+    `sudo curl -fsSL ${LINKS.packages.rpmRepositoryFile} -o /etc/yum.repos.d/squigit.repo`,
     "sudo dnf makecache --refresh",
     "sudo dnf install -y squigit-ocr squigit-stt",
   ],
@@ -144,7 +146,8 @@ function runStaticChecks() {
       name: "resource links are non-empty",
       pass: RESOURCE_LINKS.every(
         (item) =>
-          item.label.trim().length > 0 && item.href.startsWith("https://"),
+          item.label.trim().length > 0 &&
+          item.href.startsWith(LINKS.externalUrlPrefix),
       ),
     },
     {

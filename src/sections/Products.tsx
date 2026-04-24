@@ -1,5 +1,6 @@
-import { ExternalArrowIcon, LinuxIcon, MacIcon, WindowsIcon } from "@/src/components/icons";
-import { Card, CardContent, CardHeader, CardTitle } from "@/src/components/ui/card";
+import { ExternalArrowIcon, LinuxIcon, MacIcon, WindowsIcon } from "@/components/icons";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui";
+import { LINKS } from "@/lib";
 
 type Product = {
   title: string;
@@ -22,25 +23,25 @@ const products: Product[] = [
   {
     title: "Squigit OCR",
     sourceName: "PaddleOCR",
-    sourceUrl: "https://github.com/paddlepaddle/PaddleOCR",
+    sourceUrl: LINKS.products.paddleOcrSource,
     description:
       "to detect text in images and generate selectable text regions, allowing you to highlight, copy, and work with text directly from images.",
-    wingetUrl: "https://github.com/microsoft/winget-pkgs/pull/362423",
+    wingetUrl: LINKS.products.ocrWingetPullRequest,
   },
   {
     title: "Squigit STT",
     sourceName: "whisper.cpp",
-    sourceUrl: "https://github.com/ggerganov/whisper.cpp",
+    sourceUrl: LINKS.products.whisperCppSource,
     description:
       "for local speech recognition, enabling voice dictation for prompts, chat messages, and hands-free text input.",
-    wingetUrl: "https://github.com/microsoft/winget-pkgs/pull/362944",
+    wingetUrl: LINKS.products.sttWingetPullRequest,
   },
 ];
 
 const sharedPlatforms: Platform[] = [
   {
     label: "HomeBrew",
-    href: "https://github.com/squigit-org/homebrew-tap/blob/main/README.md",
+    href: LINKS.packages.homebrewReadme,
     Icon: MacIcon,
     iconClassName: "h-6.5 w-6.5 pb-1 text-slate-950",
     paddingClassName: "py-1 pr-2 pl-0",
@@ -48,7 +49,7 @@ const sharedPlatforms: Platform[] = [
   },
   {
     label: "APT/DNF",
-    href: "https://github.com/squigit-org/squigit-packages/blob/main/README.md",
+    href: LINKS.packages.readme,
     Icon: LinuxIcon,
     iconClassName: "h-7.5 w-7.5 text-slate-950",
     paddingClassName: "px-2 py-1",
