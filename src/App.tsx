@@ -1,6 +1,12 @@
 import { useEffect, useState } from "react";
 import { Footer, Header, Hero } from "@/components";
-import { Download, Pricing, Products, Quote } from "@/sections";
+import {
+  Overviews,
+  Download,
+  Pricing,
+  Products,
+  Quote,
+} from "@/sections";
 import { cn, QUOTES } from "@/lib";
 
 export default function App() {
@@ -57,6 +63,7 @@ export default function App() {
           QUOTES.map((quote, index) => (
             <Quote key={quote} quote={quote} index={index} />
           ))}
+        <Overviews />
         <Pricing />
         <Download />
         <Products />

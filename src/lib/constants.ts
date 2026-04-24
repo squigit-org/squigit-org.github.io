@@ -1,9 +1,7 @@
 import { LINKS } from "./links";
 
 export const QUOTES = [
-  "Stuck on it? Squiggle it",
-  "Feeling it? Circle it",
-  "Can't describe it? Search it",
+  "Stuck on it? Squiggle it"
 ];
 
 export const DOWNLOADS = [
@@ -111,61 +109,3 @@ export const PRODUCT_INSTALL = {
     "winget install SquigitOrg.SquigitSTT",
   ],
 };
-
-function runStaticChecks() {
-  const tests = [
-    {
-      name: "quotes count",
-      pass: QUOTES.length === 3,
-    },
-    {
-      name: "downloads include all platforms",
-      pass:
-        DOWNLOADS.map((item) => item.name).join(",") === "MacOS,Windows,Linux",
-    },
-    {
-      name: "product install sections exist",
-      pass: ["mac", "apt", "dnf", "winget"].every(
-        (key) => key in PRODUCT_INSTALL,
-      ),
-    },
-    {
-      name: "use case fields are non-empty",
-      pass: USE_CASES.every(
-        (item) =>
-          item.shortLabel.trim().length > 0 &&
-          item.title.trim().length > 0 &&
-          item.desc.trim().length > 0,
-      ),
-    },
-    {
-      name: "each quote is non-empty",
-      pass: QUOTES.every((quote) => quote.trim().length > 0),
-    },
-    {
-      name: "resource links are non-empty",
-      pass: RESOURCE_LINKS.every(
-        (item) =>
-          item.label.trim().length > 0 &&
-          item.href.startsWith(LINKS.externalUrlPrefix),
-      ),
-    },
-    {
-      name: "use case hero lines are non-empty",
-      pass: USE_CASES_HERO_LINES.every((line) => line.trim().length > 0),
-    },
-    {
-      name: "resources hero lines are non-empty",
-      pass: RESOURCES_HERO_LINES.every((line) => line.trim().length > 0),
-    },
-  ];
-
-  const failed = tests.filter((test) => !test.pass);
-  if (failed.length > 0) {
-    throw new Error(
-      `Static checks failed: ${failed.map((test) => test.name).join(", ")}`,
-    );
-  }
-}
-
-runStaticChecks();

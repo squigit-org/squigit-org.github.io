@@ -126,6 +126,11 @@ export function Download({ onNavigate }: { onNavigate?: () => void }) {
   const { scrollY } = useScroll();
   const headingSuffix = `for ${VISITOR_PLATFORM_LABEL[visitorPlatform]}`;
   const hasHeadingAnimationStarted = headingAnimationKey > 0;
+  const shouldColdHideHeading =
+    headingInView &&
+    !headingWasInViewRef.current &&
+    scrollDirectionRef.current === "down";
+  const shouldHideAnimatedHeading = !headingInView || shouldColdHideHeading;
   const lineOneDurationMs =
     Math.max(getTextEffectFourStepCount(DOWNLOAD_HEADING_BASE_TEXT) - 1, 0) *
       DOWNLOAD_HEADING_STAGGER *
@@ -211,7 +216,9 @@ export function Download({ onNavigate }: { onNavigate?: () => void }) {
                 <span className="block">{headingSuffix}</span>
               </span>
               <span
-                className={`absolute inset-0 flex flex-col ${DOWNLOAD_HEADING_LINE_GAP_CLASS}`}
+                className={`absolute inset-0 flex flex-col ${DOWNLOAD_HEADING_LINE_GAP_CLASS} ${
+                  shouldHideAnimatedHeading ? "invisible" : "visible"
+                }`}
               >
                 {hasHeadingAnimationStarted ? (
                   <TextEffectFour
