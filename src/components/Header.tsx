@@ -256,7 +256,9 @@ export function Header({
               Pricing
             </a>
             <a
-              href="#repository"
+              href="https://github.com/squigit-org/squigit"
+              target="_blank"
+              rel="noreferrer"
               onClick={closeDropdownsNow}
               className="rounded-full px-3 py-1.5 text-[14px] font-medium text-slate-700 transition-colors hover:text-slate-950"
             >
@@ -375,7 +377,9 @@ export function Header({
               </a>
 
               <a
-                href="#repository"
+                href="https://github.com/squigit-org/squigit"
+                target="_blank"
+                rel="noreferrer"
                 onClick={closeDropdownsNow}
                 className="rounded-full px-1 py-2 text-[15px] font-medium text-slate-700 transition-colors hover:text-slate-950"
               >

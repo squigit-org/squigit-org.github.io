@@ -50,12 +50,12 @@ const footerSections: FooterSection[] = [
     title: "Terms & Policies",
     links: [
       {
-        label: "Terms of Use",
-        href: "https://github.com/squigit-org/squigit/blob/main/docs/06-policies/TERMS.md",
+        label: "Terms of Service",
+        href: "/terms.html",
       },
       {
         label: "Privacy Policy",
-        href: "https://github.com/squigit-org/squigit/blob/main/docs/06-policies/PRIVACY.md",
+        href: "/privacy.html",
       },
       {
         label: "Security Policy",
@@ -171,10 +171,10 @@ export function Footer() {
           <p className="font-sans">&copy; 2026 Squigit. All rights reserved.</p>
 
           <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
-            <a href="#" className="transition hover:text-white">
+            <a href="/privacy.html" className="transition hover:text-white">
               Privacy
             </a>
-            <a href="#" className="transition hover:text-white">
+            <a href="/terms.html" className="transition hover:text-white">
               Terms
             </a>
           </div>

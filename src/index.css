@@ -161,8 +161,16 @@
 }
 
 html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 4.5rem;
   scrollbar-width: thin;
   scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
 
 html::-webkit-scrollbar {
