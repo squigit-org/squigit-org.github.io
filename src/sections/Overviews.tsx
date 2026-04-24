@@ -11,7 +11,13 @@ import {
 } from "motion/react";
 import { TextEffectOne } from "react-text-animate";
 import { ChevronDownIcon } from "@/components/icons";
-import { cn } from "@/lib";
+import {
+  AI_OVERVIEW_CARD_COPY,
+  AI_OVERVIEW_CARD_LABELS,
+  AI_OVERVIEWS_TITLE,
+  cn,
+  type OverviewCardCopy,
+} from "@/lib";
 
 type CardLayout = {
   x: string;
@@ -24,11 +30,7 @@ type CardLayout = {
   opacity: number;
 };
 
-type OverviewCardConfig = {
-  id: string;
-  title: string;
-  text: string;
-  alternates: OverviewMessage[];
+type OverviewCardConfig = OverviewCardCopy & {
   background: string;
   border: string;
   lineColor: string;
@@ -46,38 +48,9 @@ type OverviewCardConfig = {
   compact: CardLayout;
 };
 
-type OverviewMessage = {
-  title: string;
-  text: string;
-};
-
 const overviewCards: OverviewCardConfig[] = [
   {
-    id: "social-post",
-    title: "Social post overview",
-    text: "This post is announcing a limited-time offer. The main action is to check the comments for pricing and availability.",
-    alternates: [
-      {
-        title: "Comment thread brief",
-        text: "The replies are mostly asking about sizes, delivery areas, and whether the discount applies this weekend.",
-      },
-      {
-        title: "Marketplace signal",
-        text: "The post looks promotional, with urgency around stock and a request to message the seller before checkout.",
-      },
-      {
-        title: "Audience reaction",
-        text: "Most visible comments are positive, but several people are waiting for a clearer price and pickup details.",
-      },
-      {
-        title: "Offer check",
-        text: "The visible caption points to a short sale window, with the strongest signal around availability and replies.",
-      },
-      {
-        title: "Post intent",
-        text: "This looks designed to drive direct messages rather than a checkout flow, so details may live in comments.",
-      },
-    ],
+    ...AI_OVERVIEW_CARD_COPY.socialPost,
     background: "rgba(255, 239, 244, 0.96)",
     border: "rgba(248, 180, 195, 0.58)",
     lineColor: "rgba(248, 180, 195, 0.42)",
@@ -112,31 +85,7 @@ const overviewCards: OverviewCardConfig[] = [
     },
   },
   {
-    id: "video-summary",
-    title: "Video summary",
-    text: "This video compares three budget laptops and highlights battery life, display quality, and upgrade options.",
-    alternates: [
-      {
-        title: "Watchlist summary",
-        text: "The creator recommends prioritizing RAM, keyboard comfort, and warranty terms over benchmark scores.",
-      },
-      {
-        title: "Chapter overview",
-        text: "The middle section focuses on real-world browsing, video calls, and thermals after long sessions.",
-      },
-      {
-        title: "Video takeaway",
-        text: "The best value pick is not the cheapest model, because storage and screen brightness matter more.",
-      },
-      {
-        title: "Creator verdict",
-        text: "The final recommendation favors balanced specs and a comfortable keyboard over raw processor speed.",
-      },
-      {
-        title: "Comparison brief",
-        text: "The side-by-side section makes battery, display brightness, and upgrade access the main decision points.",
-      },
-    ],
+    ...AI_OVERVIEW_CARD_COPY.videoSummary,
     background: "rgba(231, 246, 255, 0.96)",
     border: "rgba(147, 197, 253, 0.56)",
     lineColor: "rgba(147, 197, 253, 0.4)",
@@ -171,31 +120,7 @@ const overviewCards: OverviewCardConfig[] = [
     },
   },
   {
-    id: "shopping-insight",
-    title: "Shopping insight",
-    text: "The product looks like a mid-range wireless headset. The key selling points are noise cancellation, long battery life, and lightweight design.",
-    alternates: [
-      {
-        title: "Price comparison",
-        text: "Similar headsets are cheaper during seasonal sales, but this listing includes stronger battery claims.",
-      },
-      {
-        title: "Review pattern",
-        text: "Positive reviews mention comfort and battery life, while lower ratings focus on microphone quality.",
-      },
-      {
-        title: "Buying note",
-        text: "Check return terms and replacement ear pads before ordering, especially if you use headphones daily.",
-      },
-      {
-        title: "Feature scan",
-        text: "The listing emphasizes wireless range, lightweight fit, and fast charging more than microphone performance.",
-      },
-      {
-        title: "Deal signal",
-        text: "The price appears reasonable if noise cancellation and battery life match the listed claims.",
-      },
-    ],
+    ...AI_OVERVIEW_CARD_COPY.shoppingInsight,
     background: "rgba(227, 250, 238, 0.97)",
     border: "rgba(134, 239, 172, 0.58)",
     lineColor: "rgba(134, 239, 172, 0.42)",
@@ -230,31 +155,7 @@ const overviewCards: OverviewCardConfig[] = [
     },
   },
   {
-    id: "code-explanation",
-    title: "Code explanation",
-    text: "This component renders a reusable footer with external links, brand identity, and responsive spacing.",
-    alternates: [
-      {
-        title: "Component scan",
-        text: "The layout is mostly presentational, with link groups, icon imports, and mobile-friendly spacing.",
-      },
-      {
-        title: "Code risk",
-        text: "The structure looks stable, but repeated link markup could be moved into a small config array.",
-      },
-      {
-        title: "Refactor note",
-        text: "The footer would be easier to extend if social links and product links shared the same data shape.",
-      },
-      {
-        title: "Implementation read",
-        text: "The code is mostly layout and icon composition, with no complex state or data fetching paths.",
-      },
-      {
-        title: "Maintainability note",
-        text: "The repeated class names are manageable, but link metadata could become noisy as the footer grows.",
-      },
-    ],
+    ...AI_OVERVIEW_CARD_COPY.codeExplanation,
     background: "rgba(242, 239, 255, 0.95)",
     border: "rgba(196, 181, 253, 0.58)",
     lineColor: "rgba(196, 181, 253, 0.42)",
@@ -289,31 +190,7 @@ const overviewCards: OverviewCardConfig[] = [
     },
   },
   {
-    id: "place-overview",
-    title: "Place overview",
-    text: "This location appears to be a popular cafe near the city center, with strong reviews for desserts and quiet seating.",
-    alternates: [
-      {
-        title: "Route context",
-        text: "The map suggests a short walk from the main street, with parking more likely on nearby side roads.",
-      },
-      {
-        title: "Visit timing",
-        text: "Reviews imply afternoons are quieter, while evenings are busier and better for groups.",
-      },
-      {
-        title: "Local highlight",
-        text: "Desserts, calm seating, and friendly service are the recurring positives in the visible review snippets.",
-      },
-      {
-        title: "Map context",
-        text: "The place sits close to a busy route, so walking may be easier than finding a nearby parking spot.",
-      },
-      {
-        title: "Review summary",
-        text: "Recent impressions suggest a relaxed cafe with better dessert ratings than main dish ratings.",
-      },
-    ],
+    ...AI_OVERVIEW_CARD_COPY.placeOverview,
     background: "rgba(255, 248, 224, 0.95)",
     border: "rgba(253, 230, 138, 0.62)",
     lineColor: "rgba(253, 230, 138, 0.48)",
@@ -349,31 +226,7 @@ const overviewCards: OverviewCardConfig[] = [
     },
   },
   {
-    id: "document-brief",
-    title: "Document brief",
-    text: "The document explains project milestones, current blockers, and the next actions required before launch.",
-    alternates: [
-      {
-        title: "Action items",
-        text: "The next steps are design review, release notes, QA signoff, and a final owner for rollout.",
-      },
-      {
-        title: "Project status",
-        text: "Most work appears complete, but launch depends on resolving two blockers and confirming dates.",
-      },
-      {
-        title: "Meeting brief",
-        text: "The notes emphasize deadlines, responsible owners, and what must be clarified before shipping.",
-      },
-      {
-        title: "Blocker summary",
-        text: "The biggest unresolved items are approval timing, QA ownership, and final copy before launch.",
-      },
-      {
-        title: "Launch readout",
-        text: "The plan is close to ready, but the document still needs a clearer owner for the release checklist.",
-      },
-    ],
+    ...AI_OVERVIEW_CARD_COPY.documentBrief,
     background: "rgba(255, 242, 234, 0.95)",
     border: "rgba(253, 186, 116, 0.58)",
     lineColor: "rgba(253, 186, 116, 0.44)",
@@ -410,7 +263,6 @@ const overviewCards: OverviewCardConfig[] = [
   },
 ];
 
-const titleText = "Get AI-powered overviews";
 const SHUFFLE_INTERVAL_MS = 900;
 const CRISP_SWAP_PROGRESS = 0.76;
 const TITLE_FRAME_SCROLL_PORTION = 0.62;
@@ -422,9 +274,37 @@ const TITLE_OVERLAY_FADE_START_PROGRESS = 0.18;
 const TITLE_OVERLAY_FADE_END_PROGRESS = 0.64;
 const TITLE_SCALE_EASE = cubicBezier(0.22, 1, 0.36, 1);
 const TITLE_SWAP_EASE = cubicBezier(0.16, 1, 0.3, 1);
+const WHEEL_GESTURE_IDLE_MS = 180;
+const WHEEL_GATE_EPSILON_PX = 2;
+const WHEEL_LINE_HEIGHT_PX = 16;
 
 function clampProgress(value: number) {
   return Math.min(Math.max(value, 0), 1);
+}
+
+function getWheelDeltaY(event: WheelEvent) {
+  if (event.deltaMode === 1) {
+    return event.deltaY * WHEEL_LINE_HEIGHT_PX;
+  }
+
+  if (event.deltaMode === 2) {
+    return event.deltaY * Math.max(window.innerHeight, 1);
+  }
+
+  return event.deltaY;
+}
+
+function getSectionScrollMetrics(section: HTMLElement) {
+  const viewportHeight = Math.max(window.innerHeight, 1);
+  const sectionTop = section.getBoundingClientRect().top + window.scrollY;
+  const scrollRange = Math.max(section.offsetHeight - viewportHeight, 1);
+
+  return {
+    sectionTop,
+    scrollRange,
+    getScrollYForProgress: (progress: number) =>
+      sectionTop + clampProgress(progress) * scrollRange,
+  };
 }
 
 function useCompactOverviewLayout() {
@@ -574,10 +454,10 @@ function OverviewCard({
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <p className="text-[0.62rem] font-semibold leading-none text-slate-950/80">
-                    AI overview
+                    {AI_OVERVIEW_CARD_LABELS.title}
                   </p>
                   <p className="mt-1 text-[0.62rem] leading-none text-slate-700/74">
-                    Generated from your screen
+                    {AI_OVERVIEW_CARD_LABELS.source}
                   </p>
                 </div>
                 <span className="mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white/45 text-slate-700 shadow-[inset_0_0_0_1px_rgba(15,23,42,0.08)]">
@@ -631,7 +511,7 @@ function OverviewCard({
           style={{ opacity: skeletonOpacity }}
         >
           <p className="text-[0.62rem] font-semibold leading-none text-slate-950/78">
-            Generating...
+            {AI_OVERVIEW_CARD_LABELS.loading}
           </p>
           <div className="mt-6 space-y-3.5">
             {[82, 58, 92, 74].map((width, lineIndex) => (
@@ -663,10 +543,10 @@ function OverviewCard({
             <div className="flex items-start justify-between gap-4">
               <div>
                 <p className="text-[0.62rem] font-semibold leading-none text-slate-950/80">
-                  AI overview
+                  {AI_OVERVIEW_CARD_LABELS.title}
                 </p>
                 <p className="mt-1 text-[0.62rem] leading-none text-slate-700/74">
-                  Generated from your screen
+                  {AI_OVERVIEW_CARD_LABELS.source}
                 </p>
               </div>
               <span className="mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white/45 text-slate-700 shadow-[inset_0_0_0_1px_rgba(15,23,42,0.08)]">
@@ -696,6 +576,10 @@ export function Overviews() {
   const lastScrollYRef = useRef(0);
   const scrollDirectionRef = useRef<"down" | "up">("down");
   const sectionZoneRef = useRef<"above" | "inside" | "below">("above");
+  const wheelGestureActiveRef = useRef(false);
+  const wheelGestureStartYRef = useRef(0);
+  const wheelGateActiveRef = useRef(false);
+  const wheelIdleTimerRef = useRef<number | null>(null);
   const [isCrispFrame, setIsCrispFrame] = useState(false);
   const [shuffleIndex, setShuffleIndex] = useState(0);
   const [titleAnimationKey, setTitleAnimationKey] = useState(0);
@@ -750,6 +634,92 @@ export function Overviews() {
     return () => {
       window.removeEventListener("resize", syncResetBuffer);
       window.removeEventListener("resize", syncZone);
+    };
+  }, []);
+
+  useEffect(() => {
+    const releaseWheelGateOnIdle = () => {
+      if (wheelIdleTimerRef.current !== null) {
+        window.clearTimeout(wheelIdleTimerRef.current);
+      }
+
+      wheelIdleTimerRef.current = window.setTimeout(() => {
+        wheelGestureActiveRef.current = false;
+        wheelGateActiveRef.current = false;
+        wheelIdleTimerRef.current = null;
+      }, WHEEL_GESTURE_IDLE_MS);
+    };
+
+    const handleWheel = (event: WheelEvent) => {
+      if (event.ctrlKey) {
+        return;
+      }
+
+      const section = sectionRef.current;
+      if (!section) {
+        return;
+      }
+
+      const deltaY = getWheelDeltaY(event);
+      if (Math.abs(deltaY) < 1 || Math.abs(deltaY) < Math.abs(event.deltaX)) {
+        return;
+      }
+
+      if (!wheelGestureActiveRef.current) {
+        wheelGestureActiveRef.current = true;
+        wheelGestureStartYRef.current = window.scrollY;
+      }
+
+      releaseWheelGateOnIdle();
+
+      if (wheelGateActiveRef.current) {
+        event.preventDefault();
+        return;
+      }
+
+      if (deltaY <= 0) {
+        return;
+      }
+
+      const { getScrollYForProgress } = getSectionScrollMetrics(section);
+      const cardGateScrollY = getScrollYForProgress(
+        CARD_SEQUENCE_START_PROGRESS,
+      );
+      const currentScrollY = window.scrollY;
+      const nextScrollY = currentScrollY + deltaY;
+      const gestureStartedBeforeCards =
+        wheelGestureStartYRef.current <
+        cardGateScrollY - WHEEL_GATE_EPSILON_PX;
+      const gestureCrossesIntoCards =
+        currentScrollY < cardGateScrollY - WHEEL_GATE_EPSILON_PX &&
+        nextScrollY >= cardGateScrollY - WHEEL_GATE_EPSILON_PX;
+
+      if (!gestureStartedBeforeCards || !gestureCrossesIntoCards) {
+        return;
+      }
+
+      wheelGateActiveRef.current = true;
+      event.preventDefault();
+      window.scrollTo({
+        top: cardGateScrollY,
+        left: window.scrollX,
+        behavior: "auto",
+      });
+    };
+
+    const listenerOptions: AddEventListenerOptions = {
+      capture: true,
+      passive: false,
+    };
+
+    window.addEventListener("wheel", handleWheel, listenerOptions);
+
+    return () => {
+      window.removeEventListener("wheel", handleWheel, listenerOptions);
+
+      if (wheelIdleTimerRef.current !== null) {
+        window.clearTimeout(wheelIdleTimerRef.current);
+      }
     };
   }, []);
 
@@ -910,11 +880,11 @@ export function Overviews() {
           <h2
             ref={titleRef}
             id="ai-overviews-title"
-            aria-label={titleText}
+            aria-label={AI_OVERVIEWS_TITLE}
             className="relative mx-auto w-max max-w-[calc(100vw-2.5rem)] whitespace-nowrap font-product-sans text-[1.42rem] font-[450] leading-[0.9] text-slate-950 min-[390px]:text-[1.56rem] sm:max-w-[calc(100vw-4rem)] sm:text-[4.8rem] sm:leading-[0.88] lg:text-[5.75rem]"
           >
             <span aria-hidden="true" className="invisible block">
-              {titleText}
+              {AI_OVERVIEWS_TITLE}
             </span>
             <span
               aria-hidden="true"
@@ -928,14 +898,14 @@ export function Overviews() {
                   key={`overview-title-${titleAnimationKey}`}
                   animateOnce
                   wrapperElement="span"
-                  text={titleText}
+                  text={AI_OVERVIEWS_TITLE}
                   staggerDuration={0.018}
                   elementVisibilityAmount={0.35}
                   lineHeight={0.9}
                   className="ai-overviews-title-effect block whitespace-nowrap"
                 />
               ) : (
-                titleText
+                AI_OVERVIEWS_TITLE
               )}
             </span>
           </h2>
