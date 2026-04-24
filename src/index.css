@@ -210,6 +210,11 @@
   animation: ai-overview-shimmer 2.15s ease-in-out infinite;
 }
 
+.ai-overviews-title-effect > span:last-child > span {
+  display: inline-block !important;
+  padding-inline-end: 0.08em;
+}
+
 html {
   scroll-behavior: smooth;
   scroll-padding-top: var(--squigit-anchor-offset, 4.5rem);

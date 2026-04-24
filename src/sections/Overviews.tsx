@@ -414,8 +414,8 @@ const titleText = "Get AI-powered overviews";
 const SHUFFLE_START_PROGRESS = 0.7;
 const SHUFFLE_INTERVAL_MS = 900;
 const CRISP_SWAP_PROGRESS = 0.76;
-const TITLE_FRAME_SCROLL_PORTION = 0.42;
-const CARD_SEQUENCE_START_PROGRESS = 0.39;
+const TITLE_FRAME_SCROLL_PORTION = 0.62;
+const CARD_SEQUENCE_START_PROGRESS = 0.58;
 const CARD_ANIMATION_SCROLL_PORTION = 0.42;
 const COMPACT_CARD_Y_OFFSET = "8vh";
 const ENTRY_PROGRESS_BOOST = 0.045;
@@ -942,7 +942,7 @@ export function Overviews() {
                   staggerDuration={0.018}
                   elementVisibilityAmount={0.35}
                   lineHeight={0.9}
-                  className="block whitespace-nowrap"
+                  className="ai-overviews-title-effect block whitespace-nowrap"
                 />
               ) : (
                 titleText
