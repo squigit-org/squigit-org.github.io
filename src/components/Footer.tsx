@@ -37,7 +37,7 @@ const footerSections: FooterSection[] = [
   {
     title: "Developer",
     links: [
-      { label: "X", href: LINKS.social.x },
+      { label: "𝕏", href: LINKS.social.x },
       { label: "LinkedIn", href: LINKS.social.linkedIn },
       {
         label: "Contact",
