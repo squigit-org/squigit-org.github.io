@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Space+Grotesk:wght@300..700&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Space+Grotesk:wght@300..700&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Libre+Baskerville:wght@400;700&display=swap');
 @import "@fontsource-variable/geist";
 @import "tailwindcss";
 @import "tw-animate-css";
@@ -162,6 +162,380 @@
   min-block-size: max(0px, calc(var(--squigit-viewport-height, 100vh) - var(--squigit-anchor-offset, 4.5rem)));
 }
 
+.sketch-art {
+  --c-raw-010: #374151;
+  --c-raw-012: #171717;
+  --c-raw-013: #0f0f0f;
+  --c-raw-036: #ffffff79;
+  --c-raw-037: #4b5563;
+  --c-raw-038: rgba(255, 255, 255, 0.08);
+  --c-raw-043: rgba(255, 255, 255, 0.04);
+  --c-raw-046: #a1a1aa;
+  --c-raw-050: #d1d1d1ed;
+  --c-raw-054: rgba(255, 255, 255, 0.15);
+  box-sizing: border-box;
+}
+
+.sketch-art *,
+.sketch-art *::before,
+.sketch-art *::after {
+  box-sizing: border-box;
+}
+
+.sketch-scene {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  overflow: hidden;
+  background-color: transparent;
+}
+
+.sketch-capture-scene {
+  aspect-ratio: 2200 / 1080;
+}
+
+.sketch-ocr-scene {
+  aspect-ratio: 1120 / 1080;
+}
+
+.sketch-chat-scene {
+  display: flex;
+  min-height: clamp(14rem, 34vw, 23rem);
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+}
+
+.sketch-chat-copy {
+  justify-content: center;
+  padding: 0;
+}
+
+.sketch-scaled-stage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-origin: top left;
+  will-change: transform;
+}
+
+.sketch-capture-stage-set {
+  width: 2200px;
+  height: 1080px;
+}
+
+.sketch-ocr-stage-set {
+  width: 2200px;
+  height: 2200px;
+}
+
+.sketch-art .stage {
+  width: 1080px;
+  height: 1080px;
+  background-color: white;
+  position: absolute;
+  overflow: hidden;
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.1);
+}
+
+.sketch-art #stage-left { top: 0; left: 0; }
+.sketch-art #stage-right { top: 0; left: 1120px; }
+.sketch-art #stage-bottom { top: 1120px; left: 560px; }
+
+.sketch-art .pdf-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 80px;
+  box-sizing: border-box;
+  font-family: 'Libre Baskerville', serif;
+  color: #111;
+  font-size: 52px;
+  line-height: 1.6;
+  text-align: justify;
+  z-index: 1;
+}
+
+.sketch-art .text-paragraph {
+  display: block;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+}
+
+.sketch-art .text-caption {
+  display: block;
+  margin-top: 30px;
+  color: #444;
+}
+
+.sketch-art .cursor-normal,
+.sketch-art .cursor-clicked {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+}
+
+.sketch-art .selection-box-rect {
+  position: absolute;
+  top: 150px;
+  right: 150px;
+  width: 0;
+  height: 0;
+  z-index: 10;
+  border-radius: 65px 65px 65px 0px;
+  border: 0px solid #cbd5e1;
+  box-shadow: 0 0 0 4000px rgba(0, 0, 0, 0.65);
+  opacity: 0;
+  animation:
+    boxWidth 4.5s infinite,
+    boxHeight 4.5s infinite,
+    boxFadeRect 4.5s linear infinite,
+    boxBorder 4.5s linear infinite;
+}
+
+.sketch-art .cursor-wrapper-rect {
+  position: absolute;
+  left: 930px;
+  top: 150px;
+  width: 0;
+  height: 0;
+  z-index: 20;
+  animation: cursorXRect 4.5s infinite;
+}
+
+.sketch-art .cursor-rect {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 140px;
+  height: auto;
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
+  animation: cursorYRect 4.5s infinite;
+}
+
+.sketch-art .cursor-rect .cursor-normal { animation: toggleNormalRect 4.5s step-end infinite; }
+.sketch-art .cursor-rect .cursor-clicked { animation: toggleClickedRect 4.5s step-end infinite; }
+
+.sketch-art .dim-overlay-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  pointer-events: none;
+  opacity: 0;
+  animation: dimFadeFree 4.5s linear infinite;
+}
+
+.sketch-art .dim-solid {
+  width: 100%;
+  height: 100%;
+  fill: rgba(0, 0, 0, 0.45);
+}
+
+.sketch-art .drawing-stroke {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 15;
+  pointer-events: none;
+}
+
+.sketch-art .stroke-path {
+  fill: none;
+  stroke: #ffffff;
+  stroke-width: 16;
+  stroke-linecap: round;
+  stroke-dasharray: 3000;
+  stroke-dashoffset: 3000;
+  filter: drop-shadow(0 0 8px rgba(255,255,255,0.6));
+  animation: drawStroke 4.5s linear infinite;
+}
+
+.sketch-art .cursor-free {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 140px;
+  height: 198px;
+  z-index: 20;
+  margin-left: 70px;
+  margin-top: 99px;
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
+  offset-path: path("M 800,200 C 600,150 400,180 300,300 C 150,450 200,700 350,850 C 500,950 800,900 900,750 C 1000,600 950,300 800,200 Z");
+  offset-rotate: 0deg;
+  animation: moveCursorFree 4.5s infinite;
+}
+
+.sketch-art .cursor-free .cursor-normal { animation: toggleNormalFree 4.5s step-end infinite; }
+.sketch-art .cursor-free .cursor-clicked { animation: toggleClickedFree 4.5s step-end infinite; }
+
+.sketch-art .text-selection-container {
+  position: relative;
+  display: inline-block;
+  white-space: nowrap;
+  color: #111;
+  z-index: 20;
+}
+
+.sketch-art .text-selection-bg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  background-color: #b3d4fc;
+  z-index: -1;
+  width: 100%;
+}
+
+.sketch-art .inline-menu-anchor {
+  position: absolute;
+  bottom: calc(100% + 32px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  font-family:
+    "Inter",
+    "Inter var",
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+}
+
+.sketch-art .inline-menu-anchor .menu {
+  position: relative;
+  background-color: var(--c-raw-012);
+  border: 2px solid var(--c-raw-043);
+  border-radius: 34px;
+  box-shadow: 0 18px 26px -10px rgba(0, 0, 0, 0.42);
+  color: var(--c-raw-050);
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 2.18rem;
+  font-weight: 500;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.9) translateY(12px);
+  transform-origin: bottom center;
+  transition:
+    opacity 0.15s ease-out,
+    transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  z-index: 1000;
+  height: calc(138px - 0.2rem);
+  display: flex;
+  align-items: center;
+}
+
+.sketch-art .inline-menu-anchor .menu::after {
+  content: '';
+  position: absolute;
+  bottom: -15px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  width: calc(28px - 0.2rem);
+  height: calc(28px - 0.2rem);
+  background-color: var(--c-raw-012);
+  border-right: 2px solid var(--c-raw-043);
+  border-bottom: 2px solid var(--c-raw-043);
+  z-index: -1;
+}
+
+.sketch-art .inline-menu-anchor .menu.animating-layout {
+  transition:
+    opacity 0.15s ease-out,
+    transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+    width 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.sketch-art .inline-menu-anchor .menu.active {
+  opacity: 1;
+  pointer-events: auto;
+  transform: scale(1) translateY(0);
+}
+
+.sketch-art .inline-menu-anchor .menuSlider {
+  display: flex;
+  height: 100%;
+  transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  will-change: transform;
+}
+
+.sketch-art .inline-menu-anchor .menuPage {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  padding: 0 11px;
+  box-sizing: border-box;
+  white-space: nowrap;
+}
+
+.sketch-art .inline-menu-anchor .menuItem {
+  padding: 21px 31px;
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+  transition:
+    background 0.2s,
+    color 0.2s,
+    transform 0.08s ease;
+  border-radius: 22px;
+  margin: 0 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  line-height: 1;
+  outline: none;
+}
+
+.sketch-art .inline-menu-anchor .menuItem:hover,
+.sketch-art .inline-menu-anchor .menuItem:focus-visible {
+  background-color: var(--c-raw-038);
+}
+
+.sketch-art .inline-menu-anchor .menuItem:active {
+  background-color: var(--c-raw-054);
+  transform: scale(0.97);
+}
+
+.sketch-art .inline-menu-anchor .divider {
+  width: 2px;
+  height: calc(48px - 0.2rem);
+  background-color: var(--c-raw-043);
+  margin: 0 6px;
+  flex-shrink: 0;
+}
+
+.sketch-art .inline-menu-anchor .navArrow {
+  color: var(--c-raw-046);
+  padding: 21px 21px;
+  min-width: calc(88px - 0.2rem);
+}
+
+.sketch-art .inline-menu-anchor .navArrow:hover,
+.sketch-art .inline-menu-anchor .navArrow:focus-visible {
+  color: var(--c-raw-036);
+}
+
+.sketch-art .inline-menu-anchor .navArrow svg {
+  width: 56px;
+  height: 56px;
+  display: block;
+  stroke-width: 2;
+}
+
 @keyframes widget-rise {
   0% {
     opacity: 0;
@@ -187,6 +561,109 @@
   100% {
     opacity: 0.45;
     transform: translateX(76%);
+  }
+}
+
+@keyframes cursorXRect {
+  0%, 15% { transform: translateX(0); }
+  55%, 100% { transform: translateX(-700px); }
+}
+
+@keyframes cursorYRect {
+  0%, 15% { transform: translateY(0); }
+  55%, 100% { transform: translateY(700px); }
+}
+
+@keyframes toggleNormalRect {
+  0%, 14% { opacity: 1; }
+  15% { opacity: 0; }
+  75% { opacity: 0; }
+  76% { opacity: 1; }
+  100% { opacity: 1; }
+}
+
+@keyframes toggleClickedRect {
+  0%, 14% { opacity: 0; }
+  15% { opacity: 1; }
+  75% { opacity: 1; }
+  76% { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+@keyframes boxWidth {
+  0%, 15% { width: 0; }
+  55%, 100% { width: 700px; }
+}
+
+@keyframes boxHeight {
+  0%, 15% { height: 0; }
+  55%, 100% { height: 700px; }
+}
+
+@keyframes boxFadeRect {
+  0% { opacity: 0; }
+  15% { opacity: 1; }
+  75% { opacity: 1; }
+  75.1% { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+@keyframes boxBorder {
+  0%, 14% { border-width: 0px; }
+  15% { border-width: 6px; }
+  75% { border-width: 6px; }
+  75.1% { border-width: 0px; }
+  100% { border-width: 0px; }
+}
+
+@keyframes moveCursorFree {
+  0%, 15% { offset-distance: 0%; }
+  55%, 100% { offset-distance: 100%; }
+}
+
+@keyframes toggleNormalFree {
+  0%, 14% { opacity: 1; }
+  15% { opacity: 0; }
+  75% { opacity: 0; }
+  76% { opacity: 1; }
+  100% { opacity: 1; }
+}
+
+@keyframes toggleClickedFree {
+  0%, 14% { opacity: 0; }
+  15% { opacity: 1; }
+  75% { opacity: 1; }
+  76% { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+@keyframes drawStroke {
+  0%, 15% { stroke-dashoffset: 3000; }
+  55% { stroke-dashoffset: 0; opacity: 1; }
+  75% { opacity: 1; stroke-dashoffset: 0; }
+  75.1% { opacity: 0; stroke-dashoffset: 0; }
+  100% { opacity: 0; stroke-dashoffset: 3000; }
+}
+
+@keyframes dimFadeFree {
+  0% { opacity: 0; }
+  15% { opacity: 1; }
+  75% { opacity: 1; }
+  75.1% { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+@keyframes textShimmerSweep {
+  from {
+    background-position:
+      130% center,
+      0 0;
+  }
+
+  to {
+    background-position:
+      -30% center,
+      0 0;
   }
 }
 
