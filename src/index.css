@@ -159,7 +159,11 @@
 }
 
 .feature-scroll-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   min-block-size: max(0px, calc(var(--squigit-viewport-height, 100vh) - var(--squigit-anchor-offset, 4.5rem)));
+  padding-block: 0;
 }
 
 .sketch-art {
