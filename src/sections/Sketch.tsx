@@ -1,26 +1,28 @@
 import { useLayoutEffect, useRef, useState } from "react";
 import { TextShimmer } from "@/components/ui";
 
+const OCR_SELECTED_TEXT = "relies on understanding";
+
 const SKETCH_STEPS = [
   {
-    title: "Squiggle any part of your screen",
+    title: "Capture what you mean",
     lines: [
-      "Fire one hotkey, then freehand a shape or pull a rectangle.",
-      "Squigit captures the exact pixels you meant without breaking flow.",
+      "Press one hotkey, then circle, squiggle, or drag over anything on screen.",
+      "Squigit grabs only that moment, exactly as you selected it.",
     ],
   },
   {
-    title: "A Local-first Experience",
+    title: "Turn images into usable text",
     lines: [
-      "Get instant on-device offline OCR from the image.",
-      "Extract, copy, search, and translate screen text with no network hop.",
+      "Local OCR adds an invisible text layer directly over the image.",
+      "Select, copy, search, or translate text without sending it anywhere.",
     ],
   },
   {
-    title: "A Full Chat Experience",
+    title: "Ask about what you captured",
     lines: [
-      "Chat with Squigit about your image as soon as it lands.",
-      "Ask what it sees, what changed, or what to do next.",
+      "Your capture opens in a full chat, ready for follow-up questions.",
+      "Ask Squigit to explain, compare, summarize, or help you decide what to do next.",
     ],
   },
 ] as const;
@@ -389,6 +391,18 @@ function CaptureFrame() {
 function OcrStage() {
   const [activePage, setActivePage] = useState(0);
   const { menuRef, pagesRef, sliderRef } = useInlineMenuLayout(activePage);
+  const openInjectedUrl = (action: "search" | "translate") => {
+    const injectedText = encodeURIComponent(OCR_SELECTED_TEXT);
+    const url =
+      action === "search"
+        ? `https://www.google.com/search?q=${injectedText}`
+        : `https://translate.google.com/?sl=auto&tl=en&text=${injectedText}&op=translate`;
+
+    const openedWindow = window.open(url, "_blank", "noopener,noreferrer");
+    if (openedWindow) {
+      openedWindow.opener = null;
+    }
+  };
 
   return (
     <div
@@ -463,11 +477,21 @@ function OcrStage() {
                       </svg>
                     </button>
                     <div className="divider"></div>
-                    <button className="menuItem" type="button" data-action="search" tabIndex={-1}>
+                    <button
+                      className="menuItem"
+                      type="button"
+                      data-action="search"
+                      onClick={() => openInjectedUrl("search")}
+                    >
                       Search
                     </button>
                     <div className="divider"></div>
-                    <button className="menuItem" type="button" data-action="translate" tabIndex={-1}>
+                    <button
+                      className="menuItem"
+                      type="button"
+                      data-action="translate"
+                      onClick={() => openInjectedUrl("translate")}
+                    >
                       Translate
                     </button>
                   </div>
@@ -483,11 +507,21 @@ function OcrStage() {
                       Copy
                     </button>
                     <div className="divider"></div>
-                    <button className="menuItem" type="button" data-action="search" tabIndex={-1}>
+                    <button
+                      className="menuItem"
+                      type="button"
+                      data-action="search"
+                      onClick={() => openInjectedUrl("search")}
+                    >
                       Search
                     </button>
                     <div className="divider"></div>
-                    <button className="menuItem" type="button" data-action="translate" tabIndex={-1}>
+                    <button
+                      className="menuItem"
+                      type="button"
+                      data-action="translate"
+                      onClick={() => openInjectedUrl("translate")}
+                    >
                       Translate
                     </button>
                   </div>

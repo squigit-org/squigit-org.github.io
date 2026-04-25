@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { CodeBlock } from "@/components/ui";
 import { PRODUCT_INSTALL } from "@/lib";
 
-export type SetupPlatform = "MacOS" | "Windows" | "Linux";
+export type SetupPlatform = "macOS" | "Windows" | "Linux";
 
 type SetupStep = {
   title: string;
@@ -77,7 +77,7 @@ const LINUX_SETUP_SECTIONS: LinuxSetupSection[] = [
 ];
 
 const DESKTOP_SETUP_CONFIG: Record<DesktopSetupPlatform, DesktopSetupConfig> = {
-  MacOS: {
+  macOS: {
     installerFileName: "Squigit-installer.dmg",
     installerExtension: ".dmg",
     dependencyLanguage: "bash",

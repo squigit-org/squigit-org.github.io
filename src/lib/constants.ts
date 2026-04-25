@@ -2,7 +2,7 @@ import { LINKS } from "./links";
 
 export const DOWNLOADS = [
   {
-    name: "MacOS",
+    name: "macOS",
     items: [{ label: "Download for Apple Silicon", href: "#" }],
     min: "macOS versions with Apple security update support. This is typically the current and two previous versions. Minimum version 12 (Monterey). Apple Silicon (M1+) only.",
   },

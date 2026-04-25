@@ -66,7 +66,7 @@ function detectVisitorPlatform(): VisitorPlatform {
 }
 
 function getPlatformIcon(name: string) {
-  if (name === "MacOS") {
+  if (name === "macOS") {
     return MacIcon;
   }
   if (name === "Windows") {
@@ -79,7 +79,7 @@ function getPlatformIcon(name: string) {
 }
 
 function getPlatformIconClassName(name: string) {
-  if (name === "MacOS") {
+  if (name === "macOS") {
     return "h-7.5 w-7.5 pb-1 text-slate-950";
   }
   if (name === "Windows") {
@@ -102,7 +102,7 @@ function getTextEffectFourStepCount(text: string) {
 
 function isSetupPlatform(platformName: string): platformName is SetupPlatform {
   return (
-    platformName === "MacOS" ||
+    platformName === "macOS" ||
     platformName === "Windows" ||
     platformName === "Linux"
   );

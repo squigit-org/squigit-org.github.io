@@ -50,8 +50,7 @@ export function Pricing() {
                 for Gemini model access and inference usage.
               </p>
               <p>
-                <span className="font-medium text-slate-900">ImgBB</span> for image
-                for image hosting used in reverse image workflows.
+                <span className="font-medium text-slate-900">ImgBB</span> for temporary image hosting used in reverse image search workflows.
               </p>
               <p className="pt-5">
                 Both providers currently offer generous free-tier access.
