@@ -118,10 +118,10 @@ export function CodeBlock({
         </button>
       </div>
 
-      <pre className="code-scrollbar overflow-x-auto bg-white p-4 [&_code]:!bg-white">
+      <pre className="code-scrollbar !m-0 overflow-x-auto !bg-white p-4 [&_code]:!bg-transparent">
         <code
           ref={codeRef}
-          className={`language-${prismLanguage} block bg-white text-sm leading-7`}
+          className={`language-${prismLanguage} block !bg-transparent text-sm leading-7`}
         >
           {source}
         </code>
