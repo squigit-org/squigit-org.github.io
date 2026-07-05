@@ -28,9 +28,9 @@ export const LINKS = {
     changelog: `${SQUIGIT_REPO}/blob/main/CHANGELOG.md`,
     releases: `${SQUIGIT_REPO}/releases`,
     readme: `${SQUIGIT_REPO}/blob/main/README.md`,
-    byokPolicy: `${SQUIGIT_REPO}/blob/main/docs/06-policies/BYOK.md`,
-    securityPolicy: `${SQUIGIT_REPO}/blob/main/docs/06-policies/SECURITY.md`,
-    policies: `${SQUIGIT_REPO}/tree/main/docs/06-policies`,
+    byokPolicy: `${SQUIGIT_REPO}/blob/main/docs/07-policies/BYOK.md`,
+    securityPolicy: `${SQUIGIT_REPO}/blob/main/docs/07-policies/SECURITY.md`,
+    policies: `${SQUIGIT_REPO}/tree/main/docs/07-policies`,
   },
   packages: {
     aptKey: `${SQUIGIT_PACKAGES_SITE}/keys/squigit-packages.asc`,
