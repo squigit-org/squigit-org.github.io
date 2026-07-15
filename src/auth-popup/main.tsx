@@ -38,8 +38,8 @@ const stateCopy: Record<
   },
   invalid: {
     icon: AlertTriangle,
-    eyebrow: 'Expired',
-    title: 'This sign-in link expired.',
+    eyebrow: 'Not completed',
+    title: "Squigit couldn't finish sign-in.",
     body: 'Return to Squigit and start Google sign-in again.',
     tone: 'invalid',
   },
