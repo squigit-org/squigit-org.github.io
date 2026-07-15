@@ -33,9 +33,9 @@ const stateCopy: Record<
   },
   complete: {
     icon: Check,
-    eyebrow: 'Connected',
-    title: "You're all set here.",
-    body: 'Return to Squigit to finish signing in.',
+    eyebrow: 'Sent to Squigit',
+    title: 'Return to Squigit.',
+    body: 'Squigit is finishing sign-in locally. This browser tab can be closed.',
     tone: 'complete',
   },
   cancelled: {
@@ -98,7 +98,8 @@ function AuthPopup() {
     window.history.replaceState(null, document.title, `${window.location.pathname}#handoff`);
     window.location.href = handoffUrl(params);
     const timer = window.setTimeout(() => {
-      const nextState = params.has('error') ? 'cancelled' : 'complete';
+      const error = params.get('error');
+      const nextState = error === 'access_denied' ? 'cancelled' : error ? 'invalid' : 'complete';
       setState(nextState);
       window.history.replaceState(null, document.title, `${window.location.pathname}#${nextState}`);
     }, 1600);
