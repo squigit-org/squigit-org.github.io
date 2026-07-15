@@ -82,6 +82,14 @@ select {
   background: #147a51;
 }
 
+.auth-popup[data-state="handoff"] .status-icon {
+  background: #171a22;
+}
+
+.auth-popup[data-state="handoff"] .status-icon svg {
+  animation: spin 1.1s linear infinite;
+}
+
 .auth-popup[data-state="cancelled"] .status-icon {
   background: #595f6f;
 }
@@ -128,6 +136,12 @@ footer {
   padding-top: 24px;
   color: #8b93a3;
   font-size: 12px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @media (max-width: 480px) {

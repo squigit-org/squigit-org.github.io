@@ -1,11 +1,13 @@
 import {StrictMode, useEffect, useMemo, useState} from 'react';
 import {createRoot} from 'react-dom/client';
-import {AlertTriangle, Check, CircleSlash, X} from 'lucide-react';
+import {AlertTriangle, Check, CircleSlash, LoaderCircle, X} from 'lucide-react';
 import './styles.css';
 
-type AuthPopupState = 'complete' | 'cancelled' | 'invalid' | 'unavailable';
+type AuthPopupState = 'handoff' | 'complete' | 'cancelled' | 'invalid' | 'unavailable';
+const appCallbackUrl = 'org.squigit.app:/oauth2redirect/google';
 
 const allowedStates = new Set<AuthPopupState>([
+  'handoff',
   'complete',
   'cancelled',
   'invalid',
@@ -22,6 +24,13 @@ const stateCopy: Record<
     tone: string;
   }
 > = {
+  handoff: {
+    icon: LoaderCircle,
+    eyebrow: 'Opening Squigit',
+    title: 'Finishing sign-in.',
+    body: 'Approve the browser prompt to return to Squigit.',
+    tone: 'handoff',
+  },
   complete: {
     icon: Check,
     eyebrow: 'Connected',
@@ -52,7 +61,21 @@ const stateCopy: Record<
   },
 };
 
+function oauthCallbackParams() {
+  const params = new URLSearchParams(window.location.search);
+  const hasOAuthResult = params.has('code') || params.has('error');
+  const hasState = params.has('state');
+  return hasOAuthResult && hasState ? params : null;
+}
+
+function handoffUrl(params: URLSearchParams) {
+  const url = new URL(appCallbackUrl);
+  url.search = params.toString();
+  return url.toString();
+}
+
 function currentState(): AuthPopupState {
+  if (oauthCallbackParams()) return 'handoff';
   const hash = window.location.hash.replace(/^#/, '') as AuthPopupState;
   return allowedStates.has(hash) ? hash : 'unavailable';
 }
@@ -69,10 +92,19 @@ function AuthPopup() {
   }, []);
 
   useEffect(() => {
-    if (state !== 'complete' && state !== 'cancelled') return;
-    const timer = window.setTimeout(() => window.close(), 900);
+    const params = oauthCallbackParams();
+    if (!params) return;
+
+    window.history.replaceState(null, document.title, `${window.location.pathname}#handoff`);
+    window.location.href = handoffUrl(params);
+    const timer = window.setTimeout(() => {
+      const nextState = params.has('error') ? 'cancelled' : 'complete';
+      setState(nextState);
+      window.history.replaceState(null, document.title, `${window.location.pathname}#${nextState}`);
+    }, 1600);
+
     return () => window.clearTimeout(timer);
-  }, [state]);
+  }, []);
 
   const year = useMemo(() => new Date().getFullYear(), []);
 
