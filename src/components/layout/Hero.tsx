@@ -1,9 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import { motion, useInView, useScroll, useTransform } from "motion/react";
+import { useInView, useScroll, useTransform } from "motion/react";
 import { TextEffectTwo } from "react-text-animate";
-import { Button } from "@/components/ui";
+import { Button, HeroCard } from "@/components/ui";
 import {
-  AppBrandIcon,
   DownloadIcon,
   LinuxIcon,
   MacIcon,
@@ -111,28 +110,11 @@ export function Hero() {
       ref={targetRef}
       className="relative flex min-h-screen items-center justify-center px-5"
     >
-      <motion.div
-        style={{ y }}
-        className="relative z-10 mx-auto -mt-14 max-w-5xl text-center sm:-mt-16"
-      >
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={showHeroMeta ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
-          transition={{ duration: 0.98, ease: [0.22, 1, 0.36, 1] }}
-          className="mb-6 flex justify-center"
-        >
-          <div className="flex items-center text-slate-950">
-            <AppBrandIcon className="h-10 w-10 shrink-0 sm:h-11 sm:w-11" />
-            <span className="pl-2 font-product-sans text-2xl font-[450] tracking-tight sm:text-3xl">
-              Squigit
-            </span>
-          </div>
-        </motion.div>
-
-        <div
-          ref={textRef}
-          className="mx-auto flex max-w-4xl flex-col items-center gap-0.5 sm:gap-1.5"
-        >
+      <HeroCard
+        y={y}
+        showMeta={showHeroMeta}
+        textRef={textRef}
+        text={
           <TextEffectTwo
             animateOnce
             key={heroSentence}
@@ -143,14 +125,8 @@ export function Hero() {
             initialDelay={HERO_TEXT_EFFECT.initialDelay}
             filter={HERO_TEXT_EFFECT.filter}
           />
-        </div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 38 }}
-          animate={showHeroMeta ? { opacity: 1, y: 0 } : { opacity: 0, y: 38 }}
-          transition={{ duration: 1.08, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-18 flex flex-col items-center justify-center gap-3 sm:flex-row"
-        >
+        }
+        primaryButton={
           <a href="#download">
             <Button
               size="lg"
@@ -160,6 +136,8 @@ export function Hero() {
               {platformMeta.label}
             </Button>
           </a>
+        }
+        secondaryButton={
           <Button
             size="lg"
             onClick={openUseCasesDropdown}
@@ -167,8 +145,8 @@ export function Hero() {
           >
             Explore use cases
           </Button>
-        </motion.div>
-      </motion.div>
+        }
+      />
     </section>
   );
 }

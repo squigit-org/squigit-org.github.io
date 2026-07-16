@@ -9,19 +9,35 @@ import {
 import { Resources, UseCases } from "@/features/landing-page";
 import { cn, LINKS } from "@/lib";
 
+type HeaderNavigationScope = "landing" | "site";
+type HeaderHiddenItem = "products" | "pricing" | "download";
+
+type HeaderProps = {
+  onDropdownOpenChange?: (open: boolean) => void;
+  onUseCasesOpenChange?: (open: boolean) => void;
+  navigationScope?: HeaderNavigationScope;
+  hiddenItems?: HeaderHiddenItem[];
+};
+
 export function Header({
   onDropdownOpenChange,
   onUseCasesOpenChange,
-}: {
-  onDropdownOpenChange?: (open: boolean) => void;
-  onUseCasesOpenChange?: (open: boolean) => void;
-} = {}) {
+  navigationScope = "landing",
+  hiddenItems = [],
+}: HeaderProps = {}) {
   const [useCasesOpen, setUseCasesOpen] = useState(false);
   const [resourcesOpen, setResourcesOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isDesktopNav, setIsDesktopNav] = useState(false);
   const closeTimeoutRef = useRef<number | null>(null);
   const headerRef = useRef<HTMLElement | null>(null);
+  const hiddenItemSet = new Set(hiddenItems);
+  const homeHref = navigationScope === "landing" ? LINKS.anchors.home : "/";
+  const anchorHref = (anchor: string) =>
+    navigationScope === "landing" ? anchor : `/${anchor}`;
+  const showProducts = !hiddenItemSet.has("products");
+  const showPricing = !hiddenItemSet.has("pricing");
+  const showDownload = !hiddenItemSet.has("download");
   const anyDropdownOpen = isDesktopNav
     ? useCasesOpen || resourcesOpen
     : mobileMenuOpen;
@@ -248,7 +264,7 @@ export function Header({
       <div className="relative z-20 mx-auto flex h-12 w-full max-w-6xl items-center justify-between px-5 sm:px-6 lg:px-10">
         <div className="flex items-center gap-4 lg:gap-5">
           <a
-            href={LINKS.anchors.home}
+            href={homeHref}
             onClick={closeDropdownsNow}
             className="inline-flex items-center text-slate-950 transition-opacity hover:opacity-80"
             aria-label="Go to home"
@@ -257,13 +273,15 @@ export function Header({
           </a>
 
           <nav className="hidden flex-wrap items-center gap-1.5 lg:flex">
-            <a
-              href={LINKS.anchors.products}
-              onClick={closeDropdownsNow}
-              className="rounded-full px-3 py-1.5 text-[14px] font-medium text-slate-700 transition-colors hover:text-slate-950"
-            >
-              Products
-            </a>
+            {showProducts && (
+              <a
+                href={anchorHref(LINKS.anchors.products)}
+                onClick={closeDropdownsNow}
+                className="rounded-full px-3 py-1.5 text-[14px] font-medium text-slate-700 transition-colors hover:text-slate-950"
+              >
+                Products
+              </a>
+            )}
             <button
               type="button"
               onClick={toggleUseCases}
@@ -287,13 +305,15 @@ export function Header({
                 />
               </span>
             </button>
-            <a
-              href={LINKS.anchors.pricing}
-              onClick={closeDropdownsNow}
-              className="rounded-full px-3 py-1.5 text-[14px] font-medium text-slate-700 transition-colors hover:text-slate-950"
-            >
-              Pricing
-            </a>
+            {showPricing && (
+              <a
+                href={anchorHref(LINKS.anchors.pricing)}
+                onClick={closeDropdownsNow}
+                className="rounded-full px-3 py-1.5 text-[14px] font-medium text-slate-700 transition-colors hover:text-slate-950"
+              >
+                Pricing
+              </a>
+            )}
             <a
               href={LINKS.squigit.repository}
               target="_blank"
@@ -329,15 +349,17 @@ export function Header({
           </nav>
         </div>
 
-        <a href={LINKS.anchors.download} className="hidden lg:block">
-          <Button
-            size="lg"
-            className="h-9.5 rounded-full bg-slate-950 px-4 text-sm text-white hover:bg-slate-800 cursor-pointer"
-          >
-            Download
-            <DownloadIcon className="h-4 w-4" />
-          </Button>
-        </a>
+        {showDownload && (
+          <a href={anchorHref(LINKS.anchors.download)} className="hidden lg:block">
+            <Button
+              size="lg"
+              className="h-9.5 rounded-full bg-slate-950 px-4 text-sm text-white hover:bg-slate-800 cursor-pointer"
+            >
+              Download
+              <DownloadIcon className="h-4 w-4" />
+            </Button>
+          </a>
+        )}
 
         <button
           type="button"
@@ -365,13 +387,15 @@ export function Header({
         <div className="min-h-0">
           <nav className="mx-auto max-h-[calc(100vh-3rem)] w-full max-w-6xl overflow-y-auto px-5 pb-5 pt-3 sm:px-6">
             <div className="flex flex-col gap-1">
-              <a
-                href={LINKS.anchors.products}
-                onClick={closeDropdownsNow}
-                className="rounded-full px-1 py-2 text-[15px] font-medium text-slate-700 transition-colors hover:text-slate-950"
-              >
-                Products
-              </a>
+              {showProducts && (
+                <a
+                  href={anchorHref(LINKS.anchors.products)}
+                  onClick={closeDropdownsNow}
+                  className="rounded-full px-1 py-2 text-[15px] font-medium text-slate-700 transition-colors hover:text-slate-950"
+                >
+                  Products
+                </a>
+              )}
 
               <button
                 type="button"
@@ -411,13 +435,15 @@ export function Header({
                 </div>
               </div>
 
-              <a
-                href={LINKS.anchors.pricing}
-                onClick={closeDropdownsNow}
-                className="rounded-full px-1 py-2 text-[15px] font-medium text-slate-700 transition-colors hover:text-slate-950"
-              >
-                Pricing
-              </a>
+              {showPricing && (
+                <a
+                  href={anchorHref(LINKS.anchors.pricing)}
+                  onClick={closeDropdownsNow}
+                  className="rounded-full px-1 py-2 text-[15px] font-medium text-slate-700 transition-colors hover:text-slate-950"
+                >
+                  Pricing
+                </a>
+              )}
 
               <a
                 href={LINKS.squigit.repository}
