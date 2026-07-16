@@ -12,8 +12,8 @@ export const LINKS = {
     download: "#download",
   },
   legal: {
-    privacy: "/legal/privacy/index.html",
-    terms: "/legal/terms/index.html",
+    privacy: "/legal/privacy/",
+    terms: "/legal/terms/",
   },
   contact: {
     email: "mailto:a7mddra@gmail.com?subject=Inquiry&body=Hi%20there,",
