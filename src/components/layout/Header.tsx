@@ -6,7 +6,7 @@ import {
   ChevronDownIcon,
   MenuIcon,
 } from "@/components/icons";
-import { Resources, UseCases } from "@/sections";
+import { Resources, UseCases } from "@/features/landing-page";
 import { cn, LINKS } from "@/lib";
 
 export function Header({
@@ -47,7 +47,12 @@ export function Header({
   useEffect(() => {
     onDropdownOpenChange?.(anyDropdownOpen);
     onUseCasesOpenChange?.(useCasesOpen);
-  }, [anyDropdownOpen, onDropdownOpenChange, onUseCasesOpenChange, useCasesOpen]);
+  }, [
+    anyDropdownOpen,
+    onDropdownOpenChange,
+    onUseCasesOpenChange,
+    useCasesOpen,
+  ]);
 
   useEffect(() => {
     const header = headerRef.current;
@@ -115,7 +120,10 @@ export function Header({
 
     return () => {
       window.removeEventListener("squigit:open-use-cases", handleOpenUseCases);
-      window.removeEventListener("squigit:close-dropdowns", handleCloseDropdowns);
+      window.removeEventListener(
+        "squigit:close-dropdowns",
+        handleCloseDropdowns,
+      );
       clearCloseTimeout();
     };
   }, []);
@@ -231,7 +239,9 @@ export function Header({
         aria-hidden="true"
         className={cn(
           "pointer-events-none absolute inset-x-0 -inset-y-px z-0 bg-white transition-opacity ease-linear",
-          anyDropdownOpen ? "opacity-100 duration-150" : "opacity-0 duration-400",
+          anyDropdownOpen
+            ? "opacity-100 duration-150"
+            : "opacity-0 duration-400",
         )}
       />
 
@@ -332,7 +342,9 @@ export function Header({
         <button
           type="button"
           onClick={toggleMobileMenu}
-          aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+          aria-label={
+            mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"
+          }
           aria-expanded={mobileMenuOpen}
           aria-controls="header-mobile-menu"
           className="inline-flex h-9 w-9 items-center justify-center rounded-full text-slate-950 transition-colors hover:text-slate-700 lg:hidden"
@@ -384,7 +396,9 @@ export function Header({
                 id="header-use-cases-mobile"
                 className={cn(
                   "grid overflow-hidden transition-[grid-template-rows,opacity] duration-250 ease-out",
-                  useCasesOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0",
+                  useCasesOpen
+                    ? "grid-rows-[1fr] opacity-100"
+                    : "grid-rows-[0fr] opacity-0",
                 )}
               >
                 <div className="min-h-0 overflow-hidden">
@@ -438,7 +452,9 @@ export function Header({
                 id="header-resources-mobile"
                 className={cn(
                   "grid overflow-hidden transition-[grid-template-rows,opacity] duration-250 ease-out",
-                  resourcesOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0",
+                  resourcesOpen
+                    ? "grid-rows-[1fr] opacity-100"
+                    : "grid-rows-[0fr] opacity-0",
                 )}
               >
                 <div className="min-h-0 overflow-hidden">

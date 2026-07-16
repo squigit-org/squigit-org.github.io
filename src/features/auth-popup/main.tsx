@@ -3,12 +3,12 @@ import {createRoot} from 'react-dom/client';
 import {AlertTriangle, Check, CircleSlash, LoaderCircle, X} from 'lucide-react';
 import './styles.css';
 
-type AuthPopupState = 'handoff' | 'complete' | 'cancelled' | 'invalid' | 'unavailable';
+type AuthPopupState = 'handoff' | 'success' | 'cancelled' | 'invalid' | 'unavailable';
 const appCallbackUrl = 'org.squigit.app:/oauth2redirect/google';
 
 const allowedStates = new Set<AuthPopupState>([
   'handoff',
-  'complete',
+  'success',
   'cancelled',
   'invalid',
   'unavailable',
@@ -31,12 +31,12 @@ const stateCopy: Record<
     body: 'Approve the browser prompt to return to Squigit.',
     tone: 'handoff',
   },
-  complete: {
+  success: {
     icon: Check,
     eyebrow: 'Sent to Squigit',
     title: 'Return to Squigit.',
     body: 'Squigit is finishing sign-in locally. This browser tab can be closed.',
-    tone: 'complete',
+    tone: 'success',
   },
   cancelled: {
     icon: X,
@@ -47,7 +47,7 @@ const stateCopy: Record<
   },
   invalid: {
     icon: AlertTriangle,
-    eyebrow: 'Not completed',
+    eyebrow: 'Not successd',
     title: "Squigit couldn't finish sign-in.",
     body: 'Return to Squigit and start Google sign-in again.',
     tone: 'invalid',
@@ -55,7 +55,7 @@ const stateCopy: Record<
   unavailable: {
     icon: CircleSlash,
     eyebrow: 'Unavailable',
-    title: 'Nothing to complete here.',
+    title: 'Nothing to success here.',
     body: 'Start Google sign-in from the Squigit app.',
     tone: 'unavailable',
   },
@@ -99,7 +99,7 @@ function AuthPopup() {
     window.location.href = handoffUrl(params);
     const timer = window.setTimeout(() => {
       const error = params.get('error');
-      const nextState = error === 'access_denied' ? 'cancelled' : error ? 'invalid' : 'complete';
+      const nextState = error === 'access_denied' ? 'cancelled' : error ? 'invalid' : 'success';
       setState(nextState);
       window.history.replaceState(null, document.title, `${window.location.pathname}#${nextState}`);
     }, 1600);

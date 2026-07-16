@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { Footer, Header, Hero } from "@/components";
+import { Footer, Header, Hero } from "@/components/layout";
 import {
   Overviews,
   Download,
   Pricing,
   Products,
   Sketch,
-} from "@/sections";
+} from "@/features/landing-page";
 import { cn } from "@/lib";
 
 export default function App() {
@@ -67,7 +67,9 @@ export default function App() {
           onClick={closeHeaderDropdowns}
           className={cn(
             "absolute inset-0 z-30 bg-slate-950/10 transition-opacity duration-300 ease-out",
-            dropdownOpen ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0",
+            dropdownOpen
+              ? "pointer-events-auto opacity-100"
+              : "pointer-events-none opacity-0",
           )}
         />
       </main>
