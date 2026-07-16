@@ -16,58 +16,77 @@ type FooterSection = {
   links: FooterLink[];
 };
 
+type FooterNavigationScope = "landing" | "site";
+type FooterBottomLinks = "policies" | "home";
+
+type FooterProps = {
+  navigationScope?: FooterNavigationScope;
+  bottomLinks?: FooterBottomLinks;
+};
+
 const openUseCasesDropdown = () => {
   window.dispatchEvent(new Event("squigit:open-use-cases"));
 };
 
-const footerSections: FooterSection[] = [
-  {
-    title: "Product",
-    links: [
-      { label: "Use Cases", href: openUseCasesDropdown },
-      { label: "Download App", href: LINKS.anchors.download },
-      { label: "Pricing", href: LINKS.anchors.pricing },
-      { label: "Packages", href: LINKS.anchors.products },
-    ],
-  },
-  {
-    title: "Resources",
-    links: RESOURCE_LINKS as FooterLink[],
-  },
-  {
-    title: "Developer",
-    links: [
-      { label: "𝕏", href: LINKS.social.x },
-      { label: "LinkedIn", href: LINKS.social.linkedIn },
-      {
-        label: "Contact",
-        href: LINKS.contact.email,
-      },
-      { label: "GitHub", href: LINKS.squigit.repository },
-    ],
-  },
-  {
-    title: "Terms & Policies",
-    links: [
-      {
-        label: "Terms of Service",
-        href: LINKS.legal.terms,
-      },
-      {
-        label: "Privacy Policy",
-        href: LINKS.legal.privacy,
-      },
-      {
-        label: "Security Policy",
-        href: LINKS.squigit.securityPolicy,
-      },
-      {
-        label: "Other Policies",
-        href: LINKS.squigit.policies,
-      },
-    ],
-  },
-];
+const homeAnchor = (anchor: string) => `/${anchor}`;
+
+const getFooterSections = (
+  navigationScope: FooterNavigationScope,
+): FooterSection[] => {
+  const anchorHref =
+    navigationScope === "landing" ? (anchor: string) => anchor : homeAnchor;
+
+  return [
+    {
+      title: "Product",
+      links: [
+        navigationScope === "landing"
+          ? { label: "Use Cases", href: openUseCasesDropdown }
+          : { label: "Use Cases", href: homeAnchor(LINKS.anchors.useCases) },
+        { label: "Download App", href: anchorHref(LINKS.anchors.download) },
+        { label: "Pricing", href: anchorHref(LINKS.anchors.pricing) },
+        { label: "Packages", href: anchorHref(LINKS.anchors.products) },
+      ],
+    },
+    {
+      title: "Resources",
+      links: RESOURCE_LINKS as FooterLink[],
+    },
+    {
+      title: "Developer",
+      links: [
+        { label: "𝕏", href: LINKS.social.x },
+        { label: "LinkedIn", href: LINKS.social.linkedIn },
+        {
+          label: "Contact",
+          href: LINKS.contact.email,
+        },
+        { label: "GitHub", href: LINKS.squigit.repository },
+      ],
+    },
+    {
+      title: "Terms & Policies",
+      links: [
+        {
+          label: "Terms of Service",
+          href: LINKS.legal.terms,
+        },
+        {
+          label: "Privacy Policy",
+          href: LINKS.legal.privacy,
+        },
+        {
+          label: "Security Policy",
+          href: LINKS.squigit.securityPolicy,
+        },
+        {
+          label: "Other Policies",
+          href: LINKS.squigit.policies,
+        },
+      ],
+    },
+  ];
+};
 
 const socialLinks = [
   {
@@ -87,7 +106,19 @@ const socialLinks = [
   },
 ];
 
-export function Footer() {
+export function Footer({
+  navigationScope = "landing",
+  bottomLinks = "policies",
+}: FooterProps = {}) {
+  const footerSections = getFooterSections(navigationScope);
+  const footerBottomLinks =
+    bottomLinks === "home"
+      ? [{ label: "Home", href: "/" }]
+      : [
+          { label: "Privacy", href: LINKS.legal.privacy },
+          { label: "Terms", href: LINKS.legal.terms },
+        ];
+
   return (
     <footer
       id="resources"
@@ -173,12 +204,15 @@ export function Footer() {
           <p className="font-sans">&copy; 2026 Squigit. All rights reserved.</p>
 
           <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
-            <a href={LINKS.legal.privacy} className="transition hover:text-white">
-              Privacy
-            </a>
-            <a href={LINKS.legal.terms} className="transition hover:text-white">
-              Terms
-            </a>
+            {footerBottomLinks.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                className="transition hover:text-white"
+              >
+                {link.label}
+              </a>
+            ))}
           </div>
         </div>
       </div>

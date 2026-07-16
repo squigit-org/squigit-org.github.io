@@ -78,7 +78,7 @@ select {
   background: #171a22;
 }
 
-.auth-popup[data-state="complete"] .status-icon {
+.auth-popup[data-state="success"] .status-icon {
   background: #147a51;
 }
 
@@ -130,12 +130,6 @@ h1 {
   margin: 26px 0 0;
   color: #7b8495;
   font-size: 13px;
-}
-
-footer {
-  padding-top: 24px;
-  color: #8b93a3;
-  font-size: 12px;
 }
 
 @keyframes spin {

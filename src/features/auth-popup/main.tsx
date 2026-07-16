@@ -1,6 +1,8 @@
-import {StrictMode, useEffect, useMemo, useState} from 'react';
+import {StrictMode, useEffect, useState} from 'react';
 import {createRoot} from 'react-dom/client';
 import {AlertTriangle, Check, CircleSlash, LoaderCircle, X} from 'lucide-react';
+import {Footer} from '@/components/layout';
+import '../../index.css';
 import './styles.css';
 
 type AuthPopupState = 'handoff' | 'success' | 'cancelled' | 'invalid' | 'unavailable';
@@ -47,7 +49,7 @@ const stateCopy: Record<
   },
   invalid: {
     icon: AlertTriangle,
-    eyebrow: 'Not successd',
+    eyebrow: 'Not completed',
     title: "Squigit couldn't finish sign-in.",
     body: 'Return to Squigit and start Google sign-in again.',
     tone: 'invalid',
@@ -55,7 +57,7 @@ const stateCopy: Record<
   unavailable: {
     icon: CircleSlash,
     eyebrow: 'Unavailable',
-    title: 'Nothing to success here.',
+    title: 'Nothing to complete here.',
     body: 'Start Google sign-in from the Squigit app.',
     tone: 'unavailable',
   },
@@ -107,8 +109,6 @@ function AuthPopup() {
     return () => window.clearTimeout(timer);
   }, []);
 
-  const year = useMemo(() => new Date().getFullYear(), []);
-
   return (
     <main className="auth-popup" data-state={content.tone}>
       <section className="auth-panel" aria-labelledby="auth-title">
@@ -124,13 +124,21 @@ function AuthPopup() {
         <p className="body-copy">{content.body}</p>
         <p className="hint">This tab can be closed.</p>
       </section>
-      <footer>© {year} Squigit</footer>
     </main>
+  );
+}
+
+function AuthPopupPage() {
+  return (
+    <>
+      <AuthPopup />
+      <Footer navigationScope="site" />
+    </>
   );
 }
 
 createRoot(document.getElementById('auth-popup-root')!).render(
   <StrictMode>
-    <AuthPopup />
+    <AuthPopupPage />
   </StrictMode>,
 );
