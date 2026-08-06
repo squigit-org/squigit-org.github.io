@@ -9,7 +9,7 @@ export const DOWNLOADS = [
   {
     name: "Windows",
     items: [{ label: "Download for x64", href: "#" }],
-    min: "Windows 10 (64 bit)",
+    min: "Windows 11 (64-bit), OS build 22621 or newer.",
   },
   {
     name: "Linux",
