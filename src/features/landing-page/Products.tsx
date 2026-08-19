@@ -36,8 +36,7 @@ const products: Product[] = [
     title: "Squigit OCR",
     sourceName: "PaddleOCR",
     sourceUrl: LINKS.products.paddleOcrSource,
-    description:
-      "to detect text in images and generate selectable text regions.",
+    description: "Detects text in images locally on-device.",
     wingetUrl: LINKS.products.ocrWingetPullRequest,
   },
 ];
