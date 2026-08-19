@@ -84,24 +84,24 @@ export const RESOURCE_LINKS: Array<{
 export const PRODUCT_INSTALL = {
   mac: [
     "brew tap squigit-org/tap",
-    "brew install squigit-ocr squigit-stt",
+    "brew install squigit-cli squigit-ocr",
+    "squigit-cli --version",
     "squigit-ocr --version",
-    "squigit-stt --version",
   ],
   apt: [
     "sudo mkdir -p /etc/apt/keyrings",
-    `curl -fsSL ${LINKS.packages.aptKey} | gpg --dearmor | sudo tee /etc/apt/keyrings/squigit-packages.gpg >/dev/null`,
-    `echo "deb [signed-by=/etc/apt/keyrings/squigit-packages.gpg] ${LINKS.packages.aptRepository} stable ocr stt" | sudo tee /etc/apt/sources.list.d/squigit-packages.list >/dev/null`,
+    `curl -fsSL ${LINKS.packages.aptKey} | gpg --dearmor | sudo tee /etc/apt/keyrings/distribution.gpg >/dev/null`,
+    `echo "deb [signed-by=/etc/apt/keyrings/distribution.gpg] ${LINKS.packages.aptRepository} stable cli ocr" | sudo tee /etc/apt/sources.list.d/distribution.list >/dev/null`,
     "sudo apt-get update",
-    "sudo apt-get install -y squigit-ocr squigit-stt",
+    "sudo apt-get install -y squigit-cli squigit-ocr",
   ],
   dnf: [
     `sudo curl -fsSL ${LINKS.packages.rpmRepositoryFile} -o /etc/yum.repos.d/squigit.repo`,
     "sudo dnf makecache --refresh",
-    "sudo dnf install -y squigit-ocr squigit-stt",
+    "sudo dnf install -y squigit-cli squigit-ocr",
   ],
   winget: [
+    "winget install SquigitOrg.SquigitCLI",
     "winget install SquigitOrg.SquigitOCR",
-    "winget install SquigitOrg.SquigitSTT",
   ],
 };

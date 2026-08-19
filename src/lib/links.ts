@@ -1,6 +1,6 @@
 const SQUIGIT_REPO = "https://github.com/squigit-org/squigit";
-const SQUIGIT_PACKAGES_SITE = "https://squigit-org.github.io/squigit-packages";
-const SQUIGIT_PACKAGES_REPO = "https://github.com/squigit-org/squigit-packages";
+const SQUIGIT_PACKAGES_SITE = "https://squigit-org.github.io/distribution";
+const SQUIGIT_PACKAGES_REPO = "https://github.com/squigit-org/distribution";
 
 export const LINKS = {
   externalUrlPrefix: "https://",
@@ -33,16 +33,18 @@ export const LINKS = {
     policies: `${SQUIGIT_REPO}/tree/main/docs/07-policies`,
   },
   packages: {
-    aptKey: `${SQUIGIT_PACKAGES_SITE}/keys/squigit-packages.asc`,
+    aptKey: `${SQUIGIT_PACKAGES_SITE}/keys/distribution.asc`,
     aptRepository: `${SQUIGIT_PACKAGES_REPO}/raw/main/apt`,
     rpmRepositoryFile: `${SQUIGIT_PACKAGES_SITE}/rpm/squigit.repo`,
     readme: `${SQUIGIT_PACKAGES_REPO}/blob/main/README.md`,
-    homebrewReadme: "https://github.com/squigit-org/homebrew-tap/blob/main/README.md",
+    homebrewReadme:
+      "https://github.com/squigit-org/homebrew-tap/blob/main/README.md",
   },
   products: {
     paddleOcrSource: "https://github.com/paddlepaddle/PaddleOCR",
-    whisperCppSource: "https://github.com/ggerganov/whisper.cpp",
-    ocrWingetPullRequest: "https://github.com/microsoft/winget-pkgs/pull/362423",
-    sttWingetPullRequest: "https://github.com/microsoft/winget-pkgs/pull/362944",
+    squigitCrate: "https://github.com/squigit-org/squigit",
+    ocrWingetPullRequest:
+      "https://github.com/microsoft/winget-pkgs/pull/362423",
+    cliWingetPullRequest: "https://github.com/microsoft/winget-pkgs/pull/null",
   },
 } as const;

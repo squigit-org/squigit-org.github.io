@@ -1,4 +1,9 @@
-import { ExternalArrowIcon, LinuxIcon, MacIcon, WindowsIcon } from "@/components/icons";
+import {
+  ExternalArrowIcon,
+  LinuxIcon,
+  MacIcon,
+  WindowsIcon,
+} from "@/components/icons";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui";
 import { LINKS } from "@/lib";
 
@@ -21,20 +26,19 @@ type Platform = {
 
 const products: Product[] = [
   {
+    title: "Squigit CLI",
+    sourceName: "squigit-rs",
+    sourceUrl: LINKS.products.squigitCrate,
+    description: "The official command-line interface for Squigit.",
+    wingetUrl: LINKS.products.cliWingetPullRequest,
+  },
+  {
     title: "Squigit OCR",
     sourceName: "PaddleOCR",
     sourceUrl: LINKS.products.paddleOcrSource,
     description:
-      "to detect text in images and generate selectable text regions, allowing you to highlight, copy, and work with text directly from images.",
+      "to detect text in images and generate selectable text regions.",
     wingetUrl: LINKS.products.ocrWingetPullRequest,
-  },
-  {
-    title: "Squigit STT",
-    sourceName: "whisper.cpp",
-    sourceUrl: LINKS.products.whisperCppSource,
-    description:
-      "for local speech recognition, enabling voice dictation for prompts, chat messages, and hands-free text input.",
-    wingetUrl: LINKS.products.sttWingetPullRequest,
   },
 ];
 
@@ -62,7 +66,8 @@ const sourceLinkClassName =
 const platformLinkClassName =
   "inline-flex items-center gap-1 whitespace-nowrap rounded-md text-sm font-medium text-slate-700 transition hover:text-slate-950";
 const externalArrowClassName = "scale-inline-100 translate-inline-px transform";
-const iconSlotClassName = "inline-flex min-h-6 min-w-6 shrink-0 items-center justify-center";
+const iconSlotClassName =
+  "inline-flex min-h-6 min-w-6 shrink-0 items-center justify-center";
 
 function buildPlatforms(wingetUrl: string): Platform[] {
   return [
@@ -87,11 +92,8 @@ export function Products() {
             Products
           </p>
           <h2 className="text-4xl font-product-sans font-[450] tracking-[-0.05em] text-slate-950 md:text-5xl">
-            Squigit OCR and Squigit STT sidecars.
+            Squigit CLI and Squigit OCR.
           </h2>
-          <p className="mt-4 text-lg leading-8 text-slate-600">
-            Local companion tools that add text extraction and voice input capabilities to Squigit while running on your own machine.
-          </p>
         </div>
 
         <div className="grid gap-6 md:grid-cols-2">
@@ -116,13 +118,18 @@ export function Products() {
                     className={sourceLinkClassName}
                   >
                     {product.sourceName}
-                    <ExternalArrowIcon className={externalArrowClassName} size={9} />
+                    <ExternalArrowIcon
+                      className={externalArrowClassName}
+                      size={9}
+                    />
                   </a>{" "}
                   {product.description}
                 </p>
 
                 <div className="mt-auto pt-4">
-                  <p className="font-medium text-slate-900">Available today on</p>
+                  <p className="font-medium text-slate-900">
+                    Available today on
+                  </p>
                   <div className="mt-2 grid w-full grid-cols-1 items-center gap-2 min-[430px]:grid-cols-3">
                     {buildPlatforms(product.wingetUrl).map((platform) => (
                       <a
@@ -133,10 +140,15 @@ export function Products() {
                         className={`${platformLinkClassName} ${platform.paddingClassName} justify-self-start ${platform.positionClassName}`}
                       >
                         <span className={iconSlotClassName}>
-                          <platform.Icon className={`${platform.iconClassName} shrink-0`} />
+                          <platform.Icon
+                            className={`${platform.iconClassName} shrink-0`}
+                          />
                         </span>
                         {platform.label}
-                        <ExternalArrowIcon className={externalArrowClassName} size={9} />
+                        <ExternalArrowIcon
+                          className={externalArrowClassName}
+                          size={9}
+                        />
                       </a>
                     ))}
                   </div>

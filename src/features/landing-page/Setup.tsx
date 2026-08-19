@@ -44,8 +44,8 @@ const LINUX_SETUP_SECTIONS: LinuxSetupSection[] = [
       {
         title: "Install optional dependencies",
         lines: [
+          "sudo apt-get install squigit-cli # official command-line interface for Squigit",
           "sudo apt-get install squigit-ocr # for extracting text from images",
-          "sudo apt-get install squigit-stt # for dictating chat messages",
         ],
       },
     ],
@@ -68,8 +68,8 @@ const LINUX_SETUP_SECTIONS: LinuxSetupSection[] = [
       {
         title: "Install optional dependencies",
         lines: [
+          "sudo dnf install squigit-cli # official command-line interface for Squigit",
           "sudo dnf install squigit-ocr # for extracting text from images",
-          "sudo dnf install squigit-stt # for dictating chat messages",
         ],
       },
     ],
@@ -83,8 +83,8 @@ const DESKTOP_SETUP_CONFIG: Record<DesktopSetupPlatform, DesktopSetupConfig> = {
     dependencyLanguage: "bash",
     dependencyLines: [
       PRODUCT_INSTALL.mac[0],
+      "brew install squigit-cli # official command-line interface for Squigit",
       "brew install squigit-ocr # for extracting text from images",
-      "brew install squigit-stt # for dictating chat messages",
     ],
   },
   Windows: {
@@ -92,8 +92,8 @@ const DESKTOP_SETUP_CONFIG: Record<DesktopSetupPlatform, DesktopSetupConfig> = {
     installerExtension: ".exe",
     dependencyLanguage: "powershell",
     dependencyLines: [
-      `${PRODUCT_INSTALL.winget[0]} # for extracting text from images`,
-      `${PRODUCT_INSTALL.winget[1]} # for dictating chat messages`,
+      `${PRODUCT_INSTALL.winget[0]} # official command-line interface for Squigit`,
+      `${PRODUCT_INSTALL.winget[1]} # for extracting text from images`,
     ],
   },
 };
