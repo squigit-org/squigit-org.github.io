@@ -1,14 +1,14 @@
-import type {ReactNode} from 'react';
-import {Footer} from '@/components/layout';
-import {LINKS} from '@/lib';
-import '../../index.css';
+import type { ReactNode } from "react";
+import { Footer } from "@/components/layout";
+import { LINKS } from "@/lib";
+import "../../index.css";
 
 type LegalPageProps = {
   title: string;
   children: ReactNode;
 };
 
-function LegalPage({title, children}: LegalPageProps) {
+function LegalPage({ title, children }: LegalPageProps) {
   return (
     <div className="min-h-screen bg-white text-slate-950">
       <main className="mx-auto max-w-[840px] px-4 py-12 sm:px-6 sm:py-16">
@@ -43,7 +43,7 @@ export function PrivacyPage() {
       <h2>Google API Services User Data Policy</h2>
       <p>
         Squigit&apos;s use and transfer of information received from Google APIs
-        to any other app will adhere to the{' '}
+        to any other app will adhere to the{" "}
         <a href="https://developers.google.com/terms/api-services-user-data-policy">
           Google API Services User Data Policy
         </a>
@@ -82,15 +82,15 @@ export function PrivacyPage() {
         </li>
         <li>
           <strong>Encrypted API Keys:</strong> Squigit operates on a Bring Your
-          Own Key model. Your API keys, such as Google AI Studio and ImgBB keys,
-          are hashed and stored locally using AES-256 encryption. We cannot read
-          them.
+          Own Key model. Your OpenRouter and ImgBB keys are encrypted locally
+          with AES-256-GCM using key material held by your operating-system
+          vault. Squigit-operated servers never receive them.
         </li>
         <li>
-          <strong>Stateless API Requests:</strong> When you use AI features,
-          requests are sent directly from your machine to your chosen provider,
-          such as Google or ImgBB. There is no middleman server intercepting or
-          logging your prompts and completions.
+          <strong>Direct Provider Requests:</strong> AI requests travel between
+          your device, OpenRouter, and its selected AI providers. ImgBB receives
+          an image only when you use Google Lens. No Squigit-operated middleman
+          server intercepts or logs your prompts and completions.
         </li>
       </ul>
 
@@ -143,7 +143,7 @@ export function TermsPage() {
       <ul>
         <li>
           You are required to provide your own API keys, such as keys from
-          Google AI Studio or ImgBB, to use cloud-based features.
+          OpenRouter or ImgBB, to use cloud-based features.
         </li>
         <li>
           You are solely responsible for managing these keys, including any
@@ -170,16 +170,18 @@ export function TermsPage() {
       <h2>3. Acceptable Use</h2>
       <p>
         You agree to use Squigit in compliance with all applicable local, state,
-        national, and international laws. You also agree to adhere to our{' '}
-        <a href={`${LINKS.squigit.repository}/blob/main/docs/07-policies/CODE_OF_CONDUCT.md`}>
+        national, and international laws. You also agree to adhere to our{" "}
+        <a
+          href={`${LINKS.squigit.repository}/blob/main/docs/07-policies/CODE_OF_CONDUCT.md`}
+        >
           Code of Conduct
-        </a>{' '}
+        </a>{" "}
         when interacting with the Squigit community and repository.
       </p>
 
       <h2>4. License and Disclaimer of Warranties</h2>
       <p>
-        Squigit is open-source software released under the{' '}
+        Squigit is open-source software released under the{" "}
         <strong>Apache License, Version 2.0</strong>.
       </p>
       <p>
@@ -192,8 +194,8 @@ export function TermsPage() {
         SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       </p>
       <p>
-        For the full license text, please see the{' '}
-        <a href={`${LINKS.squigit.repository}/blob/main/LICENSE`}>LICENSE</a>{' '}
+        For the full license text, please see the{" "}
+        <a href={`${LINKS.squigit.repository}/blob/main/LICENSE`}>LICENSE</a>{" "}
         file in the root of the repository.
       </p>
     </LegalPage>

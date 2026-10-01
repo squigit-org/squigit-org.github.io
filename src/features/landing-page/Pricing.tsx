@@ -28,12 +28,16 @@ export function Pricing() {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-2 p-8 pt-4 text-sm leading-7 text-slate-600">
-              <p>Connect your preferred providers using your own API credentials.</p>
               <p>
-                Usage is billed directly by each provider based on their pricing and applicable free-tier allowances.
+                Connect your preferred providers using your own API credentials.
               </p>
               <p>
-                Maintain full control over spending, rate limits, and account management through your provider dashboards.
+                Usage is billed directly by each provider based on their pricing
+                and applicable free-tier allowances.
+              </p>
+              <p>
+                Maintain full control over spending, rate limits, and account
+                management through your provider dashboards.
               </p>
             </CardContent>
           </Card>
@@ -46,15 +50,17 @@ export function Pricing() {
             </CardHeader>
             <CardContent className=" p-8 pt-4 text-sm leading-7 text-slate-600">
               <p>
-                <span className="font-medium text-slate-900">Google AI Studio</span>{" "}
-                for Gemini model access and inference usage.
+                <span className="font-medium text-slate-900">OpenRouter</span>{" "}
+                for AI model access and inference usage.
               </p>
               <p>
-                <span className="font-medium text-slate-900">ImgBB</span> for temporary image hosting used in reverse image search workflows.
+                <span className="font-medium text-slate-900">ImgBB</span> for
+                temporary image hosting used in reverse image search workflows.
               </p>
               <p className="pt-5">
-                Both providers currently offer generous free-tier access.
-                <br />Additional providers are planned over time.
+                Choose Free or a named model in Squigit.
+                <br />
+                Manage usage and limits through your provider dashboards.
               </p>
               <a
                 href={LINKS.squigit.byokPolicy}
